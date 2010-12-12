@@ -1,4 +1,7 @@
 var _ = require('../lib/underscore');
+var path = require('path');
+var fs = require('fs');
+var sys = require('sys');
 
 var parser   = require('../vendors/htmlparser/lib/htmlparser'),
     jsdom    = require('../vendors/jsdom/lib/jsdom'),
@@ -201,13 +204,35 @@ function contents() {
     });
 }
 
+function mkdir(path) {
+    var pathSegments= path.split("/");
+    sys.puts(pathSegments);
+    if( pathSegments[0] == '' ) {
+        pathSegments= pathSegments.slice(1);
+    }
+    for(var i=0; i<=pathSegments.length; i++) {
+        var pathSegment= "/"+pathSegments.slice(0,i).join("/");
+        try {
+            fs.statSync(pathSegment);
+        }
+        catch(e) {
+            fs.mkdirSync(pathSegment, 0777);
+        }
+    }
+}
+
 function save(html) {
-    require('sys').puts('saving dump...');
     var date = new Date(),
         year = date.getUTCFullYear(),
-        month = date.getUTCMonth(),
+        month = date.getUTCMonth() + 1,
         day = date.getUTCDate();
-    require('fs').write(process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.html', html, 0, html.length, 0);
+    var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.html';
+    if (!path.exists(file)) {
+        require('sys').puts('create directory to:' + path.dirname(file));
+        mkdir(path.dirname(file));
+    }
+    sys.puts('saving dump to:' + file);
+    fs.writeFileSync(file, html);
 }
 
 function fixArticle(title, data) {
