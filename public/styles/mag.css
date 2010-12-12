@@ -1,0 +1,205 @@
+* {
+    outline: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+body {
+    background-color: black;
+    color: black;
+    overflow: hidden;
+}
+
+#hposition {
+    position:absolute;
+    top:50%;
+    left:50%;
+    overflow:show;
+}
+
+#vposition {
+    position:absolute;
+    top:-300px;
+    left:-480px;
+}
+
+.doublepage {
+    position: absolute;
+    width: 960px;
+    height: 600px;
+    overflow: hidden;
+}
+
+.leftpage {
+    position: relative;
+    width: 49%;
+    height: 100%;
+    float: left;
+    overflow: hidden;
+    background-color: white;
+}
+
+.rightpage {
+    position: relative;
+    width: 49%;
+    height: 100%;
+    float: right;
+    overflow: hidden;
+    background-color: white;
+}
+
+#top {
+}
+
+#views {
+}
+
+#viewleft {
+    color: black;
+    background-color: white;
+}
+
+#viewright {
+    color: black;
+    background-color: white;
+}
+
+#cover {
+    position: relative;
+    background-color: white;
+}
+#cover-photo {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+}
+#cover-photo img {
+    width: 100%;
+    height: 100%;
+}
+
+#cover-title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60%;
+    font-size: xx-large;
+}
+#cover-top {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40%;
+    font-size: small;
+}
+#cover-top ul {
+    margin-left: 0em;
+}
+#cover-top ul li {
+    margin-left: 0.5em;
+}
+#cover-left {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 40%;
+    font-size: small;
+}
+#cover-left ul {
+    margin-left: 0em;
+}
+#cover-left ul li {
+    margin-left: 0.5em;
+}
+#cover-right {
+    position: absolute;
+    bottom: 10px;
+    left: 230px;
+    width: 40%;
+    font-size: small;
+    color: white;
+}
+#cover-right ul {
+    margin-left: 0em;
+}
+#cover-right ul li {
+    margin-left: 0.5em;
+}
+
+#tocpage {
+    position: relative;
+    background-color: white;
+    font-size: small;
+}
+
+#indicator {
+    background-color: black;
+    width: 300px;
+    height: 40px;
+    z-index: 100;
+}
+
+#status {
+    width: 100%;
+    height: 20px;
+    text-align: center;
+}
+
+#progress {
+    width: 0%;
+    height: 20px;
+    float: left;
+    background-color: yellow;
+}
+
+#contents {
+    width: 423px;
+    font-size: small;
+    background-color: white;
+}
+
+#contentleft {
+    position: absolute;
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+    font-size: small;
+    background-color: white;
+}
+
+#contentright {
+    position: absolute;
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+    font-size: small;
+    background-color: white;
+}
+
+#mainpage {
+    position: absolute;
+    top: 10px;
+    left: -1000px;
+    width: 960px;
+}
+
+#articles {
+    position: absolute;
+    top: 10px;
+    left: -1000px;
+    width: 960px;
+    z-index: -100;
+    font-size: small;
+    background-color: white;
+}
+
+.thumb {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.thumbinner {
+    padding-left: auto;
+    padding-right: auto;
+}

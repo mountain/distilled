@@ -1,0 +1,15 @@
+[submodule "vendors/connect"]
+	path = vendors/connect
+	url = https://github.com/senchalabs/connect.git
+[submodule "vendors/mu"]
+	path = vendors/mu
+	url = https://github.com/raycmorgan/Mu.git
+[submodule "vendors/less"]
+	path = vendors/less
+	url = https://github.com/cloudhead/less.js.git
+[submodule "vendors/jsdom"]
+	path = vendors/jsdom
+	url = https://github.com/tmpvar/jsdom.git
+[submodule "htmlparser"]
+	path = htmlparser
+	url = https://github.com/tautologistics/node-htmlparser.git
