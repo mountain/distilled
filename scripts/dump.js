@@ -197,11 +197,17 @@ function contents() {
     }).each(function (id) {
         window.$('#contents').append(window.$('<h1>' + id.substring(8).replace('_', ' ') + '</h1>'));
         window.$('#contents').append(window.$('#' + id));
+        require('sys').puts(window.$('#contents > div').length);
     });
 }
 
 function save(html) {
-    require('sys').puts(html);
+    require('sys').puts('saving dump...');
+    var date = new Date(),
+        year = date.getUTCFullYear(),
+        month = date.getUTCMonth(),
+        day = date.getUTCDate();
+    require('fs').write(process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.html', html, 0, html.length, 0);
 }
 
 function fixArticle(title, data) {
@@ -220,7 +226,7 @@ function fixArticle(title, data) {
     window.$('#' + id).append(window.$('<div class="seperator"></div>'));
 
     count++;
-    if (count === tasknum) {
+    if (count === tasknum - 1) {
         contents();
         save(window.$('#contents').html());
     }
