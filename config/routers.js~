@@ -1,4 +1,0 @@
-exports.settings = {
-    main: '/',
-    'mag-style': '/styles/magazine.css'
-};
