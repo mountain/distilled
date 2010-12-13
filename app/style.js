@@ -6,7 +6,8 @@ exports.app = function(env) {
       var style  = env.templates.style,
           query  = require('url').parse(req.url, true).query,
           width  = query.width || 1024,
-          height = query.height || 768;
+          height = query.height || 768,
+          grid   = 30;
 
       var ratio = height / width;
       if (ratio > 0.618) {
@@ -21,13 +22,13 @@ exports.app = function(env) {
           width = Math.ceil(height / 0.618);
       }
 
-      var gwidth  = Math.ceil(width * 0.48 * 0.96 / 40),
-          gheight = Math.ceil(height * 0.96 * 0.96 / 40);
+      var gwidth  = Math.ceil(width * 0.48 * 0.96 / grid),
+          gheight = Math.ceil(height * 0.96 * 0.96 / grid);
 
       res.writeHead(200, {
           'Content-Type': 'text/css'
       });
       res.end(style({width: width, height: height,
-        gwidth: gwidth, gheight: gheight}));
+      gwidth: gwidth, gheight: gheight, grid: grid}));
   };
 };
