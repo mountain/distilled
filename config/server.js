@@ -1,5 +1,5 @@
 exports.settings = {
-    host: 'localhost',
+    host: "localhost",
     port: 8080,
     admin: 'me@mingli-yuan.info',
     baseUrl: function() {

@@ -1,4 +1,7 @@
 var _ = require('../lib/underscore');
+var path = require('path');
+var fs = require('fs');
+var sys = require('sys');
 
 var parser   = require('../vendors/htmlparser/lib/htmlparser'),
     jsdom    = require('../vendors/jsdom/lib/jsdom'),
@@ -50,33 +53,53 @@ var config = {
     grid: {rows: 30, columns: 20}
 };
 
-var index = {}, articles = [];
+var index = {}, articles = [], titleMap = {}, redirectMap = {};
 
 var count = 0, tasknum = 0;
+
+var prefix = config.wiki.length + 2;
+function solveTitle(title, href) {
+    var link   = decodeURIComponent(href.substring(prefix)).replace('_', ' '),
+    result = /[^\/]+$/.exec(link);
+    titleMap[title] = result?result[0]:link;
+    sys.puts('map ' + title + ' to ' + titleMap[title]);
+}
 
 var feature, featurepic, good, itn, dyk, otd;
 function getfeature() {
     if (!feature) {
-        feature = window.$('#column-feature b > a').attr('title');
+        var a = window.$('#column-feature b > a');
+        feature = a.attr('title');
+        var href = a.attr('href');
+        solveTitle(feature, href);
     }
     return feature;
 }
 function getfeaturepic() {
     if (!featurepic) {
-        featurepic = window.$('#column-featurepic b > a').attr('title');
+        var a = window.$('#column-featurepic b > a');
+        featurepic = a.attr('title');
+        var href = a.attr('href');
+        solveTitle(featurepic, href);
     }
     return featurepic;
 }
 function getgood() {
     if (!good) {
-        good = window.$('#column-good b > a').attr('title');
+        var a = window.$('#column-good b > a');
+        good = a.attr('title');
+        var href = a.attr('href');
+        solveTitle(good, href);
     }
     return good;
 }
 function getitn() {
     if (!itn) {
         itn =  _(window.$('#column-itn b > a')).map(function (a) {
-            return window.$(a).attr('title');
+            var title = window.$(a).attr('title');
+            var href = window.$(a).attr('href');
+            solveTitle(title, href);
+            return title;
         });
     }
     return itn;
@@ -84,7 +107,10 @@ function getitn() {
 function getdyk() {
     if (!dyk) {
         dyk =  _(window.$('#column-dyk b > a')).map(function (a) {
-            return window.$(a).attr('title');
+            var title = window.$(a).attr('title');
+            var href = window.$(a).attr('href');
+            solveTitle(title, href);
+            return title;
         });
     }
     return dyk;
@@ -92,7 +118,10 @@ function getdyk() {
 function getotd() {
     if (!otd) {
         otd =  _(window.$('#column-otd b > a')).map(function (a) {
-            return window.$(a).attr('title');
+            var title = window.$(a).attr('title');
+            var href = window.$(a).attr('href');
+            solveTitle(title, href);
+            return title;
         });
         if (otd) {
             otd = otd[0];
@@ -102,7 +131,12 @@ function getotd() {
 }
 
 function pageId(title) {
-    return 'article-' + title.replace(' ', '_').replace(':', '_');
+    if (title) {
+        return 'article-' + title.replace(' ', '_')
+          .replace(':', '_').replace('(', '_').replace(')', '_');
+    } else {
+        return '';
+    }
 }
 
 function load(lang, variant, title, callback) {
@@ -117,7 +151,7 @@ function load(lang, variant, title, callback) {
             'User-Agent': 'WikipediaDisilled'
         }
     );
-    require('sys').puts("request on:" + host + path);
+    sys.puts("request on:" + title);
     request.end();
 
     request.on('response', function (response) {
@@ -135,7 +169,8 @@ function load(lang, variant, title, callback) {
                 }
                 body = '';
             } catch (e) {
-                require('sys').puts("error:" + e);
+                sys.puts("error:" + e);
+                sys.puts("line:" + e.stack.toString());
                 body = '';
             }
         });
@@ -144,7 +179,7 @@ function load(lang, variant, title, callback) {
 
 function loadPage(lang, variant, title, callback) {
     load(lang, variant, title, function (title, data) {
-        var html = '<div id="' + pageId(title) + '">' + data.text['*'] +'</div>';
+        var html = '<div id="' + pageId(redirectMap[title]) + '">' + data.text['*'] +'</div>';
         window.$('#articles').append(window.$(html));
         if(callback) {
             callback(title, data);
@@ -192,26 +227,49 @@ function contents() {
     var toc = config.toc;
     _(toc).chain().map(function (item) {
         return index[item];
-    }).flatten().unique().map(function (title) {
-        return pageId(title);
-    }).each(function (id) {
-        window.$('#contents').append(window.$('<h1>' + id.substring(8).replace('_', ' ') + '</h1>'));
-        window.$('#contents').append(window.$('#' + id));
-        require('sys').puts(window.$('#contents > div').length);
+    }).flatten().unique().each(function (title) {
+        var id = pageId(redirectMap[title]);
+        if(title && id) {
+           window.$('#contents').append(window.$('<h1>' + title + '</h1>'));
+           window.$('#contents').append(window.$('#' + id));
+           sys.puts(window.$('#contents > div').length);
+        }
     });
 }
 
+function mkdir(path) {
+    var pathSegments= path.split("/");
+    sys.puts(pathSegments);
+    if (pathSegments[0] === '') {
+        pathSegments= pathSegments.slice(1);
+    }
+    for(var i=0; i<=pathSegments.length; i++) {
+        var pathSegment= "/"+pathSegments.slice(0,i).join("/");
+        try {
+            fs.statSync(pathSegment);
+        }
+        catch(e) {
+            fs.mkdirSync(pathSegment, 0777);
+        }
+    }
+}
+
 function save(html) {
-    require('sys').puts('saving dump...');
     var date = new Date(),
         year = date.getUTCFullYear(),
-        month = date.getUTCMonth(),
+        month = date.getUTCMonth() + 1,
         day = date.getUTCDate();
-    require('fs').write(process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.html', html, 0, html.length, 0);
+    var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.html';
+    if (!path.exists(file)) {
+        sys.puts('create directory to:' + path.dirname(file));
+        mkdir(path.dirname(file));
+    }
+    sys.puts('saving dump to:' + file);
+    fs.writeFileSync(file, html);
 }
 
 function fixArticle(title, data) {
-    var id = pageId(title);
+    var id = pageId(redirectMap[title]);
     window.$('#' + id + ' .toc').remove();
     window.$('#' + id + ' .editsection').remove();
     window.$('#' + id + ' .metadata').remove();
@@ -222,10 +280,17 @@ function fixArticle(title, data) {
 
     window.$('#' + id + ' .thumb').removeClass('tright').removeClass('tleft');
 
+    window.$('#' + id + ' a').each(function (i, a) {
+        var href = window.$(a).attr('href');
+        href = 'http://zh.wikipedia.org' + href;
+        window.$(a).attr('href', href);
+    });
+
     window.$('#' + id + ' p').after(window.$('<div class="vspace"></div>'));
     window.$('#' + id).append(window.$('<div class="seperator"></div>'));
 
     count++;
+    sys.puts('progress:' + count + '/' + tasknum);
     if (count === tasknum - 1) {
         contents();
         save(window.$('#contents').html());
@@ -235,7 +300,7 @@ function fixArticle(title, data) {
 function solveRedirect(lang, variant, title, callback) {
     var http = require('http'),
         host = lang + '.wikipedia.org',
-        path = '/w/api.php?titles=' + encodeURIComponent(title) + '&redirects&variant=' + variant + '&action=query&format=json';
+        path = '/w/api.php?titles=' + encodeURIComponent(titleMap[title]) + '&redirects&action=query&format=json';
 
     var wikipedia = http.createClient(80, host);
     var request = wikipedia.request('GET', path,
@@ -257,10 +322,15 @@ function solveRedirect(lang, variant, title, callback) {
             try {
                 var data = JSON.parse(body);
                 if (callback) {
+                    var to = title;
                     if (data.query.redirects) {
-                        title = data.query.redirects[0].to;
+                        to = data.query.redirects[0].to;
+                    } else {
+                        to = titleMap[title];
                     }
-                    callback(title);
+                    sys.puts('redirect from:' + title + ' to ' + to);
+                    redirectMap[to] = title;
+                    callback(to);
                 }
                 body = '';
             } catch (e) {
@@ -275,7 +345,7 @@ function throttledLoad() {
     function loading() {
         var len = articles.length;
         if (ind < len) {
-            if (articles[ind] !== '劉曉波') {
+            if (articles[ind] !== '劉曉波' && articles[ind] !== '刘晓波') {
                 solveRedirect(config.lang, config.wiki, articles[ind], function (title) {
                     loadPage(config.lang, config.variant, title, fixArticle);
                 });
@@ -285,12 +355,12 @@ function throttledLoad() {
             clearInterval(handle);
         }
     }
-    handle = setInterval(loading, 3000);
+    handle = setInterval(loading, 15000);
 }
 
 function loadMain(callback) {
-    require('sys').puts("start loading main");
-    load(config.lang, config.wiki, config.mainpage, function (title, data) {
+    sys.puts("start loading main");
+    load(config.lang, config.variant, config.mainpage, function (title, data) {
         window.$('#mainpage').append(window.$(data.text['*']));
 
         index.feature = config.feature || getfeature();
