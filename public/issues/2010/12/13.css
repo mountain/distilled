@@ -1,0 +1,9 @@
+#cover-photo {
+    width: 100%;
+    height: *;
+}
+
+#cover-photo img {
+    width: 100%;
+    height: 100%;
+}

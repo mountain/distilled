@@ -179,8 +179,10 @@ function load(lang, variant, title, callback) {
 
 function loadPage(lang, variant, title, callback) {
     load(lang, variant, title, function (title, data) {
-        var html = '<div id="' + pageId(redirectMap[title]) + '">' + data.text['*'] +'</div>';
+        var id = pageId(redirectMap[title]);
+        var html = '<div id="' + id + '" class="pages">' + data.text['*'] +'</div>';
         window.$('#articles').append(window.$(html));
+        sys.puts('append ' + title + ':' + id);
         if(callback) {
             callback(title, data);
         }
@@ -228,11 +230,11 @@ function contents() {
     _(toc).chain().map(function (item) {
         return index[item];
     }).flatten().unique().each(function (title) {
-        var id = pageId(redirectMap[title]);
+        var id = pageId(title);
         if(title && id) {
-           window.$('#contents').append(window.$('<h1>' + title + '</h1>'));
            window.$('#contents').append(window.$('#' + id));
-           sys.puts(window.$('#contents > div').length);
+           window.$('#' + id).prepend(window.$('<h1>' + title + '</h1>'));
+           sys.puts('move ' + title + ':' + id);
         }
     });
 }

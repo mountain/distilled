@@ -19,7 +19,7 @@ article, aside, dialog, figure, footer, header, hgroup, nav, section {
 }
 
 body {
-    line-height: <%= gheight %>px;background:white;
+    line-height: <%= gheight - 1 %>px;background:white;
 }
 
 table {
@@ -50,11 +50,19 @@ a img {
     outline:0;
 }
 
+
+/* styles.css */
+
 body {
     background-color: black;
     color: black;
     overflow: hidden;
     font-size: <%= gwidth - 2 %>px;
+}
+
+sup {
+    font-size: <%= gwidth / 2 %>px;
+    line-height: <%= (gheight - 1)/2 %>px;
 }
 
 div#hposition {
@@ -85,7 +93,7 @@ div#leftpage {
     margin-left: 1%;
     margin-right: 1%;
     margin-top: 1.5%;
-    margin-bottom: 1.5%;
+    margin-bottom: 2%;
     float: left;
     overflow: hidden;
     background-color: white;
@@ -98,7 +106,7 @@ div#rightpage {
     margin-left: 1%;
     margin-right: 1%;
     margin-top: 1.5%;
-    margin-bottom: 1.5%;
+    margin-bottom: 2%;
     float: right;
     overflow: hidden;
     background-color: white;
@@ -107,22 +115,24 @@ div#rightpage {
 div#leftview {
     position: relative;
     width: 96%;
-    height: 96%;
+    height: <%= grid * ( gheight - 1 ) + 1 %>px;
     margin-left: 2%;
     margin-right: 2%;
     margin-top: 2%;
     margin-bottom: 2%;
+    overflow: hidden;
     background-color: lightgray;
 }
 
 div#rightview {
     position: relative;
     width: 96%;
-    height: 96%;
+    height: <%=  grid * ( gheight - 1 ) + 1 %>px;
     margin-left: 2%;
     margin-right: 2%;
     margin-top: 2%;
     margin-bottom: 2%;
+    overflow: hidden;
     background-color: lightgray;
 }
 
@@ -131,6 +141,7 @@ div#leftgrid {
     width: 100%;
     height: 100%;
     background-color: lightgray;
+    line-height: <%= gheight - 2 %>px;
 }
 
 div#rightgrid {
@@ -138,6 +149,7 @@ div#rightgrid {
     width: 100%;
     height: 100%;
     background-color: lightgray;
+    line-height: <%= gheight - 2 %>px;
 }
 
 div#leftgrid table {
@@ -145,7 +157,6 @@ div#leftgrid table {
     height: 100%;
     border-spacing: 0;
     border-collapse: collapse;
-    font-size: <%= gwidth - 2 %>px;
 }
 
 div#rightgrid table {
@@ -153,56 +164,88 @@ div#rightgrid table {
     height: 100%;
     border-spacing: 0;
     border-collapse: collapse;
-    font-size: <%= gwidth - 2 %>px;
 }
 
-div#leftgrid table tr {
+div#leftgrid table tbody {
     width: 100%;
-    height: <%= gheight - 2 %>px;
-}
-
-div#rightgrid table tr {
-    width: 100%;
-    height: <%= gheight - 2 %>px;
-}
-
-div#leftgrid table tr td {
-    width: <%= gwidth %>px;
     height: 100%;
+}
+
+div#rightgrid table tbody {
+    width: 100%;
+    height: 100%;
+}
+
+div#leftgrid table tbody tr {
+    width: 100%;
+    height: <%= gheight - 3 %>px;
+}
+
+div#rightgrid table tbody tr {
+    width: 100%;
+    height: <%= gheight - 3 %>px;
+}
+
+div#leftgrid table tbody tr td {
+    width: <%= gwidth %>px;
+    height: <%= gheight - 3 %>px;
     border: 1px gray solid;
 }
 
-div#rightgrid table tr td {
+div#rightgrid table tbody tr td {
     width: <%= gwidth %>px;
-    height: 100%;
+    height: <%= gheight - 3 %>px;
     border: 1px gray solid;
 }
 
 div.content h1 {
-    line-height: <%= 3 * gheight %>px;
+    line-height: <%= 2 * (gheight - 1) %>px;
+    font-size: <%= 2 * (gwidth - 2) %>px;
+    font-weight: bold;
 }
 
 div.content h2 {
-    line-height: <%= 2 * gheight %>px;
+    line-height: <%= 2 * (gheight - 1) %>px;
+    font-size: <%= 1.5 * (gwidth - 2) %>px;
+    font-weight: normal;
 }
 
 div.content h3 {
-    line-height: <%= 1.5 * gheight %>px;
+    line-height: <%= gheight - 1 %>px;
+    font-size: <%= gwidth - 2 %>px;
+    font-weight: bold;
 }
 
 div.content h4 {
-    line-height: <%= gheight %>px;
+    line-height: <%= gheight - 1 %>px;
+    font-size: <%= gwidth - 2 %>px;
+    font-weight: normal;
 }
 
 div.content h5 {
-    line-height: <%= gheight %>px;
+    line-height: <%= gheight - 1 %>px;
+    font-size: <%= gwidth - 2 %>px;
+    font-style: italic;
+    font-weight: normal;
 }
 
 div.content h6 {
-    line-height: <%= gheight %>px;
+    line-height: <%= gheight - 1 %>px;
+    font-size: <%= gwidth - 2 %>px;
+    font-style: oblique;
+    font-weight: normal;
 }
 
 div.content p {
-    line-height: <%= gheight %>px;
+    font-size: <%= gwidth - 2 %>px;
+    line-height: <%= gheight - 1 %>px;
+}
+
+div#cover {
+    height: <%=  grid * ( gheight - 1 ) + 1  %>px;
+}
+
+div#tocpage {
+    height: <%=  grid * ( gheight - 1 ) + 1  %>px;
 }
 
