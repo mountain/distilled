@@ -258,11 +258,7 @@ function contents() {
 function mkdir(path) {
     var pathSegments= path.split("/");
     sys.puts(pathSegments);
-<<<<<<< HEAD
-    if( pathSegments[0] == '' ) {
-=======
     if (pathSegments[0] === '') {
->>>>>>> a8d29e8850116e7fc33b875bd1573362c14f9500
         pathSegments= pathSegments.slice(1);
     }
     for(var i=0; i<=pathSegments.length; i++) {
@@ -276,27 +272,14 @@ function mkdir(path) {
     }
 }
 
-<<<<<<< HEAD
-function save(html) {
-=======
 function save(ext, content) {
->>>>>>> a8d29e8850116e7fc33b875bd1573362c14f9500
     var date = new Date(),
         year = date.getUTCFullYear(),
         month = date.getUTCMonth() + 1,
         day = date.getUTCDate();
-<<<<<<< HEAD
-    var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.html';
-    if (!path.exists(file)) {
-        require('sys').puts('create directory to:' + path.dirname(file));
-        mkdir(path.dirname(file));
-    }
-    sys.puts('saving dump to:' + file);
-    fs.writeFileSync(file, html);
-=======
     var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.' + ext;
     if (!path.exists(file)) {
-        sys.puts('create directory to:' + path.dirname(file));
+        require('sys').puts('create directory to:' + path.dirname(file));
         mkdir(path.dirname(file));
     }
     sys.puts('saving dump to:' + file);
@@ -313,7 +296,6 @@ function saveJson(json) {
 
 function saveHtml(html) {
     save('html', html);
->>>>>>> a8d29e8850116e7fc33b875bd1573362c14f9500
 }
 
 function fixArticle(title, data) {
