@@ -4,7 +4,7 @@
 
 *.[oa]
 *~
-public/issues/*/*.html
-public/issues/*/*.json
-public/issues/*/*.css
+public/issues/*.html
+public/issues/*.json
+public/issues/*.css
 config/server.js
