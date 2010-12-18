@@ -2,6 +2,18 @@
 
 var round = Math.round, ceil = Math.ceil;
 
+var lineHeight  = gheight,
+    cellHeight  = gheight - 1,
+    pageHeight  = grid * gheight + 1,
+    normal      = gwidth - 4,
+    xxsmall     = round(normal / 2),
+    xsmall      = round(normal / 1.8),
+    smaller     = round(normal / 1.5),
+    small       = round(normal / 1.2),
+    large       = round(normal * 1.2),
+    larger      = round(normal * 1.5),
+    xlarge      = round(normal * 1.8),
+    xxlarge     = round(normal * 2);
 %>
 
 /* reset.css */
@@ -11,7 +23,7 @@ var round = Math.round, ceil = Math.ceil;
 }
 
 body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
-    vertical-align:baseline;
+    vertical-align: baseline;
 }
 
 article, aside, dialog, figure, footer, header, hgroup, nav, section {
@@ -19,7 +31,7 @@ article, aside, dialog, figure, footer, header, hgroup, nav, section {
 }
 
 body {
-    line-height: <%= gheight - 1 %>px;background:white;
+    line-height: <%= gheight %>px;background:white;
 }
 
 table {
@@ -51,19 +63,21 @@ a img {
 }
 
 
-/* styles.css */
+/* general styles */
 
 body {
     background-color: black;
     color: black;
     overflow: hidden;
-    font-size: <%= gwidth - 2 %>px;
+    font-size:  <%= normal %>px;
 }
 
 sup {
-    font-size: <%= gwidth / 2 %>px;
-    line-height: <%= (gheight - 1)/2 %>px;
+    font-size: <%= xxsmall %>px;
+    line-height: <%= gheight / 2 %>px;
 }
+
+/* layout styles */
 
 div#hposition {
     position:absolute;
@@ -115,7 +129,7 @@ div#rightpage {
 div#leftview {
     position: relative;
     width: 96%;
-    height: <%= grid * ( gheight - 1 ) + 1 %>px;
+    height: <%= pageHeight %>px;
     margin-left: 2%;
     margin-right: 2%;
     margin-top: 2%;
@@ -127,7 +141,7 @@ div#leftview {
 div#rightview {
     position: relative;
     width: 96%;
-    height: <%=  grid * ( gheight - 1 ) + 1 %>px;
+    height: <%=  pageHeight %>px;
     margin-left: 2%;
     margin-right: 2%;
     margin-top: 2%;
@@ -136,12 +150,14 @@ div#rightview {
     background-color: lightgray;
 }
 
+/* grid styles */
+
 div#leftgrid {
     position: absolute;
     width: 100%;
     height: 100%;
     background-color: lightgray;
-    line-height: <%= gheight - 2 %>px;
+    line-height: <%= cellHeight %>px;
 }
 
 div#rightgrid {
@@ -149,7 +165,7 @@ div#rightgrid {
     width: 100%;
     height: 100%;
     background-color: lightgray;
-    line-height: <%= gheight - 2 %>px;
+    line-height: <%= cellHeight %>px;
 }
 
 div#leftgrid table {
@@ -178,74 +194,159 @@ div#rightgrid table tbody {
 
 div#leftgrid table tbody tr {
     width: 100%;
-    height: <%= gheight - 3 %>px;
+    height: <%= cellHeight %>px;
 }
 
 div#rightgrid table tbody tr {
     width: 100%;
-    height: <%= gheight - 3 %>px;
+    height: <%= cellHeight %>px;
 }
 
 div#leftgrid table tbody tr td {
     width: <%= gwidth %>px;
-    height: <%= gheight - 3 %>px;
+    height: <%= cellHeight %>px;
     border: 1px gray solid;
 }
 
 div#rightgrid table tbody tr td {
     width: <%= gwidth %>px;
-    height: <%= gheight - 3 %>px;
+    height: <%= cellHeight %>px;
     border: 1px gray solid;
 }
 
+
+/* content styles */
+
+div#cover {
+    height: <%= pageHeight  %>px;
+}
+
+div#tocpage {
+    height: <%= pageHeight %>px;
+}
+
 div.content h1 {
-    line-height: <%= 2 * (gheight - 1) %>px;
-    font-size: <%= 2 * (gwidth - 2) %>px;
+    line-height: <%= 2 * lineHeight %>px;
+    font-size: <%= 2 * normal %>px;
     font-weight: bold;
 }
 
 div.content h2 {
-    line-height: <%= 2 * (gheight - 1) %>px;
-    font-size: <%= 1.5 * (gwidth - 2) %>px;
+    line-height: <%= 2 * lineHeight %>px;
+    font-size: <%= 1.5 * normal %>px;
     font-weight: normal;
 }
 
 div.content h3 {
-    line-height: <%= gheight - 1 %>px;
-    font-size: <%= gwidth - 2 %>px;
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
     font-weight: bold;
 }
 
 div.content h4 {
-    line-height: <%= gheight - 1 %>px;
-    font-size: <%= gwidth - 2 %>px;
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
     font-weight: normal;
 }
 
 div.content h5 {
-    line-height: <%= gheight - 1 %>px;
-    font-size: <%= gwidth - 2 %>px;
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
     font-style: italic;
     font-weight: normal;
 }
 
 div.content h6 {
-    line-height: <%= gheight - 1 %>px;
-    font-size: <%= gwidth - 2 %>px;
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
     font-style: oblique;
     font-weight: normal;
 }
 
 div.content p {
-    font-size: <%= gwidth - 2 %>px;
-    line-height: <%= gheight - 1 %>px;
+    font-size: <%= normal %>px;
+    line-height: <%= lineHeight %>px;
+    vertical-align: text-bottom;
+    margin-bottom:  <%= lineHeight %>px;
 }
 
-div#cover {
-    height: <%=  grid * ( gheight - 1 ) + 1  %>px;
+div.content ul {
+    margin-left: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-style: normal;
+    font-weight: normal;
 }
 
-div#tocpage {
-    height: <%=  grid * ( gheight - 1 ) + 1  %>px;
+div.content ol {
+    margin-left: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+div.content ul li {
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+div.content ol li {
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+
+/* thumbnails */
+
+div.thumb {
+    margin-bottom: 0px;
+    border-style: solid;
+    border-color: white;
+    width: auto;
+    background-color: transparent;
+}
+div.thumbinner {
+    border: 1px solid #ccc;
+    padding: 3px !important;
+    background-color: #f9f9f9;
+    font-size: 94%;
+    text-align: center;
+    overflow: hidden;
+}
+html .thumbimage {
+    border: 1px solid #ccc;
+}
+html .thumbcaption {
+    border: none;
+    text-align: left;
+    line-height: <%= lineHeight %>px;
+    font-size: <%= small %>;
+}
+div.magnify {
+    float: right;
+    border: none !important;
+    background: none !important;
+}
+div.magnify a, div.magnify img {
+    display: block;
+    border: none !important;
+    background: none !important;
+}
+
+div.right {
+    float: right;
+}
+
+div.left {
+    float: left;
 }
 

@@ -11,23 +11,26 @@ var parser   = require('../vendors/htmlparser/lib/htmlparser'),
       '<div id="articles"></div>' +
       '<div id="contents">' +
       '<div id="cover" class="leftpage">' +
+      '<div id="cover-htitle">维基日刊</div>' +
+      '<div id="cover-vtitle">维<br/>基<br/>日<br/>刊</div>' +
       '<div id="cover-photo"></div>' +
-      '<div id="cover-title">维基日刊</div>' +
       '<div id="cover-top"><ul></ul></div>' +
       '<div id="cover-left"><ul></ul></div>' +
       '<div id="cover-right"><ul></ul></div>' +
       '</div>' +
       '<div id="tocpage" class="rightpage">' +
       '<div class="head-right">新闻</div>' +
-      '<div class="toc-left"></div>' +
+      '<div class="toc-left"><ul id="toc-itn"></ul></div>' +
       '<div class="head-right">新知</div>' +
-      '<div class="toc-left"></div>' +
+      '<div class="toc-left"><ul id="toc-dyk"></ul></div>' +
+      '<div class="head-right">历史上的今天</div>' +
+      '<div class="toc-left"><ul id="toc-otd"></ul></div>' +
       '<div class="head-right">特色</div>' +
-      '<div class="toc-left"></div>' +
+      '<div class="toc-left"><ul id="toc-feature"></ul></div>' +
       '<div class="head-right">优良</div>' +
-      '<div class="toc-left"></div>' +
+      '<div class="toc-left"><ul id="toc-good"></ul></div>' +
       '<div class="head-right">图像</div>' +
-      '<div class="toc-left"></div>' +
+      '<div class="toc-left"><ul id="toc-featurepic"></ul></div>' +
       '</div>' +
       '</div>' +
       '</body></html>', undefined, {parser: parser}),
@@ -49,8 +52,7 @@ var config = {
     feature: undefined,
     good: undefined,
     featurepic: undefined,
-    back: {},
-    grid: {rows: 30, columns: 20}
+    back: {}
 };
 
 var index = {}, articles = [], titleMap = {}, redirectMap = {};
@@ -225,6 +227,20 @@ function cover() {
     });
 }
 
+function toc() {
+    var toc = config.toc;
+    _(toc).chain().map(function (item) {
+        return index[item];
+    }).flatten().unique().each(function (title) {
+        var id = pageId(title);
+        if(title && id) {
+           window.$('#contents').append(window.$('#' + id));
+           window.$('#' + id).prepend(window.$('<h1>' + title + '</h1>'));
+           sys.puts('move ' + title + ':' + id);
+        }
+    });
+}
+
 function contents() {
     var toc = config.toc;
     _(toc).chain().map(function (item) {
@@ -256,18 +272,30 @@ function mkdir(path) {
     }
 }
 
-function save(html) {
+function save(ext, content) {
     var date = new Date(),
         year = date.getUTCFullYear(),
         month = date.getUTCMonth() + 1,
         day = date.getUTCDate();
-    var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.html';
+    var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.' + ext;
     if (!path.exists(file)) {
         sys.puts('create directory to:' + path.dirname(file));
         mkdir(path.dirname(file));
     }
     sys.puts('saving dump to:' + file);
-    fs.writeFileSync(file, html);
+    fs.writeFileSync(file, content);
+}
+
+function saveCss(css) {
+    save('css', css);
+}
+
+function saveJson(json) {
+    save('json', json);
+}
+
+function saveHtml(html) {
+    save('html', html);
 }
 
 function fixArticle(title, data) {
@@ -288,14 +316,11 @@ function fixArticle(title, data) {
         window.$(a).attr('href', href);
     });
 
-    window.$('#' + id + ' p').after(window.$('<div class="vspace"></div>'));
-    window.$('#' + id).append(window.$('<div class="seperator"></div>'));
-
     count++;
     sys.puts('progress:' + count + '/' + tasknum);
-    if (count === tasknum - 1) {
+    if (count === tasknum) {
         contents();
-        save(window.$('#contents').html());
+        saveHtml(window.$('#contents').html());
     }
 }
 
@@ -372,10 +397,16 @@ function loadMain(callback) {
         index.itn = config.itn || getitn();
         index.otd = config.otd || getotd();
 
+        var json = _.clone(index);
+        json.toc = config.toc;
+        saveJson(JSON.stringify(json));
+
         articles = _(index).chain().values().flatten().uniq().value();
         tasknum = articles.length;
 
         cover();
+
+        toc();
 
         if (callback) {
             callback(title, data);

@@ -13,17 +13,17 @@ exports.app = function(env) {
       if (ratio > 0.618) {
           //when screen is fatter than magazine, we will span magazin fully in
           //horizental direction
-          width = Math.ceil(width * 0.8);
-          height = Math.ceil(width * 0.618);
+          width = Math.floor(width * 0.8);
+          height = Math.floor(width * 0.618);
       } else {
           //when screen is thinner than magazine, we will span magazin fully in
           //vertical direction
-          height = Math.ceil(height * 0.8);
-          width = Math.ceil(height / 0.618);
+          height = Math.floor(height * 0.8);
+          width = Math.floor(height / 0.618);
       }
 
-      var gwidth  = Math.ceil(width * 0.48 * 0.96 / grid),
-          gheight = Math.ceil(height * 0.96 * 0.96 / grid);
+      var gwidth  = Math.floor(width * 0.48 * 0.96 / grid),
+          gheight = Math.floor(height * 0.96 * 0.96 / grid);
 
       res.writeHead(200, {
           'Content-Type': 'text/css'
