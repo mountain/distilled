@@ -11,23 +11,26 @@ var parser   = require('../vendors/htmlparser/lib/htmlparser'),
       '<div id="articles"></div>' +
       '<div id="contents">' +
       '<div id="cover" class="leftpage">' +
+      '<div id="cover-htitle">维基日刊</div>' +
+      '<div id="cover-vtitle">维<br/>基<br/>日<br/>刊</div>' +
       '<div id="cover-photo"></div>' +
-      '<div id="cover-title">维基日刊</div>' +
       '<div id="cover-top"><ul></ul></div>' +
       '<div id="cover-left"><ul></ul></div>' +
       '<div id="cover-right"><ul></ul></div>' +
       '</div>' +
       '<div id="tocpage" class="rightpage">' +
       '<div class="head-right">新闻</div>' +
-      '<div class="toc-left"></div>' +
+      '<div class="toc-left"><ul id="toc-itn"></ul></div>' +
       '<div class="head-right">新知</div>' +
-      '<div class="toc-left"></div>' +
+      '<div class="toc-left"><ul id="toc-dyk"></ul></div>' +
+      '<div class="head-right">历史上的今天</div>' +
+      '<div class="toc-left"><ul id="toc-otd"></ul></div>' +
       '<div class="head-right">特色</div>' +
-      '<div class="toc-left"></div>' +
+      '<div class="toc-left"><ul id="toc-feature"></ul></div>' +
       '<div class="head-right">优良</div>' +
-      '<div class="toc-left"></div>' +
+      '<div class="toc-left"><ul id="toc-good"></ul></div>' +
       '<div class="head-right">图像</div>' +
-      '<div class="toc-left"></div>' +
+      '<div class="toc-left"><ul id="toc-featurepic"></ul></div>' +
       '</div>' +
       '</div>' +
       '</body></html>', undefined, {parser: parser}),
@@ -49,37 +52,56 @@ var config = {
     feature: undefined,
     good: undefined,
     featurepic: undefined,
-    back: {},
-    grid: {rows: 30, columns: 20}
+    back: {}
 };
 
-var index = {}, articles = [];
+var index = {}, articles = [], titleMap = {}, redirectMap = {};
 
 var count = 0, tasknum = 0;
+
+var prefix = config.wiki.length + 2;
+function solveTitle(title, href) {
+    var link   = decodeURIComponent(href.substring(prefix)).replace('_', ' '),
+    result = /[^\/]+$/.exec(link);
+    titleMap[title] = result?result[0]:link;
+    sys.puts('map ' + title + ' to ' + titleMap[title]);
+}
 
 var feature, featurepic, good, itn, dyk, otd;
 function getfeature() {
     if (!feature) {
-        feature = window.$('#column-feature b > a').attr('title');
+        var a = window.$('#column-feature b > a');
+        feature = a.attr('title');
+        var href = a.attr('href');
+        solveTitle(feature, href);
     }
     return feature;
 }
 function getfeaturepic() {
     if (!featurepic) {
-        featurepic = window.$('#column-featurepic b > a').attr('title');
+        var a = window.$('#column-featurepic b > a');
+        featurepic = a.attr('title');
+        var href = a.attr('href');
+        solveTitle(featurepic, href);
     }
     return featurepic;
 }
 function getgood() {
     if (!good) {
-        good = window.$('#column-good b > a').attr('title');
+        var a = window.$('#column-good b > a');
+        good = a.attr('title');
+        var href = a.attr('href');
+        solveTitle(good, href);
     }
     return good;
 }
 function getitn() {
     if (!itn) {
         itn =  _(window.$('#column-itn b > a')).map(function (a) {
-            return window.$(a).attr('title');
+            var title = window.$(a).attr('title');
+            var href = window.$(a).attr('href');
+            solveTitle(title, href);
+            return title;
         });
     }
     return itn;
@@ -87,7 +109,10 @@ function getitn() {
 function getdyk() {
     if (!dyk) {
         dyk =  _(window.$('#column-dyk b > a')).map(function (a) {
-            return window.$(a).attr('title');
+            var title = window.$(a).attr('title');
+            var href = window.$(a).attr('href');
+            solveTitle(title, href);
+            return title;
         });
     }
     return dyk;
@@ -95,7 +120,10 @@ function getdyk() {
 function getotd() {
     if (!otd) {
         otd =  _(window.$('#column-otd b > a')).map(function (a) {
-            return window.$(a).attr('title');
+            var title = window.$(a).attr('title');
+            var href = window.$(a).attr('href');
+            solveTitle(title, href);
+            return title;
         });
         if (otd) {
             otd = otd[0];
@@ -105,7 +133,12 @@ function getotd() {
 }
 
 function pageId(title) {
-    return 'article-' + title.replace(' ', '_').replace(':', '_');
+    if (title) {
+        return 'article-' + title.replace(' ', '_')
+          .replace(':', '_').replace('(', '_').replace(')', '_');
+    } else {
+        return '';
+    }
 }
 
 function load(lang, variant, title, callback) {
@@ -120,7 +153,7 @@ function load(lang, variant, title, callback) {
             'User-Agent': 'WikipediaDisilled'
         }
     );
-    require('sys').puts("request on:" + host + path);
+    sys.puts("request on:" + title);
     request.end();
 
     request.on('response', function (response) {
@@ -138,7 +171,8 @@ function load(lang, variant, title, callback) {
                 }
                 body = '';
             } catch (e) {
-                require('sys').puts("error:" + e);
+                sys.puts("error:" + e);
+                sys.puts("line:" + e.stack.toString());
                 body = '';
             }
         });
@@ -147,8 +181,10 @@ function load(lang, variant, title, callback) {
 
 function loadPage(lang, variant, title, callback) {
     load(lang, variant, title, function (title, data) {
-        var html = '<div id="' + pageId(title) + '">' + data.text['*'] +'</div>';
+        var id = pageId(redirectMap[title]);
+        var html = '<div id="' + id + '" class="pages">' + data.text['*'] +'</div>';
         window.$('#articles').append(window.$(html));
+        sys.puts('append ' + title + ':' + id);
         if(callback) {
             callback(title, data);
         }
@@ -191,23 +227,42 @@ function cover() {
     });
 }
 
+function toc() {
+    var toc = config.toc;
+    _(toc).chain().map(function (item) {
+        return index[item];
+    }).flatten().unique().each(function (title) {
+        var id = pageId(title);
+        if(title && id) {
+           window.$('#contents').append(window.$('#' + id));
+           window.$('#' + id).prepend(window.$('<h1>' + title + '</h1>'));
+           sys.puts('move ' + title + ':' + id);
+        }
+    });
+}
+
 function contents() {
     var toc = config.toc;
     _(toc).chain().map(function (item) {
         return index[item];
-    }).flatten().unique().map(function (title) {
-        return pageId(title);
-    }).each(function (id) {
-        window.$('#contents').append(window.$('<h1>' + id.substring(8).replace('_', ' ') + '</h1>'));
-        window.$('#contents').append(window.$('#' + id));
-        require('sys').puts(window.$('#contents > div').length);
+    }).flatten().unique().each(function (title) {
+        var id = pageId(title);
+        if(title && id) {
+           window.$('#contents').append(window.$('#' + id));
+           window.$('#' + id).prepend(window.$('<h1>' + title + '</h1>'));
+           sys.puts('move ' + title + ':' + id);
+        }
     });
 }
 
 function mkdir(path) {
     var pathSegments= path.split("/");
     sys.puts(pathSegments);
+<<<<<<< HEAD
     if( pathSegments[0] == '' ) {
+=======
+    if (pathSegments[0] === '') {
+>>>>>>> a8d29e8850116e7fc33b875bd1573362c14f9500
         pathSegments= pathSegments.slice(1);
     }
     for(var i=0; i<=pathSegments.length; i++) {
@@ -221,11 +276,16 @@ function mkdir(path) {
     }
 }
 
+<<<<<<< HEAD
 function save(html) {
+=======
+function save(ext, content) {
+>>>>>>> a8d29e8850116e7fc33b875bd1573362c14f9500
     var date = new Date(),
         year = date.getUTCFullYear(),
         month = date.getUTCMonth() + 1,
         day = date.getUTCDate();
+<<<<<<< HEAD
     var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.html';
     if (!path.exists(file)) {
         require('sys').puts('create directory to:' + path.dirname(file));
@@ -233,10 +293,31 @@ function save(html) {
     }
     sys.puts('saving dump to:' + file);
     fs.writeFileSync(file, html);
+=======
+    var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.' + ext;
+    if (!path.exists(file)) {
+        sys.puts('create directory to:' + path.dirname(file));
+        mkdir(path.dirname(file));
+    }
+    sys.puts('saving dump to:' + file);
+    fs.writeFileSync(file, content);
+}
+
+function saveCss(css) {
+    save('css', css);
+}
+
+function saveJson(json) {
+    save('json', json);
+}
+
+function saveHtml(html) {
+    save('html', html);
+>>>>>>> a8d29e8850116e7fc33b875bd1573362c14f9500
 }
 
 function fixArticle(title, data) {
-    var id = pageId(title);
+    var id = pageId(redirectMap[title]);
     window.$('#' + id + ' .toc').remove();
     window.$('#' + id + ' .editsection').remove();
     window.$('#' + id + ' .metadata').remove();
@@ -247,20 +328,24 @@ function fixArticle(title, data) {
 
     window.$('#' + id + ' .thumb').removeClass('tright').removeClass('tleft');
 
-    window.$('#' + id + ' p').after(window.$('<div class="vspace"></div>'));
-    window.$('#' + id).append(window.$('<div class="seperator"></div>'));
+    window.$('#' + id + ' a').each(function (i, a) {
+        var href = window.$(a).attr('href');
+        href = 'http://zh.wikipedia.org' + href;
+        window.$(a).attr('href', href);
+    });
 
     count++;
-    if (count === tasknum - 1) {
+    sys.puts('progress:' + count + '/' + tasknum);
+    if (count === tasknum) {
         contents();
-        save(window.$('#contents').html());
+        saveHtml(window.$('#contents').html());
     }
 }
 
 function solveRedirect(lang, variant, title, callback) {
     var http = require('http'),
         host = lang + '.wikipedia.org',
-        path = '/w/api.php?titles=' + encodeURIComponent(title) + '&redirects&variant=' + variant + '&action=query&format=json';
+        path = '/w/api.php?titles=' + encodeURIComponent(titleMap[title]) + '&redirects&action=query&format=json';
 
     var wikipedia = http.createClient(80, host);
     var request = wikipedia.request('GET', path,
@@ -282,10 +367,15 @@ function solveRedirect(lang, variant, title, callback) {
             try {
                 var data = JSON.parse(body);
                 if (callback) {
+                    var to = title;
                     if (data.query.redirects) {
-                        title = data.query.redirects[0].to;
+                        to = data.query.redirects[0].to;
+                    } else {
+                        to = titleMap[title];
                     }
-                    callback(title);
+                    sys.puts('redirect from:' + title + ' to ' + to);
+                    redirectMap[to] = title;
+                    callback(to);
                 }
                 body = '';
             } catch (e) {
@@ -300,7 +390,7 @@ function throttledLoad() {
     function loading() {
         var len = articles.length;
         if (ind < len) {
-            if (articles[ind] !== '劉曉波') {
+            if (articles[ind] !== '劉曉波' && articles[ind] !== '刘晓波') {
                 solveRedirect(config.lang, config.wiki, articles[ind], function (title) {
                     loadPage(config.lang, config.variant, title, fixArticle);
                 });
@@ -310,12 +400,12 @@ function throttledLoad() {
             clearInterval(handle);
         }
     }
-    handle = setInterval(loading, 3000);
+    handle = setInterval(loading, 15000);
 }
 
 function loadMain(callback) {
-    require('sys').puts("start loading main");
-    load(config.lang, config.wiki, config.mainpage, function (title, data) {
+    sys.puts("start loading main");
+    load(config.lang, config.variant, config.mainpage, function (title, data) {
         window.$('#mainpage').append(window.$(data.text['*']));
 
         index.feature = config.feature || getfeature();
@@ -325,10 +415,16 @@ function loadMain(callback) {
         index.itn = config.itn || getitn();
         index.otd = config.otd || getotd();
 
+        var json = _.clone(index);
+        json.toc = config.toc;
+        saveJson(JSON.stringify(json));
+
         articles = _(index).chain().values().flatten().uniq().value();
         tasknum = articles.length;
 
         cover();
+
+        toc();
 
         if (callback) {
             callback(title, data);

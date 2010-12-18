@@ -6,4 +6,6 @@
 *~
 *.json
 config/server.js
-public/issues/*/*/*.*
+public/issues/*.*
+public/issues/**/*.*
+

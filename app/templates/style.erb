@@ -2,31 +2,351 @@
 
 var round = Math.round, ceil = Math.ceil;
 
+var lineHeight  = gheight,
+    cellHeight  = gheight - 1,
+    pageHeight  = grid * gheight + 1,
+    normal      = gwidth - 4,
+    xxsmall     = round(normal / 2),
+    xsmall      = round(normal / 1.8),
+    smaller     = round(normal / 1.5),
+    small       = round(normal / 1.2),
+    large       = round(normal * 1.2),
+    larger      = round(normal * 1.5),
+    xlarge      = round(normal * 1.8),
+    xxlarge     = round(normal * 2);
 %>
 
+/* reset.css */
+
 * {
-    outline: 0;
-    padding: 0;
-    margin: 0;
-    border: 0;
+    margin:0;padding:0;border:0;
 }
+
+body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+    vertical-align: baseline;
+}
+
+article, aside, dialog, figure, footer, header, hgroup, nav, section {
+    font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;display:block;
+}
+
+body {
+    line-height: <%= gheight %>px;background:white;
+}
+
+table {
+    border-collapse:collapse;border-spacing:0;
+}
+
+caption, th, td {
+    text-align:left;font-weight:normal;float:none !important;
+}
+
+table, th, td {
+    vertical-align:middle;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content:'';
+}
+
+blockquote, q {
+    quotes:"" "";
+}
+
+a img {
+    border:none;
+}
+
+:focus {
+    outline:0;
+}
+
+
+/* general styles */
 
 body {
     background-color: black;
     color: black;
     overflow: hidden;
+    font-size:  <%= normal %>px;
 }
 
-#hposition {
+sup {
+    font-size: <%= xxsmall %>px;
+    line-height: <%= gheight / 2 %>px;
+}
+
+/* layout styles */
+
+div#hposition {
     position:absolute;
     top:50%;
     left:50%;
     overflow:show;
 }
 
-#vposition {
+div#vposition {
     position:absolute;
     top:-<%= round(height/2) %>px;
     left:-<%= round(width/2) %>px;
+}
+
+div#doublepage {
+    position: absolute;
+    width: <%= width %>px;
+    height: <%= height %>px;
+    overflow: hidden;
+    background-color: #222222;
+}
+
+div#leftpage {
+    position: relative;
+    width: 48%;
+    height: 96%;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 1.5%;
+    margin-bottom: 2%;
+    float: left;
+    overflow: hidden;
+    background-color: white;
+}
+
+div#rightpage {
+    position: relative;
+    width: 48%;
+    height: 96%;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 1.5%;
+    margin-bottom: 2%;
+    float: right;
+    overflow: hidden;
+    background-color: white;
+}
+
+div#leftview {
+    position: relative;
+    width: 96%;
+    height: <%= pageHeight %>px;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    overflow: hidden;
+    background-color: lightgray;
+}
+
+div#rightview {
+    position: relative;
+    width: 96%;
+    height: <%=  pageHeight %>px;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    overflow: hidden;
+    background-color: lightgray;
+}
+
+/* grid styles */
+
+div#leftgrid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: lightgray;
+    line-height: <%= cellHeight %>px;
+}
+
+div#rightgrid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: lightgray;
+    line-height: <%= cellHeight %>px;
+}
+
+div#leftgrid table {
+    width: 100%;
+    height: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+div#rightgrid table {
+    width: 100%;
+    height: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+div#leftgrid table tbody {
+    width: 100%;
+    height: 100%;
+}
+
+div#rightgrid table tbody {
+    width: 100%;
+    height: 100%;
+}
+
+div#leftgrid table tbody tr {
+    width: 100%;
+    height: <%= cellHeight %>px;
+}
+
+div#rightgrid table tbody tr {
+    width: 100%;
+    height: <%= cellHeight %>px;
+}
+
+div#leftgrid table tbody tr td {
+    width: <%= gwidth %>px;
+    height: <%= cellHeight %>px;
+    border: 1px gray solid;
+}
+
+div#rightgrid table tbody tr td {
+    width: <%= gwidth %>px;
+    height: <%= cellHeight %>px;
+    border: 1px gray solid;
+}
+
+
+/* content styles */
+
+div#cover {
+    height: <%= pageHeight  %>px;
+}
+
+div#tocpage {
+    height: <%= pageHeight %>px;
+}
+
+div.content h1 {
+    line-height: <%= 2 * lineHeight %>px;
+    font-size: <%= 2 * normal %>px;
+    font-weight: bold;
+}
+
+div.content h2 {
+    line-height: <%= 2 * lineHeight %>px;
+    font-size: <%= 1.5 * normal %>px;
+    font-weight: normal;
+}
+
+div.content h3 {
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-weight: bold;
+}
+
+div.content h4 {
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-weight: normal;
+}
+
+div.content h5 {
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-style: italic;
+    font-weight: normal;
+}
+
+div.content h6 {
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-style: oblique;
+    font-weight: normal;
+}
+
+div.content p {
+    font-size: <%= normal %>px;
+    line-height: <%= lineHeight %>px;
+    vertical-align: text-bottom;
+    margin-bottom:  <%= lineHeight %>px;
+}
+
+div.content ul {
+    margin-left: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+div.content ol {
+    margin-left: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+div.content ul li {
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+div.content ol li {
+    line-height: <%= lineHeight %>px;
+    font-size: <%= normal %>px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+
+/* thumbnails */
+
+div.thumb {
+    margin-bottom: 0px;
+    border-style: solid;
+    border-color: white;
+    width: auto;
+    background-color: transparent;
+}
+div.thumbinner {
+    border: 1px solid #ccc;
+    padding: 3px !important;
+    background-color: #f9f9f9;
+    font-size: 94%;
+    text-align: center;
+    overflow: hidden;
+}
+html .thumbimage {
+    border: 1px solid #ccc;
+}
+html .thumbcaption {
+    border: none;
+    text-align: left;
+    line-height: <%= lineHeight %>px;
+    font-size: <%= small %>;
+}
+div.magnify {
+    float: right;
+    border: none !important;
+    background: none !important;
+}
+div.magnify a, div.magnify img {
+    display: block;
+    border: none !important;
+    background: none !important;
+}
+
+div.right {
+    float: right;
+}
+
+div.left {
+    float: left;
 }
 
