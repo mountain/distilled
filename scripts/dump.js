@@ -197,6 +197,7 @@ var uploadpattern =
 function thumburl(src, width) {
     width = width || 50;
     var result = uploadpattern.exec(src);
+    if(!result) return "";
     var filepath = result[result.length - 1].split("/");
     filepath[1] = filepath[1].replace(/^\d+px-/, width + "px-");
     result[result.length - 1] = filepath.join("/");
@@ -206,6 +207,7 @@ function thumburl(src, width) {
 
 function originurl(src) {
     var result = uploadpattern.exec(src);
+    if(!result) return "";
     var filepath = result[result.length - 1].split("/");
     return [result[1], result[2], result[4], result[5], filepath[0]].join("");
 }
@@ -372,11 +374,9 @@ function throttledLoad() {
     function loading() {
         var len = articles.length;
         if (ind < len) {
-            if (articles[ind] !== '劉曉波' && articles[ind] !== '刘晓波') {
-                solveRedirect(config.lang, config.wiki, articles[ind], function (title) {
-                    loadPage(config.lang, config.variant, title, fixArticle);
-                });
-            }
+            solveRedirect(config.lang, config.wiki, articles[ind], function (title) {
+                loadPage(config.lang, config.variant, title, fixArticle);
+            });
             ind++;
         } else {
             clearInterval(handle);
@@ -384,6 +384,7 @@ function throttledLoad() {
     }
     handle = setInterval(loading, 15000);
 }
+
 
 function loadMain(callback) {
     sys.puts("start loading main");
