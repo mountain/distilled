@@ -1,4 +1,5 @@
 var _ = require('../lib/underscore');
+
 var path = require('path');
 var fs = require('fs');
 var sys = require('sys');
@@ -7,10 +8,6 @@ var logger = require('../../lib/log').logger;
 
 var parser   = require('../vendors/htmlparser/lib/htmlparser'),
     jsdom    = require('../vendors/jsdom/lib/jsdom');
-
-exports.create = function(config, html) {
-    return new MainPage(config, html);
-};
 
 function solveLink(href) {
     var link   = decodeURIComponent(href).replace('_', ' '),
@@ -26,6 +23,7 @@ function MainPage(config, html) {
     this.$ = this.window.$;
 
     this.titleMap = {};
+    this.articleMap = {};
 
     var self = this,
         prefix = config.wiki.length + 2;
@@ -33,9 +31,12 @@ function MainPage(config, html) {
     function (col) {
         self[col] = _(this.window.$('#column-' + col + ' b > a')).map(
         function (a) {
-            var title = this.$(a).attr('title');
-            var href = this.$(a).attr('href');
-            this.titleMap[title] = solveLink(href.substring(prefix));
+            a = this.$(a);
+            var title = a.attr('title'),
+                href = a.attr('href'),
+                article = solveLink(href.substring(prefix));
+            this.titleMap[title] = article;
+            this.articleMap[article] = title;
             return title;
         });
     });
@@ -44,5 +45,49 @@ function MainPage(config, html) {
             self[col] = self[col][0];
         }
     });
+
+    this.index = {};
+    this.index.feature = this.feature;
+    this.index.good = this.good;
+    this.index.featurepic = this.featurepic;
+    this.index.dyk = this.dyk;
+    this.index.itn = this.itn;
+    this.index.otd = this.otd;
+
+    this.titles = _(this.index).chain().flattern().unique().value();
+    this.articles = _(this.titles).map(function (title) {
+        return this.article(title);
+    }).value();
 }
+
+var uploadpattern =
+  /^(http:\/\/upload\.wikimedia\.org)(\/wikipedia\/\w+)(\/thumb)(\/\w+)(\/\w+\/)([\w\-\.]+[^#?\s]+)$/;
+
+function filename(src) {
+    var result = uploadpattern.exec(src);
+    if (!result) {
+        return "";
+    } else {
+        var filepath = result[result.length - 1].split("/");
+        return filepath[0].replace('_', ' ');
+    }
+}
+
+MainPage.prototype.photo = function (column) {
+    var src = window.$('#column-' + column + ' div > a > img').attr('src');
+    return filename(src);
+};
+
+MainPage.prototype.article = function (title) {
+    return this.titleMap[title];
+};
+
+MainPage.prototype.title = function (article) {
+    return this.articleMap[article];
+};
+
+exports.create = function (config, html) {
+    return new MainPage(config, html);
+};
+
 

@@ -97,7 +97,7 @@ this.prototype.load = function (title, cbredirect, cbfetch) {
     });
 };
 
-this.prototype.batchload = function (titles, cbredirect, cbfetch) {
+this.prototype.batchload = function (titles, cbredirect, cbfetch, cbfinal) {
     var ind = 0, handle;
     function fetching() {
         var len = titles.length;
@@ -106,12 +106,13 @@ this.prototype.batchload = function (titles, cbredirect, cbfetch) {
             ind++;
         } else {
             clearInterval(handle);
+            cbfinal();
         }
     }
     handle = setInterval(fetching, 15000);
 };
 
-exports.create = function(lang, variant) {
+exports.create = function (lang, variant) {
     return new Loader(lang, variant);
-}
+};
 
