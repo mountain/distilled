@@ -13,7 +13,7 @@ function Loader(lang, variant) {
     this.host = lang + '.wikipedia.org';
 }
 
-this.prototype.fetch = function (title, callback) {
+Loader.prototype.fetch = function (title, callback) {
     var path = '/w/api.php?page=' + encodeURIComponent(title) +
             '&props=text&action=parse&variant=' + this.variant + '&format=json';
     var wp = http.createClient(80, this.host);
@@ -49,7 +49,7 @@ this.prototype.fetch = function (title, callback) {
     });
 };
 
-this.prototype.solveRedirect = function (title, callback) {
+Loader.prototype.solveRedirect = function (title, callback) {
     var path = '/w/api.php?titles=' + encodeURIComponent(title) + '&redirects&action=query&format=json';
 
     var wp = http.createClient(80, this.host);
@@ -89,7 +89,7 @@ this.prototype.solveRedirect = function (title, callback) {
     });
 };
 
-this.prototype.load = function (title, cbredirect, cbfetch) {
+Loader.prototype.load = function (title, cbredirect, cbfetch) {
     var self = this;
     this.solveRedirect(title, function (from, to) {
         cbredirect(from, to);
@@ -97,15 +97,16 @@ this.prototype.load = function (title, cbredirect, cbfetch) {
     });
 };
 
-this.prototype.batchload = function (titles, cbredirect, cbfetch, cbfinal) {
-    var ind = 0, handle;
+Loader.prototype.batchload = function (titles, cbredirect, cbfetch, cbfinal) {
+    var self = this, ind = 0, handle;
     function fetching() {
         var len = titles.length;
         if (ind < len) {
-            this.load(titles[ind], cbredirect, cbfetch);
+            self.load(titles[ind], cbredirect, cbfetch);
             ind++;
         } else {
             clearInterval(handle);
+            logger.info("final step start");
             cbfinal();
         }
     }

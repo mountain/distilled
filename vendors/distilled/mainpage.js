@@ -1,4 +1,4 @@
-var _ = require('../lib/underscore');
+var _ = require('../../lib/underscore');
 
 var path = require('path');
 var fs = require('fs');
@@ -6,8 +6,8 @@ var sys = require('sys');
 
 var logger = require('../../lib/log').logger;
 
-var parser   = require('../vendors/htmlparser/lib/htmlparser'),
-    jsdom    = require('../vendors/jsdom/lib/jsdom');
+var parser   = require('../htmlparser/lib/htmlparser'),
+    jsdom    = require('../jsdom/lib/jsdom');
 
 function solveLink(href) {
     var link   = decodeURIComponent(href).replace('_', ' '),
@@ -15,49 +15,61 @@ function solveLink(href) {
     return result?result[0]:link;
 }
 
-function MainPage(config, html) {
+function MainPage(config, html, cbReady) {
     this.config = config;
+    html = '<html><head></head><body>' + html + '</body></html>';
     this.document = jsdom.jsdom(html, undefined, {parser: parser});
     this.window   = this.document.createWindow();
-    jsdom.jQueryify(this.window, "../lib/jquery.js");
-    this.$ = this.window.$;
 
     this.titleMap = {};
     this.articleMap = {};
 
+
     var self = this,
         prefix = config.wiki.length + 2;
-    _.each(['feature', 'featurepic', 'good', 'itn', 'dyk', 'otd'],
-    function (col) {
-        self[col] = _(this.window.$('#column-' + col + ' b > a')).map(
-        function (a) {
-            a = this.$(a);
-            var title = a.attr('title'),
-                href = a.attr('href'),
-                article = solveLink(href.substring(prefix));
-            this.titleMap[title] = article;
-            this.articleMap[article] = title;
-            return title;
+
+    function onready() {
+        _.each(['feature', 'featurepic', 'good', 'itn', 'dyk', 'otd'],
+        function (col) {
+            self[col] = _(self.window.$('#column-' + col + ' b > a')).map(
+            function (a) {
+                a = self.window.$(a);
+                var title = a.attr('title'),
+                    href = a.attr('href'),
+                    article = solveLink(href.substring(prefix));
+                self.titleMap[title] = article;
+                self.articleMap[article] = title;
+                return title;
+            });
         });
-    });
-    _.each(['feature', 'featurepic', 'good', 'otd'], function (col) {
-        if(self[col]) {
-            self[col] = self[col][0];
+        _.each(['feature', 'featurepic', 'good', 'otd'], function (col) {
+            if (self[col]) {
+                self[col] = self[col][0];
+            }
+        });
+
+        self.index = {};
+        self.index.feature = self.feature;
+        self.index.good = self.good;
+        self.index.featurepic = self.featurepic;
+        self.index.dyk = self.dyk;
+        self.index.itn = self.itn;
+        self.index.otd = self.otd;
+
+        self.titles = _(self.index).chain().flatten().unique().value();
+        self.articles = _(self.titles).map(function (title) {
+            return self.article(title);
+        });
+
+        if (cbReady) {
+            cbReady();
         }
+    }
+
+    jsdom.jQueryify(this.window, "../../lib/jquery.js", function () {
+        self.window.$(onready);
     });
 
-    this.index = {};
-    this.index.feature = this.feature;
-    this.index.good = this.good;
-    this.index.featurepic = this.featurepic;
-    this.index.dyk = this.dyk;
-    this.index.itn = this.itn;
-    this.index.otd = this.otd;
-
-    this.titles = _(this.index).chain().flattern().unique().value();
-    this.articles = _(this.titles).map(function (title) {
-        return this.article(title);
-    }).value();
 }
 
 var uploadpattern =
@@ -74,7 +86,7 @@ function filename(src) {
 }
 
 MainPage.prototype.photo = function (column) {
-    var src = window.$('#column-' + column + ' div > a > img').attr('src');
+    var src = this.window.$('#column-' + column + ' div > a > img').attr('src');
     return filename(src);
 };
 
@@ -86,8 +98,8 @@ MainPage.prototype.title = function (article) {
     return this.articleMap[article];
 };
 
-exports.create = function (config, html) {
-    return new MainPage(config, html);
+exports.create = function (config, html, cbReady) {
+    return new MainPage(config, html, cbReady);
 };
 
 

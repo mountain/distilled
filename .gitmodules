@@ -14,3 +14,6 @@
 [submodule "vendors/htmlparser"]
 	path = vendors/htmlparser
 	url = https://github.com/tautologistics/node-htmlparser.git
+[submodule "vendors/optparser"]
+	path = vendors/optparser
+	url = https://github.com/jfd/optparse-js.git

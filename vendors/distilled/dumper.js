@@ -58,34 +58,46 @@ function save(date, ext, content) {
  */
 Dumper.prototype.dump = function (opt) {
     var self = this;
-    this.loader.fetch(this.config.mainpage, function (data) {
+    this.loader.fetch(this.config.mainpage, function (title, data) {
         var mainpage = require('./mainpage').create(
-            this.config, data.text['*']),
-            skltHtml = loadSkeleton(opt.cover),
-            magazine = require('./magazine').create(mainpage.index, skltHtml);
+            self.config, data.text['*']
+        );
+        var skltHtml = loadSkeleton(opt.cover);
 
-        magazine.coverphoto(mainpage.photo(opt.photo));
+        function delayed() {
+            var magazine = require('./magazine').create(mainpage.index, skltHtml,
+                function () {
+                    try {
+                        magazine.coverphoto(mainpage.photo(opt.photo));
 
-        var articles = mainpage.articles(),
-            redirection = {};
+                        var articles = mainpage.articles,
+                            redirection = {};
 
-        function redirect(from, to) {
-            redirection[to] = from;
+                        function redirect(from, to) {
+                            redirection[to] = from;
+                        }
+
+                        function addArticle(article, data) {
+                            var title = mainpage.title(redirection[article]);
+                            magazine.addArticle(title, data.text['*']);
+                        }
+
+                        function end() {
+                            magazine.makeup(opt);
+                            var date = new Date();
+                            save(date, 'json', magazine.toc);
+                            save(date, 'html', magazine.html());
+                        }
+
+                        self.loader.batchload(articles, redirect, addArticle, end);
+
+                    } catch (e) {
+                        logger.error(e);
+                    }
+                }
+            );
         }
-
-        function addArticle(article, data) {
-            var title = mainpage.title(redirection[article]);
-            magazine.addArticle(title, data.text['*']);
-        }
-
-        function end() {
-            magazine.makeup(opt);
-            var date = new Date();
-            save(date, 'json', magazine.toc);
-            save(date, 'html', magazine.html());
-        }
-
-        this.loader.batchload(articles, redirect, addArticle, end);
+        setTimeout(delayed, 5000);
     });
 };
 

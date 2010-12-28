@@ -1,11 +1,11 @@
-var _ = require('../lib/underscore');
+var _ = require('../../lib/underscore');
 
 var path = require('path');
 var fs = require('fs');
 var sys = require('sys');
 
-var parser   = require('../vendors/htmlparser/lib/htmlparser'),
-    jsdom    = require('../vendors/jsdom/lib/jsdom');
+var parser   = require('../htmlparser/lib/htmlparser'),
+    jsdom    = require('../jsdom/lib/jsdom');
 
 function pageId(title) {
     if (title) {
@@ -16,97 +16,98 @@ function pageId(title) {
     }
 }
 
-function Magazine(index, html) {
+function Magazine(index, html, cbReady) {
     this.index = index;
     this.toc = {};
+    html = '<html><head></head><body>' + html + '</body></html>';
     this.document = jsdom.jsdom(html, undefined, {parser: parser});
     this.window   = this.document.createWindow();
-    jsdom.jQueryify(window, "../lib/jquery.js");
-    this.$ = this.window.$;
+    jsdom.jQueryify(this.window, "../../lib/jquery.js", cbReady);
 }
 
 Magazine.prototype.coverphoto = function (photo) {
-    this.$('#cover-photo').html('<img data="' + photo + '"/>');
+    this.window.$('#cover-photo').html('<img data="' + photo + '"/>');
 };
 
 Magazine.prototype.fixArticle = function (title) {
-    var id = pageId(title);
-    this.$('#' + id + ' .toc').remove();
-    this.$('#' + id + ' .editsection').remove();
-    this.$('#' + id + ' .metadata').remove();
-    this.$('#' + id + ' .navbox').remove();
-    this.$('#' + id + ' .infobox').remove();
-    this.$('#' + id + ' .topicon').remove();
-    this.$('#' + id + ' table:first-child[class="wikitable"]').remove();
+    var self = this, id = pageId(title);
+    this.window.$('#' + id + ' .toc').remove();
+    this.window.$('#' + id + ' .editsection').remove();
+    this.window.$('#' + id + ' .metadata').remove();
+    this.window.$('#' + id + ' .navbox').remove();
+    this.window.$('#' + id + ' .infobox').remove();
+    this.window.$('#' + id + ' .topicon').remove();
+    this.window.$('#' + id + ' table:first-child[class="wikitable"]').remove();
 
-    this.$('#' + id + ' .thumb').removeClass('tright').removeClass('tleft');
+    this.window.$('#' + id + ' .thumb').removeClass('tright').removeClass('tleft');
 
-    this.$('#' + id + ' a').each(function (i, a) {
-        var href = this.$(a).attr('href');
+    this.window.$('#' + id + ' a').each(function (i, a) {
+        var href = self.window.$(a).attr('href');
         href = 'http://zh.wikipedia.org' + href;
-        this.$(a).attr('href', href);
+        self.window.$(a).attr('href', href);
     });
 };
 
 Magazine.prototype.addArticle = function (title, content) {
-    this.$('#articles').append(
-        this.$('<div id=' + pageId(title) + '>' + content + '</div>')
+    this.window.$('#articles').append(
+        this.window.$('<div id=' + pageId(title) + '>' + content + '</div>')
     );
     this.fixArticle(title);
 };
 
 Magazine.prototype.mkCover = function () {
-    this.$('#cover-top ul').append(this.$('<li>' + this.index.feature + '</li>'));
-    this.$('#cover-top ul').append(this.$('<li>' + this.index.good + '</li>'));
-    this.$('#cover-top ul').append(this.$('<li>' + this.index.featurepic + '</li>'));
+    this.window.$('#cover-top ul').append(this.window.$('<li>' + this.index.feature + '</li>'));
+    this.window.$('#cover-top ul').append(this.window.$('<li>' + this.index.good + '</li>'));
+    this.window.$('#cover-top ul').append(this.window.$('<li>' + this.index.featurepic + '</li>'));
 
     _(this.index.itn).each(function (n) {
-        this.$('#cover-right ul').append(this.$('<li>' + n + '</li>'));
-    });
+        this.window.$('#cover-right ul').append(this.window.$('<li>' + n + '</li>'));
+    }, this);
 
     _(this.index.dyk).each(function (k) {
-        this.$('#cover-left ul').append(this.$('<li>' + k + '</li>'));
-    });
+        this.window.$('#cover-left ul').append(this.window.$('<li>' + k + '</li>'));
+    }, this);
 };
 
 Magazine.prototype.mkToc = function (toc) {
+    var self = this;
     _(toc).each(function (item) {
         var items = '<ul>';
-        _.each(this.index[item], function (title) {
+        _.each(self.index[item], function (title) {
             item += '<li>' + title + '</li>';
-            if (this.toc[item] === undefined) {
-                this.toc[item] = [];
+            if (self.toc[item] === undefined) {
+                self.toc[item] = [];
             }
-            this.toc[item].push(title);
+            self.toc[item].push(title);
         });
         item += '</ul>';
-        this.$('#toc-' + item).append(items);
+        self.window.$('#toc-' + item).append(items);
     });
 };
 
 Magazine.prototype.mkContents = function (toc) {
     _(toc).chain().map(function (item) {
         return this.index[item];
-    }).flatten().unique().each(function (title) {
+    }, this).flatten().unique().each(function (title) {
         var id = pageId(title);
         if (title && id) {
-            this.$('#contents').append(this.$('#' + id));
-            this.$('#' + id).prepend(this.$('<h1>' + title + '</h1>'));
+            this.window.$('#contents').append(this.window.$('#' + id));
+            this.window.$('#' + id).prepend(this.window.$('<h1>' + title + '</h1>'));
         }
-    });
+    }, this);
 };
 
 Magazine.prototype.makeup = function (option) {
     this.mkCover();
     this.mkToc(option.toc);
-    this.mkContent(option.toc);
+    this.mkContents(option.toc);
 };
 
 Magazine.prototype.html = function () {
-    return this.$('#contents').html();
+    return this.window.$('#contents').html();
 };
 
-exports.create = function (html) {
-    return new Magazine(html);
+exports.create = function (index, html, cbReady) {
+    return new Magazine(index, html, cbReady);
 };
 
