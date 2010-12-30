@@ -93,7 +93,7 @@ Dumper.prototype.dump = function (opt) {
                         function end() {
                             magazine.makeup(opt);
                             var date = new Date();
-                            save(date, 'json', magazine.toc);
+                            save(date, 'json', JSON.stringify(magazine.toc));
                             save(date, 'html', magazine.html());
                         }
 

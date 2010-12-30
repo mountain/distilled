@@ -72,14 +72,18 @@ Magazine.prototype.mkCover = function () {
 Magazine.prototype.mkToc = function (toc) {
     var self = this;
     _(toc).each(function (item) {
-        var items = '<ul>';
-        _.each(self.index[item], function (title) {
-            item += '<li>' + title + '</li>';
-            if (self.toc[item] === undefined) {
-                self.toc[item] = [];
-            }
-            self.toc[item].push(title);
-        });
+        var items = '<ul>', titles = self.index[item];
+        if(_.isArray(titles)) {
+            _.each(titles, function (title) {
+                items += '<li>' + title + '</li>';
+                if (self.toc[item] === undefined) {
+                    self.toc[item] = [];
+                }
+                self.toc[item].push(title);
+            });
+        } else {
+            self.toc[item] = titles;
+        }
         items += '</ul>';
         self.window.$('#toc-' + item).append(items);
     });
