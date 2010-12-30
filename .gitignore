@@ -5,6 +5,6 @@
 *.[oa]
 *~
 *.json
+*.html
 config/server.js
-public/issues/**/*.html
 

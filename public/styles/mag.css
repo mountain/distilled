@@ -69,12 +69,12 @@ body {
     position: relative;
     background-color: white;
 }
-#cover-photo {
+#cover-w {
     background-color: white;
     width: 100%;
     height: 100%;
 }
-#cover-photo img {
+#cover-w img {
     width: 100%;
     height: 100%;
 }
@@ -86,33 +86,33 @@ body {
     width: 60%;
     font-size: xx-large;
 }
-#cover-top {
+#cover-x {
     position: absolute;
     top: 10px;
     right: 10px;
     width: 40%;
     font-size: small;
 }
-#cover-top ul {
+#cover-x ul {
     margin-left: 0em;
 }
-#cover-top ul li {
+#cover-x ul li {
     margin-left: 0.5em;
 }
-#cover-left {
+#cover-y {
     position: absolute;
     bottom: 10px;
     left: 10px;
     width: 40%;
     font-size: small;
 }
-#cover-left ul {
+#cover-y ul {
     margin-left: 0em;
 }
-#cover-left ul li {
+#cover-y ul li {
     margin-left: 0.5em;
 }
-#cover-right {
+#cover-z {
     position: absolute;
     bottom: 10px;
     left: 230px;
@@ -120,10 +120,10 @@ body {
     font-size: small;
     color: white;
 }
-#cover-right ul {
+#cover-z ul {
     margin-left: 0em;
 }
-#cover-right ul li {
+#cover-z ul li {
     margin-left: 0.5em;
 }
 

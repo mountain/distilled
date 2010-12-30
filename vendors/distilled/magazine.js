@@ -26,7 +26,7 @@ function Magazine(index, html, cbReady) {
 }
 
 Magazine.prototype.coverphoto = function (photo) {
-    this.window.$('#cover-photo').html('<img data="' + photo + '"/>');
+    this.window.$('.cover-w').html('<img data="' + photo + '"/>');
 };
 
 Magazine.prototype.fixArticle = function (title) {
@@ -50,22 +50,22 @@ Magazine.prototype.fixArticle = function (title) {
 
 Magazine.prototype.addArticle = function (title, content) {
     this.window.$('#articles').append(
-        this.window.$('<div id=' + pageId(title) + '>' + content + '</div>')
+        this.window.$('<div id=' + pageId(title) + ' class="pages">' + content + '</div>')
     );
     this.fixArticle(title);
 };
 
 Magazine.prototype.mkCover = function () {
-    this.window.$('#cover-top ul').append(this.window.$('<li>' + this.index.feature + '</li>'));
-    this.window.$('#cover-top ul').append(this.window.$('<li>' + this.index.good + '</li>'));
-    this.window.$('#cover-top ul').append(this.window.$('<li>' + this.index.featurepic + '</li>'));
+    this.window.$('.cover-x ul').append(this.window.$('<li>' + this.index.feature + '</li>'));
+    this.window.$('.cover-x ul').append(this.window.$('<li>' + this.index.good + '</li>'));
+    this.window.$('.cover-x ul').append(this.window.$('<li>' + this.index.featurepic + '</li>'));
 
     _(this.index.itn).each(function (n) {
-        this.window.$('#cover-right ul').append(this.window.$('<li>' + n + '</li>'));
+        this.window.$('.cover-z ul').append(this.window.$('<li>' + n + '</li>'));
     }, this);
 
     _(this.index.dyk).each(function (k) {
-        this.window.$('#cover-left ul').append(this.window.$('<li>' + k + '</li>'));
+        this.window.$('.cover-y ul').append(this.window.$('<li>' + k + '</li>'));
     }, this);
 };
 
@@ -80,7 +80,7 @@ Magazine.prototype.mkToc = function (toc) {
             }
             self.toc[item].push(title);
         });
-        item += '</ul>';
+        items += '</ul>';
         self.window.$('#toc-' + item).append(items);
     });
 };

@@ -217,7 +217,7 @@ div#rightgrid table tbody tr td {
 
 /* content styles */
 
-div#cover {
+div.cover {
     height: <%= pageHeight  %>px;
 }
 
@@ -304,6 +304,82 @@ div.content ol li {
     font-weight: normal;
 }
 
+
+/* cover */
+
+.cover {
+    position: relative;
+}
+
+#cover-center-u {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60%;
+    height: <%= round(0.15 * pageHeight)  %>px;
+    font-size: xx-large;
+}
+
+#cover-center-w {
+    position: absolute;
+    top:  <%= round(0.2 * pageHeight)  %>px;
+    left: 0px;
+    height:  <%= round(0.6 * pageHeight)  %>px;
+    width: 100%;
+}
+
+#cover-center-w img {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#cover-center-x {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40%;
+    font-size: small;
+}
+
+#cover-center-x ul {
+    margin-left: 0em;
+}
+
+#cover-center-x ul li {
+    margin-left: 0.5em;
+}
+
+#cover-center-y {
+    position: absolute;
+    top:  <%= round(0.8 * pageHeight)  %>px;
+    left: 10px;
+    width: 40%;
+    font-size: small;
+}
+
+#cover-center-y ul {
+    margin-left: 0em;
+}
+
+#cover-center-y ul li {
+    margin-left: 0.5em;
+}
+
+#cover-center-z {
+    position: absolute;
+    top:  <%= round(0.8 * pageHeight)  %>px;
+    right: 10px;
+    width: 40%;
+    font-size: small;
+}
+
+#cover-center-z ul {
+    margin-left: 0em;
+}
+
+#cover-center-z ul li {
+    margin-left: 0.5em;
+}
 
 /* thumbnails */
 

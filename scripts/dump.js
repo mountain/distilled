@@ -3,30 +3,44 @@ var sys = require('sys');
 var optparse = require('../vendors/optparser/lib/optparse');
 
 var SWITCHES = [
-    ['-c', '--cover', "center|north|east"],
-    ['-p', '--photo', "feature|featurepic|good|itn|otd|dyk|File:XXXX.ext"],
-    ['-t', '--toc', "an arrangement for itn, dyk,otd, feature, good, featurepic"],
-    ['-h', '--help', "Shows this help section"]
+    ['-c', '--cover TEXT', "full|center|north|east"],
+    ['-p', '--photo TEXT', "feature|featurepic|good|itn|otd|dyk|File:XXXX.ext"],
+    ['-t', '--toc TEXT', "an arrangement for itn, dyk,otd, feature, good, featurepic"],
+    ['-h', '--help', "Shows this help section"],
+    ['-b', '--background TEXT', "aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow"],
+    ['-u', '--ubackground [TEXT]', "aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow"],
+    ['-v', '--vbackground [TEXT]', "aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow"],
+    ['-w', '--wbackground [TEXT]', "aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow"],
+    ['-x', '--xbackground [TEXT]', "aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow"],
+    ['-y', '--ybackground [TEXT]', "aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow"],
+    ['-z', '--zbackground [TEXT]', "aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow"]
 ];
 
 var parser = new optparse.OptionParser(SWITCHES), to_dump = true;
 parser.banner = 'Usage: dump.js [opt]';
 
-// Internal variable to store opt.
 var opt = {
     cover: 'center',
     photo: 'feature',
-    toc: ['itn', 'dyk', 'otd', 'feature', 'good', 'featurepic']
+    toc: ['itn', 'dyk', 'otd', 'feature', 'good', 'featurepic'],
+    background: 'white',
+    ubackground: undefined,
+    vbackground: undefined,
+    wbackground: undefined,
+    xbackground: undefined,
+    ybackground: undefined,
+    zbackground: undefined
 };
 
-parser.on('cover', function (value) {
-    opt.cover = value;
+parser.on('cover', function (name, arg) {
+    sys.puts(sys.inspect(arguments));
+    opt.cover = arg;
 });
-parser.on('photo', function (value) {
-    opt.photo = value;
+parser.on('photo', function (name, arg) {
+    opt.photo = arg;
 });
-parser.on('toc', function (value) {
-    opt.toc = value.split('|');
+parser.on('toc', function (name, arg) {
+    opt.toc = arg.split('|');
 });
 parser.on('help', function () {
     sys.puts(parser.toString());

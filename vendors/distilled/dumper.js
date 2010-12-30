@@ -15,9 +15,17 @@ exports.create = function (config) {
     return new Dumper(config);
 };
 
-function loadSkeleton(coverType) {
-    var file = process.cwd() + '/vendors/distilled/templates/' + coverType + '.html';
-    return fs.readFileSync(file);
+function loadSkeleton(opt) {
+    var file = process.cwd() + '/vendors/distilled/templates/' + opt.cover + '.erb';
+    var tmpl = fs.readFileSync(file).toString('utf8');
+    opt.forecolor = function (color) {
+        if (color === 'white') {
+            return 'black';
+        } else {
+            return 'white';
+        }
+    };
+    return _.template(tmpl)(opt);
 }
 
 function mkdir(path) {
@@ -62,7 +70,7 @@ Dumper.prototype.dump = function (opt) {
         var mainpage = require('./mainpage').create(
             self.config, data.text['*']
         );
-        var skltHtml = loadSkeleton(opt.cover);
+        var skltHtml = loadSkeleton(opt);
 
         function delayed() {
             var magazine = require('./magazine').create(mainpage.index, skltHtml,

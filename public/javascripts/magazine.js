@@ -28,6 +28,10 @@ var daily = (function wikidaily(config) {
       /^(http:\/\/upload\.wikimedia\.org)(\/wikipedia\/\w+)(\/\w+)(\/\w+\/)([^#?\s]+)$/;
     var filepattern = /^(\d+px)-(.+)/;
 
+    function thumb(src, width) {
+        return 'http://commons.wikimedia.org/w/thumb.php?f=' + src.replace(' ', '_') + '&w=' + width;
+    }
+
     function thumburl(src) {
         var result = uploadpattern.exec(src);
         if(!result) return "";
@@ -54,9 +58,7 @@ var daily = (function wikidaily(config) {
     }
 
     function fixImage() {
-        var photo = $('div#cover-photo img'),
-            pagewidth = $('div#leftview').width();
-        photo.attr('src', customthumb(photo.attr('src'), 0.8 * pagewidth));
+        var pagewidth = $('div#leftview').width();
         $('div.thumb > div > a > img').each(function (i, img) {
             var url = $(img).attr('src');
             $(img).attr('src', customthumb(url, 0.4 * pagewidth));
@@ -181,6 +183,11 @@ var daily = (function wikidaily(config) {
         toc();
     }
 
+    function cover() {
+        var photo = $('.cover-w img');
+        photo.attr('src', thumb(photo.attr('data'), $('#leftview').width()));
+    }
+
     function toc() {
         var pageHeight = $('#rightview').height();
         var top = $('#rightview').offset().top;
@@ -272,10 +279,12 @@ var daily = (function wikidaily(config) {
               $('#rightcontent').html(data);
               toPage($('#leftcontent'), 0);
               toPage($('#rightcontent'),1);
+              cover();
+              fixImage();
               $('#leftcontent').click(previousPage);
               $('#rightcontent').click(nextPage);
-              $('img').load(function(e) {gridify();});
-              fixImage();
+              var imgs = $('img'), len = imgs.length, ind = 0;
+              imgs.load(function(e) {ind++; if(len === ind) gridify();});
               gridify();
               pagify();
           }

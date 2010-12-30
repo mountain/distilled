@@ -199,18 +199,18 @@ var daily = (function wikidaily(config) {
 
     function cover() {
         var src = $('#column-good div > a > img').attr('src');
-        $('#cover-photo').html('<img src="' + originurl(src) + '"/>');
+        $('#cover-w').html('<img src="' + originurl(src) + '"/>');
 
-        $('#cover-top ul').append($('<li>' + index.feature + '</li>'));
-        $('#cover-top ul').append($('<li>' + index.good + '</li>'));
-        $('#cover-top ul').append($('<li>' + index.featurepic + '</li>'));
+        $('#cover-x ul').append($('<li>' + index.feature + '</li>'));
+        $('#cover-x ul').append($('<li>' + index.good + '</li>'));
+        $('#cover-x ul').append($('<li>' + index.featurepic + '</li>'));
 
         _(index.itn).each(function(n) {
-            $('#cover-right ul').append($('<li>' + n + '</li>'));
+            $('#cover-z ul').append($('<li>' + n + '</li>'));
         });
 
         _(index.dyk).each(function(k) {
-            $('#cover-left ul').append($('<li>' + k + '</li>'));
+            $('#cover-y ul').append($('<li>' + k + '</li>'));
         });
 
         $('#viewleft').css({'z-index': 100});

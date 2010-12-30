@@ -1,0 +1,63 @@
+<html><head>
+</head><body>
+<div id="articles"></div>
+<div id="contents">
+<style type="text/css">
+div#cover-<%= cover %> {
+    color: <%= forecolor(background) %>;
+    background-color: <%= background %>;
+}
+div#cover-<%= cover %>-u {
+<% if (ubackground) { %>
+    color: <%= forecolor(ubackground) %>;
+    background-color: <%= ubackground %>;
+<% } %>
+}
+div#cover-<%= cover %>-w {
+<% if (wbackground) { %>
+    color: <%= forecolor(wbackground) %>;
+    background-color: <%= wbackground %>;
+<% } %>
+}
+div#cover-<%= cover %>-x {
+<% if (xbackground) { %>
+    color: <%= forecolor(xbackground) %>;
+    background-color: <%= xbackground %>;
+<% } %>
+}
+div#cover-<%= cover %>-y {
+<% if (ybackground) { %>
+    color: <%= forecolor(ybackground) %>;
+    background-color: <%= ybackground %>;
+<% } %>
+}
+div#cover-<%= cover %>-z {
+<% if (zbackground) { %>
+    color: <%= forecolor(zbackground) %>;
+    background-color: <%= zbackground %>;
+<% } %>
+}
+</style>
+<div id="cover-center" class="cover">
+<div id="cover-center-u" class="cover-u">维基日刊</div>
+<div id="cover-center-w" class="cover-w"></div>
+<div id="cover-center-x" class="cover-x"><ul></ul></div>
+<div id="cover-center-y" class="cover-y"><ul></ul></div>
+<div id="cover-center-z" class="cover-z"><ul></ul></div>
+</div>
+<div id="tocpage">
+<div class="head-right">新闻</div>
+<div class="toc-left"><ul id="toc-itn"></ul></div>
+<div class="head-right">新知</div>
+<div class="toc-left"><ul id="toc-dyk"></ul></div>
+<div class="head-right">历史上的今天</div>
+<div class="toc-left"><ul id="toc-otd"></ul></div>
+<div class="head-right">特色</div>
+<div class="toc-left"><ul id="toc-feature"></ul></div>
+<div class="head-right">优良</div>
+<div class="toc-left"><ul id="toc-good"></ul></div>
+<div class="head-right">图像</div>
+<div class="toc-left"><ul id="toc-featurepic"></ul></div>
+</div>
+</div>
+</body></html>
