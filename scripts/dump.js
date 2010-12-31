@@ -3,7 +3,7 @@ var sys = require('sys');
 var optparse = require('../vendors/optparser/lib/optparse');
 
 var SWITCHES = [
-    ['-c', '--cover [TEXT]', "full|center|north|east"],
+    ['-c', '--cover [TEXT]', "full|center|north|west"],
     ['-p', '--photo [TEXT]', "feature|featurepic|good|itn|otd|dyk|File:XXXX.ext"],
     ['-t', '--toc [TEXT]', "an arrangement for itn, dyk,otd, feature, good, featurepic"],
     ['-b', '--bg [TEXT]', "aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow"],

@@ -24,7 +24,6 @@ function MainPage(config, html, cbReady) {
     this.titleMap = {};
     this.articleMap = {};
 
-
     var self = this,
         prefix = config.wiki.length + 2;
 
@@ -73,7 +72,7 @@ function MainPage(config, html, cbReady) {
 }
 
 var uploadpattern =
-  /^(http:\/\/upload\.wikimedia\.org)(\/wikipedia\/\w+)(\/thumb)(\/\w+)(\/\w+\/)([\w\-\.]+[^#?\s]+)$/;
+  /^(http:\/\/upload\.wikimedia\.org)(\/wikipedia\/\w+)(\/thumb)(\/\w+)(\/\w+\/)([^#?\s]+)$/;
 
 function filename(src) {
     var result = uploadpattern.exec(src);
@@ -87,7 +86,7 @@ function filename(src) {
 
 MainPage.prototype.photo = function (column) {
     var src = this.window.$('#column-' + column + ' div > a > img').attr('src');
-    return filename(src);
+    return filename(decodeURIComponent(src));
 };
 
 MainPage.prototype.article = function (title) {

@@ -51,7 +51,7 @@ function saveCur(date) {
         day = date.getUTCDate();
     var file = process.cwd() + '/public/issues/current.json';
     sys.puts('saving dump to:' + file);
-    var content = '{ "date": "' + year + '/' + month + '/' + day + ' "}';
+    var content = '{ "date": "' + year + '/' + month + '/' + day + '"}';
     fs.writeFileSync(file, content);
 }
 
@@ -71,7 +71,7 @@ function save(date, ext, content) {
 
 /**
  *  options for dump
- *    --cover center|north|east
+ *    --cover full|center|north|west
  *    --photo feature|featurepic|good|itn|otd|dyk|File:XXXX.ext
  *    --toc itn|dyk|otd|feature|good|featurepic
  */
