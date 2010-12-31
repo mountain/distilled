@@ -103,9 +103,9 @@
 
 <div id="contents"></div>
 <script>
-    $.getJSON('/issues/current.json', function (data) {
-        daily.load(data.date);
-    });
+$(function () {
+    daily.load('<%= year %>/<%= month %>/<%= day %>');
+});
 </script>
 </body>
 </html>

@@ -9,7 +9,9 @@ function calendar(date) {
     var height = $('#doublepage').height() / 7 * 0.8;
 
     var html = _.template(
-        '<div style="background:<%= bg %>;width:40%;height:80%;" class="cover-thumb-<%= cover %>">' +
+        '<div id="cover-<%= title %>" title="<%= title %>" ' +
+          'style="background:<%= bg %>;width:40%;height:80%;" ' +
+          'class="cover-thumb cover-thumb-<%= cover %>">' +
         '<div class="cover-thumb-u">维基日刊</div>' +
         '<div class="cover-thumb-v">维<br/>基<br/>日<br/>刊</div>' +
         '<div class="cover-thumb-w">' +
@@ -34,6 +36,14 @@ function calendar(date) {
             };
 
             cell.html(html(ctx));
+        });
+
+        $('.cover-thumb').each(function (ind, cover) {
+            cover = $(cover);
+            cover.click(function (e) {
+                var url = '/' + cover.attr('title');
+                window.location.assign(url);
+            });
         });
     }
 
