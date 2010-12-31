@@ -44,17 +44,6 @@ function mkdir(path) {
     }
 }
 
-function saveCur(date) {
-    date = date || new Date();
-    var year = date.getUTCFullYear(),
-        month = date.getUTCMonth() + 1,
-        day = date.getUTCDate();
-    var file = process.cwd() + '/public/issues/current.json';
-    sys.puts('saving dump to:' + file);
-    var content = '{ "date": "' + year + '/' + month + '/' + day + '"}';
-    fs.writeFileSync(file, content);
-}
-
 function save(date, ext, content) {
     date = date || new Date();
     var year = date.getUTCFullYear(),
@@ -121,7 +110,6 @@ Dumper.prototype.dump = function (opt) {
                                 index: index
                             };
                             _.extend(settings, magazine.toc);
-                            saveCur(date);
                             save(date, 'json', JSON.stringify(settings));
                             save(date, 'html', magazine.html());
                         }
