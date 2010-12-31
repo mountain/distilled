@@ -87,7 +87,8 @@ Dumper.prototype.dump = function (opt) {
             var magazine = require('./magazine').create(mainpage.index, skltHtml,
                 function () {
                     try {
-                        magazine.coverphoto(mainpage.photo(opt.photo));
+                        var photo = mainpage.photo(opt.photo);
+                        magazine.coverphoto(photo);
 
                         var articles = mainpage.articles,
                             redirection = {};
@@ -104,8 +105,24 @@ Dumper.prototype.dump = function (opt) {
                         function end() {
                             magazine.makeup(opt);
                             var date = new Date();
+                            var index = [
+                                magazine.index.feature,
+                                magazine.index.good,
+                                magazine.index.featurepic,
+                                magazine.index.otd
+                            ].concat(
+                                magazine.index.itn
+                            ).concat(
+                                magazine.index.dyk
+                            );
+                            var settings = {
+                                cover: opt.cover,
+                                photo: photo,
+                                index: index
+                            };
+                            _.extend(settings, magazine.toc);
                             saveCur(date);
-                            save(date, 'json', JSON.stringify(magazine.toc));
+                            save(date, 'json', JSON.stringify(settings));
                             save(date, 'html', magazine.html());
                         }
 
