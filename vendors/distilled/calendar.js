@@ -34,9 +34,23 @@ function calendar(timestamp) {
         p = new Date(time1st + j * 24 * 3600 * 1000);
     }
 
-    for (var k = j - 1; k < 7 * Math.ceil((j - 1) / 7); k++) {
+    for (var k = j - 1; (k + day1st - 1) < 7 * Math.ceil((j + day1st - 2) / 7); k++) {
         var next = new Date(time1st + k * 24 * 3600 * 1000);
         cal.push(out(next));
+    }
+
+    if (cal.length === 28) {
+        for (var l = k; (l + day1st - 1) < 7 * Math.ceil((k + day1st) / 7); l++) {
+            var next2 = new Date(time1st + l * 24 * 3600 * 1000);
+            cal.push(out(next2));
+        }
+    }
+
+    if (cal.length === 35) {
+        for (var m = k; (m + day1st - 1) < 7 * Math.ceil((k + day1st) / 7); m++) {
+            var next3 = new Date(time1st + m * 24 * 3600 * 1000);
+            cal.push(out(next3));
+        }
     }
 
     return {
@@ -54,6 +68,14 @@ function read(day) {
         sys.puts(e);
     }
     return obj;
+}
+
+function bg(day) {
+    var settings = read(day), value = "";
+    if (settings) {
+        value = settings.bg;
+    }
+    return value;
 }
 
 function cover(day) {
@@ -75,7 +97,7 @@ function photo(day) {
 function table(cal) {
     var tbl = '<table>\n';
     tbl += '<thead><tr>' + _.map(cal.header, function (day) {
-        return '<td>' + day + '</td>';
+            return '<td style="width: 14%">' + day + '</td>';
     }).join('') + '</tr></thead>\n';
     tbl += '<tbody>\n';
     _.each(cal.cal, function (day, ind) {
@@ -83,8 +105,9 @@ function table(cal) {
             tbl += '<tr>';
         }
 
-        tbl += ('<td class="cal-cell" ' +
+        tbl += ('<td style="height: 16%" class="cal-cell" ' +
                      'title="' + day + '" ' +
+                     'bg="' + bg(day) + '" ' +
                      'cover="' + cover(day) + '" ' +
                      'photo="' + photo(day) + '"></td>');
 

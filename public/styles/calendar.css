@@ -1,0 +1,71 @@
+#calendar {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+#calendar table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+}
+
+#calendar table tr td {
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid lightgray;
+}
+
+
+.cover-thumb-full {
+    border: black solid 1px;
+    margin: 0 auto;
+}
+
+.cover-thumb-center {
+    border: black solid 1px;
+    margin: 0 auto;
+}
+
+.cover-thumb-north {
+    border: black solid 1px;
+    margin: 0 auto;
+}
+
+.cover-thumb-west {
+    border: black solid 1px;
+    margin: 0 auto;
+}
+
+.cover-thumb-center .cover-thumb-u {
+    color: white;
+    font-size: xx-small;
+    text-align: left;
+}
+
+.cover-thumb- img {
+    display: none;
+}
+.cover-thumb- .cover-thumb-v {
+    display: none;
+}
+
+.cover-thumb- .cover-thumb-u {
+    display: none;
+}
+
+.cover-thumb-full .cover-thumb-v {
+    display: none;
+}
+
+.cover-thumb-center .cover-thumb-v {
+    display: none;
+}
+
+.cover-thumb-north .cover-thumb-v {
+    display: none;
+}
+
+.cover-thumb-west .cover-thumb-u {
+    display: none;
+}

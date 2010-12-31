@@ -107,6 +107,7 @@ Dumper.prototype.dump = function (opt) {
                             var settings = {
                                 cover: opt.cover,
                                 photo: photo,
+                                bg: opt.bg,
                                 index: index
                             };
                             _.extend(settings, magazine.toc);
