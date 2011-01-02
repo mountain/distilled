@@ -58,6 +58,28 @@ function save(date, ext, content) {
     fs.writeFileSync(file, content);
 }
 
+function filterPrev(articles, now) {
+    var prev = new Date(now.getTime() - 24 * 3600 * 1000),
+        year = prev.getUTCFullYear(),
+        month = prev.getUTCMonth() + 1,
+        day = prev.getUTCDate();
+
+    var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.json',
+        json = JSON.parse(fs.readFileSync(file).toString('utf8'));
+    logger.info('loading previous ' + file);
+
+    logger.info('comparing... ');
+    return _.select(articles, function(article) {
+        var keep = _.indexOf(json.index, article) === -1;
+        if(keep) {
+            logger.info('keep ' + article);
+        } else {
+            logger.info('reject ' + article);
+        }
+        return keep;
+    });
+}
+
 /**
  *  options for dump
  *    --cover full|center|north|west
@@ -76,11 +98,15 @@ Dumper.prototype.dump = function (opt) {
             var magazine = require('./magazine').create(mainpage.index, skltHtml,
                 function () {
                     try {
+                        var date = new Date();
+
                         var photo = mainpage.photo(opt.photo);
                         magazine.coverphoto(photo);
 
                         var articles = mainpage.articles,
                             redirection = {};
+
+                        articles = filterPrev(articles, date);
 
                         function redirect(from, to) {
                             redirection[to] = from;
@@ -88,12 +114,15 @@ Dumper.prototype.dump = function (opt) {
 
                         function addArticle(article, data) {
                             var title = mainpage.title(redirection[article]);
+                            logger.info("add article: " + title);
                             magazine.addArticle(title, data.text['*']);
                         }
 
                         function end() {
-                            magazine.makeup(opt);
-                            var date = new Date();
+                            articles = articles.map(function (article) {
+                                return mainpage.title(redirection[article]);
+                            });
+                            magazine.makeup(opt, articles);
                             var index = [
                                 magazine.index.feature,
                                 magazine.index.good,
@@ -108,7 +137,8 @@ Dumper.prototype.dump = function (opt) {
                                 cover: opt.cover,
                                 photo: photo,
                                 bg: opt.bg,
-                                index: index
+                                index: index,
+                                articles: articles
                             };
                             _.extend(settings, magazine.toc);
                             save(date, 'json', JSON.stringify(settings));

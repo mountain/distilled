@@ -196,7 +196,9 @@ var daily = (function wikidaily(config) {
           success: function(data) {
               var itn = data.itn, pageNum = 0;
               if(itn) {
-                  _(itn).each(function (news) {
+                  _(itn).select(function(article) {
+                      _(data.articles).indexOf(article) !== -1;
+                  }).each(function (news) {
                       if($('#' + pageId(news)).length>0) {
                           var pageNum = ($('#' + pageId(news)).offset().top - top)/pageHeight;
                           $('ul#toc-itn').append($('<li>' + news + '\t\t\t\t\t' + pageNum + '</li>'));
@@ -205,7 +207,9 @@ var daily = (function wikidaily(config) {
               }
               var dyk = data.dyk;
               if(dyk) {
-                  _(dyk).each(function (item) {
+                  _(dyk).select(function(article) {
+                      _(data.articles).indexOf(article) !== -1;
+                  }).each(function (item) {
                       if($('#' + pageId(item)).length>0) {
                           var pageNum = ($('#' + pageId(item)).offset().top - top)/pageHeight;
                           $('ul#toc-dyk').append($('<li>' + item + '\t\t\t\t\t' + pageNum + '</li>'));
@@ -213,22 +217,22 @@ var daily = (function wikidaily(config) {
                   });
               }
               var otd = data.otd;
-              if(otd) {
+              if(otd && _(data.articles).indexOf(otd) !== -1) {
                   pageNum = ($('#' + pageId(otd)).offset().top - top)/pageHeight;
                   $('ul#toc-otd').append($('<li>' + otd + '\t\t\t\t\t' + pageNum + '</li>'));
               }
               var feature = data.feature;
-              if(feature) {
+              if(feature && _(data.articles).indexOf(feature) !== -1) {
                   pageNum = ($('#' + pageId(feature)).offset().top - top)/pageHeight;
                   $('ul#toc-feature').append($('<li>' + feature + '\t\t\t\t\t' + pageNum + '</li>'));
               }
               var good = data.good;
-              if(good) {
+              if(good && _(data.articles).indexOf(good) !== -1) {
                   pageNum = ($('#' + pageId(good)).offset().top - top)/pageHeight;
                   $('ul#toc-good').append($('<li>' + good + '\t\t\t\t\t' + pageNum + '</li>'));
               }
               var featurepic = data.featurepic;
-              if(featurepic) {
+              if(featurepic && _(data.articles).indexOf(featurepic) !== -1) {
                   pageNum = ($('#' + pageId(featurepic)).offset().top - top)/pageHeight;
                   $('#toc-featurepic').append($('<li>' + featurepic + '\t\t\t\t\t' + pageNum + '</li>'));
               }

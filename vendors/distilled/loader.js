@@ -37,6 +37,7 @@ Loader.prototype.fetch = function (title, callback) {
             try {
                 var data = JSON.parse(body);
                 if (callback) {
+                    logger.info("response on:" + title);
                     callback(title, data.parse);
                 }
                 body = '';
@@ -110,7 +111,7 @@ Loader.prototype.batchload = function (titles, cbredirect, cbfetch, cbfinal) {
             cbfinal();
         }
     }
-    handle = setInterval(fetching, 15000);
+    handle = setInterval(fetching, 30000);
 };
 
 exports.create = function (lang, variant) {
