@@ -1,19 +1,13 @@
 [submodule "vendors/connect"]
     path = vendors/connect
     url = https://github.com/senchalabs/connect.git
-[submodule "vendors/mu"]
-    path = vendors/mu
-    url = https://github.com/raycmorgan/Mu.git
-[submodule "vendors/less"]
-    path = vendors/less
-    url = https://github.com/cloudhead/less.js.git
 [submodule "vendors/jsdom"]
     path = vendors/jsdom
     url = https://github.com/tmpvar/jsdom.git
 
 [submodule "vendors/htmlparser"]
-	path = vendors/htmlparser
-	url = https://github.com/tautologistics/node-htmlparser.git
+    path = vendors/htmlparser
+    url = https://github.com/tautologistics/node-htmlparser.git
 [submodule "vendors/optparser"]
-	path = vendors/optparser
-	url = https://github.com/jfd/optparse-js.git
+    path = vendors/optparser
+    url = https://github.com/jfd/optparse-js.git
