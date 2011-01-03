@@ -4,13 +4,15 @@ var path = require('path');
 var fs = require('fs');
 var sys = require('sys');
 
+var logger = require('../../lib/log').logger;
+
 var parser   = require('../htmlparser/lib/htmlparser'),
     jsdom    = require('../jsdom/lib/jsdom');
 
 function pageId(title) {
     if (title) {
-        return 'article-' + title.replace(' ', '_')
-          .replace(':', '_').replace('(', '_').replace(')', '_');
+        return 'article-' + title.replace(' ', '_').replace(':', '_').
+          replace('·', '_').replace('(', '_').replace(')', '_');
     } else {
         return '';
     }
@@ -89,6 +91,7 @@ Magazine.prototype.mkToc = function (toc, articles) {
     _(toc).chain().select(function (article) {
         return _(articles).indexOf(article) !== -1;
     }).each(function (item) {
+        logger.info('adding toc:' + item);
         var items = '<ul>', titles = self.index[item];
         if(_.isArray(titles)) {
             _.each(titles, function (title) {
@@ -112,6 +115,7 @@ Magazine.prototype.mkContents = function (toc, articles) {
     }, this).flatten().unique().select(function (article) {
         return _(articles).indexOf(article) !== -1;
     }).each(function (title) {
+        logger.info('move article:' + title);
         var id = pageId(title);
         if (title && id) {
             this.window.$('#contents').append(this.window.$('#' + id));

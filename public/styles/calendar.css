@@ -33,6 +33,7 @@
 }
 
 .cover-thumb-west {
+    position: relative;
     border: black solid 1px;
     margin: 0 auto;
 }
@@ -41,6 +42,32 @@
     color: white;
     font-size: xx-small;
     text-align: left;
+}
+
+.cover-thumb-west .cover-thumb-v {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 10%;
+    color: white;
+    font-size: xx-small;
+    text-align: left;
+}
+
+.cover-thumb-west .cover-thumb-w {
+    position: absolute;
+    top:  0px;
+    left: 0px;
+    height: 100%;
+    width: 80%;
+    color: white;
+    font-size: xx-small;
+    text-align: left;
+}
+
+.cover-thumb-west .cover-thumb-w img {
+    height: 100%;
+    width: 100%;
 }
 
 .cover-thumb- img {
