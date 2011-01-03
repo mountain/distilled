@@ -9,6 +9,28 @@ var logger = require('../../lib/log').logger;
 var parser   = require('../htmlparser/lib/htmlparser'),
     jsdom    = require('../jsdom/lib/jsdom');
 
+var columns = {
+    itn: '新闻',
+    dyk: '新知',
+    otd: '历史上的今天',
+    feature: '特色',
+    good: '优良',
+    featurepic: '图片'
+};
+
+var tocTmpl = _.template(
+              '<% if (items.length > 0) { %>' +
+              '<div id="toc-<%= column %>"><%= name %></div>' +
+              '<ul>' +
+              '<% for (var i = 0;i < items.length; i++) { %>' +
+              '<li id="toc-article-<%= pageId(items[i]) %>">' +
+              '<%= items[i] %>' +
+              '</li>' +
+              '<% } %>' +
+              '</ul>' +
+              '<% } %>'
+              );
+
 function pageId(title) {
     if (title) {
         return 'article-' + title.replace(' ', '_').replace(':', '_').
@@ -16,6 +38,18 @@ function pageId(title) {
     } else {
         return '';
     }
+}
+
+function renderToc(toc) {
+    var html = '';
+    _(toc).chain().keys().each(function (column) {
+        var name = columns[column],
+        items = _([toc[column]]).flatten();
+        html += tocTmpl({
+          name: name, column: column, items: items, pageId: pageId
+        });
+    });
+    return html;
 }
 
 function Magazine(index, html, cbReady) {
@@ -88,24 +122,25 @@ Magazine.prototype.mkCover = function (articles) {
 
 Magazine.prototype.mkToc = function (toc, articles) {
     var self = this;
-    _(toc).chain().select(function (article) {
-        return _(articles).indexOf(article) !== -1;
-    }).each(function (item) {
+    _(toc).each(function (item) {
         logger.info('adding toc:' + item);
-        var items = '<ul>', titles = self.index[item];
+        var titles = self.index[item];
         if(_.isArray(titles)) {
             _.each(titles, function (title) {
-                items += '<li>' + title + '</li>';
                 if (self.toc[item] === undefined) {
                     self.toc[item] = [];
                 }
-                self.toc[item].push(title);
+                if(_(articles).indexOf(title) !== -1) {
+                    self.toc[item].push(title);
+                }
             });
         } else {
-            self.toc[item] = titles;
+            if(_(articles).indexOf(titles) !== -1) {
+                self.toc[item] = titles;
+            }
         }
-        items += '</ul>';
-        self.window.$('#toc-' + item).append(items);
+
+        self.window.$('#tocpage').html(renderToc(self.toc));
     });
 };
 

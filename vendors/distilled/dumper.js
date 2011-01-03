@@ -68,9 +68,11 @@ function filterPrev(articles, now) {
         json = JSON.parse(fs.readFileSync(file).toString('utf8'));
     logger.info('loading previous ' + file);
 
+    var index = _(json.index).chain().values().flatten().unique().value();
+
     logger.info('comparing... ');
     return _.select(articles, function(article) {
-        var keep = _.indexOf(json.index, article) === -1;
+        var keep = _.indexOf(index, article) === -1;
         if(keep) {
             logger.info('keep ' + article);
         } else {
@@ -123,21 +125,11 @@ Dumper.prototype.dump = function (opt) {
                                 return mainpage.title(redirection[article]);
                             });
                             magazine.makeup(opt, articles);
-                            var index = [
-                                magazine.index.feature,
-                                magazine.index.good,
-                                magazine.index.featurepic,
-                                magazine.index.otd
-                            ].concat(
-                                magazine.index.itn
-                            ).concat(
-                                magazine.index.dyk
-                            );
                             var settings = {
                                 cover: opt.cover,
                                 photo: photo,
                                 bg: opt.bg,
-                                index: index,
+                                index: magazine.index,
                                 articles: articles
                             };
                             _.extend(settings, magazine.toc);
