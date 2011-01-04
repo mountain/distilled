@@ -194,47 +194,21 @@ var daily = (function wikidaily(config) {
         $.ajax({
           url: '/issues/' + curDate + '.json',
           success: function(data) {
-              var itn = data.itn, pageNum = 0;
-              if(itn) {
-                  _(itn).select(function(article) {
-                      _(data.articles).indexOf(article) !== -1;
-                  }).each(function (news) {
-                      if($('#' + pageId(news)).length>0) {
-                          var pageNum = ($('#' + pageId(news)).offset().top - top)/pageHeight;
-                          $('ul#toc-itn').append($('<li>' + news + '\t\t\t\t\t' + pageNum + '</li>'));
+              var articles = data.articles, pageNum = 0;
+              if(articles) {
+                  _(articles).each(function (article) {
+                      var id = pageId(article);
+                      article = $('#' + id);
+                      if(article.length>0) {
+                          var pageNum = (article.offset().top - top)/pageHeight - 1,
+                              li = $('li#toc-' + id);
+                              li.html(
+                                li.html() + '\t......\t' +
+                                '<a href="javascript:daily.go(' +
+                                  pageNum +
+                                ');">' + pageNum + '</a>');
                       }
                   });
-              }
-              var dyk = data.dyk;
-              if(dyk) {
-                  _(dyk).select(function(article) {
-                      _(data.articles).indexOf(article) !== -1;
-                  }).each(function (item) {
-                      if($('#' + pageId(item)).length>0) {
-                          var pageNum = ($('#' + pageId(item)).offset().top - top)/pageHeight;
-                          $('ul#toc-dyk').append($('<li>' + item + '\t\t\t\t\t' + pageNum + '</li>'));
-                      }
-                  });
-              }
-              var otd = data.otd;
-              if(otd && _(data.articles).indexOf(otd) !== -1) {
-                  pageNum = ($('#' + pageId(otd)).offset().top - top)/pageHeight;
-                  $('ul#toc-otd').append($('<li>' + otd + '\t\t\t\t\t' + pageNum + '</li>'));
-              }
-              var feature = data.feature;
-              if(feature && _(data.articles).indexOf(feature) !== -1) {
-                  pageNum = ($('#' + pageId(feature)).offset().top - top)/pageHeight;
-                  $('ul#toc-feature').append($('<li>' + feature + '\t\t\t\t\t' + pageNum + '</li>'));
-              }
-              var good = data.good;
-              if(good && _(data.articles).indexOf(good) !== -1) {
-                  pageNum = ($('#' + pageId(good)).offset().top - top)/pageHeight;
-                  $('ul#toc-good').append($('<li>' + good + '\t\t\t\t\t' + pageNum + '</li>'));
-              }
-              var featurepic = data.featurepic;
-              if(featurepic && _(data.articles).indexOf(featurepic) !== -1) {
-                  pageNum = ($('#' + pageId(featurepic)).offset().top - top)/pageHeight;
-                  $('#toc-featurepic').append($('<li>' + featurepic + '\t\t\t\t\t' + pageNum + '</li>'));
               }
           }
         });
@@ -266,12 +240,12 @@ var daily = (function wikidaily(config) {
         }
     }
 
-    function tocId(title) {
-        return 'toc-' + title.replace(' ', '_').replace(':', '_');
-    }
-
     function pageId(title) {
-        return 'article-' + title.replace(' ', '_').replace(':', '_');
+        if (title) {
+            return 'article-' + title.replace(/[ :\(\)·]/g, '_');
+        } else {
+            return '';
+        }
     }
 
     function loadIssue(date) {
@@ -296,7 +270,12 @@ var daily = (function wikidaily(config) {
     }
 
     return {
-        load: loadIssue
+        load: loadIssue,
+        go: function (page) {
+            curLeftPage = 2 * Math.floor((page + 1) / 2);
+            toPage($('#leftcontent'), curLeftPage);
+            toPage($('#rightcontent'), curLeftPage + 1);
+        }
     };
 
 })(defaultConfig);

@@ -65,13 +65,19 @@ function filterPrev(articles, now) {
         day = prev.getUTCDate();
 
     var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.json',
-        json = JSON.parse(fs.readFileSync(file).toString('utf8'));
+    prevSettings = '{"index":[]}';
+    try {
+        prevSettings = fs.readFileSync(file).toString('utf8');
+    } catch (e) {
+    }
+
+    var json = JSON.parse(prevSettings);
     logger.info('loading previous ' + file);
 
     var index = _(json.index).chain().values().flatten().unique().value();
 
     logger.info('comparing... ');
-    return _.select(articles, function(article) {
+    return _.select(articles, function (article) {
         var keep = _.indexOf(index, article) === -1;
         if(keep) {
             logger.info('keep ' + article);
@@ -103,6 +109,9 @@ Dumper.prototype.dump = function (opt) {
                         var date = new Date();
 
                         var photo = mainpage.photo(opt.photo);
+                        if (!photo) {
+                            photo = opt.photo;
+                        }
                         magazine.coverphoto(photo);
 
                         var articles = mainpage.articles,

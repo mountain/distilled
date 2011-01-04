@@ -23,7 +23,7 @@ var tocTmpl = _.template(
               '<div id="toc-<%= column %>"><%= name %></div>' +
               '<ul>' +
               '<% for (var i = 0;i < items.length; i++) { %>' +
-              '<li id="toc-article-<%= pageId(items[i]) %>">' +
+              '<li id="toc-<%= pageId(items[i]) %>">' +
               '<%= items[i] %>' +
               '</li>' +
               '<% } %>' +
@@ -33,8 +33,7 @@ var tocTmpl = _.template(
 
 function pageId(title) {
     if (title) {
-        return 'article-' + title.replace(' ', '_').replace(':', '_').
-          replace('·', '_').replace('(', '_').replace(')', '_');
+        return 'article-' + title.replace(/[ :\(\)·]/g, '_');
     } else {
         return '';
     }
