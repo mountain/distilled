@@ -200,7 +200,7 @@ var daily = (function wikidaily(config) {
                       var id = pageId(article);
                       article = $('#' + id);
                       if(article.length>0) {
-                          var pageNum = (article.offset().top - top)/pageHeight - 1,
+                          var pageNum = Math.round((article.offset().top - top)/pageHeight) - 1,
                               li = $('li#toc-' + id);
                               li.html(
                                 li.html() + '\t......\t' +
