@@ -58,7 +58,7 @@ function save(date, ext, content) {
     fs.writeFileSync(file, content);
 }
 
-function filterPrev(articles, now) {
+function filterPrev(mainpage, articles, now) {
     var prev = new Date(now.getTime() - 24 * 3600 * 1000),
         year = prev.getUTCFullYear(),
         month = prev.getUTCMonth() + 1,
@@ -78,7 +78,8 @@ function filterPrev(articles, now) {
 
     logger.info('comparing... ');
     return _.select(articles, function (article) {
-        var keep = _.indexOf(index, article) === -1;
+        var keep = _.indexOf(index, article) === -1 &&
+                   _.indexOf(index, mainpage.title(article)) === -1;
         if(keep) {
             logger.info('keep ' + article);
         } else {
@@ -117,7 +118,7 @@ Dumper.prototype.dump = function (opt) {
                         var articles = mainpage.articles,
                             redirection = {};
 
-                        articles = filterPrev(articles, date);
+                        articles = filterPrev(mainpage, articles, date);
 
                         function redirect(from, to) {
                             redirection[to] = from;
@@ -130,10 +131,10 @@ Dumper.prototype.dump = function (opt) {
                         }
 
                         function end() {
-                            articles = articles.map(function (article) {
+                            var simplified = articles.map(function (article) {
                                 return mainpage.title(redirection[article]);
                             });
-                            magazine.makeup(opt, articles);
+                            magazine.makeup(opt, simplified);
                             var settings = {
                                 cover: opt.cover,
                                 photo: photo,
