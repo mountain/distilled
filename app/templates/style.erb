@@ -92,6 +92,26 @@ div#vposition {
     left:-<%= round(width/2) %>px;
 }
 
+div#leftbar {
+    position:absolute;
+    top:0px;
+    left:-<%= 6 * normal %>px;
+    width: <%= 6 * normal %>px;
+    text-align: left;
+    background-color: #222222;
+    color: white;
+}
+
+div#rightbar {
+    position:absolute;
+    top:0px;
+    left: <%= width %>px;
+    width: <%= 6 * normal %>px;
+    text-align: right;
+    background-color: #222222;
+    color: white;
+}
+
 div#doublepage {
     position: absolute;
     width: <%= width %>px;

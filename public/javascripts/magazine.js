@@ -22,47 +22,18 @@ var daily = (function wikidaily(config) {
 
     var index = {}, articles = [], curDate;
 
-    var uploadpattern =
-      /^(http:\/\/upload\.wikimedia\.org)(\/wikipedia\/\w+)(\/thumb)(\/\w+)(\/\w+\/)([\w\-\.]+[^#?\s]+)$/;
-    var originpattern =
-      /^(http:\/\/upload\.wikimedia\.org)(\/wikipedia\/\w+)(\/\w+)(\/\w+\/)([^#?\s]+)$/;
-    var filepattern = /^(\d+px)-(.+)/;
-
     function thumb(src, width) {
         return 'http://commons.wikimedia.org/w/thumb.php?f=' + src.replace(' ', '_') + '&w=' + width;
     }
 
-    function thumburl(src) {
-        var result = uploadpattern.exec(src);
-        if(!result) return "";
-        var filepath = result[result.length - 1].split("/");
-        var result2 = filepattern.exec(filepath[1]);
-        return 'http://commons.wikimedia.org/w/thumb.php?f=' + result2[2] + '&w=' + result2[1];
-    }
-
-    function customthumb(src, width) {
-        width = width || 50;
-        width = Math.floor(width);
-        var result = uploadpattern.exec(src);
-        if(!result) return "";
-        var filepath = result[result.length - 1].split("/");
-        var result2 = filepattern.exec(filepath[1]);
-        return 'http://commons.wikimedia.org/w/thumb.php?f=' + result2[2] + '&w=' + width;
-    }
-
-    function originurl(src) {
-        var result = uploadpattern.exec(src);
-        if(!result) return "";
-        var filepath = result[result.length - 1].split("/");
-        return [result[1], result[2], result[4], result[5], filepath[0]].join("");
-    }
-
     function fixImage() {
         var pagewidth = $('div#leftview').width();
-        $('div.thumb > div > a > img').each(function (i, img) {
+        $('div.pages img').each(function (i, img) {
             var filename = $(img).attr('data');
+            var width = $(img).attr('width');
             if (filename) {
-                $(img).attr('src', thumb(filename, Math.round(0.4 * pagewidth)));
+                width = width || Math.round(0.4 * pagewidth);
+                $(img).attr('src', thumb(filename, width));
             }
         });
         //$('div.thumb').each(function (i, thumb) {
@@ -241,6 +212,16 @@ var daily = (function wikidaily(config) {
             toPage($('#rightcontent'), curLeftPage+1);
         }
     }
+    function tocPage() {
+        if(pageNumber===0) {
+            pageNumber = $('#leftcontent').height()/$('#rightview').height();
+        }
+        if(curLeftPage<pageNumber && (curLeftPage+1)<pageNumber) {
+            curLeftPage = 0;
+            toPage($('#leftcontent'), curLeftPage);
+            toPage($('#rightcontent'), curLeftPage+1);
+        }
+    }
 
     function pageId(title) {
         if (title) {
@@ -261,8 +242,10 @@ var daily = (function wikidaily(config) {
               toPage($('#rightcontent'),1);
               cover();
               fixImage();
-              $('#leftcontent').click(previousPage);
-              $('#rightcontent').click(nextPage);
+              $('#go_prev').click(previousPage);
+              $('#go_next').click(nextPage);
+              $('#go_toc_left').click(tocPage);
+              $('#go_toc_right').click(tocPage);
               var imgs = $('img'), len = imgs.length, ind = 0;
               imgs.load(function(e) {ind++; if(len === ind) gridify();});
               gridify();
