@@ -43,7 +43,7 @@ var daily = (function wikidaily(config) {
                 $(img).attr('src', thumb(filename, width));
             }
         });
-        $('div.thumbinner').css('width', '*px');
+        $('div.thumbinner').css('width', Math.round(0.3 * pagewidth) + 'px');
         $('div.thumb').each(function (i, thumb) {
             if (i === 2 * Math.floor(i / 2)) {
                 $(thumb).addClass('left');
