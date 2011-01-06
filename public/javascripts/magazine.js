@@ -39,9 +39,13 @@ var daily = (function wikidaily(config) {
                 $(img).attr('src', thumb(filename, width));
             }
         });
-        //$('div.thumb').each(function (i, thumb) {
-        //    $(thumb).addClass('left');
-        //});
+        $('div.thumb').each(function (i, thumb) {
+            if (i === 2 * Math.floor(i / 2)) {
+                $(thumb).addClass('left');
+            } else {
+                $(thumb).addClass('right');
+            }
+        });
     }
 
     function gridify() {
