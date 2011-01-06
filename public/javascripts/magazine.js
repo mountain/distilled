@@ -60,12 +60,14 @@ var daily = (function wikidaily(config) {
     function fixImage() {
         var pagewidth = $('div#leftview').width();
         $('div.thumb > div > a > img').each(function (i, img) {
-            var url = $(img).attr('src');
-            $(img).attr('src', customthumb(url, 0.4 * pagewidth));
+            var filename = $(img).attr('data');
+            if (filename) {
+                $(img).attr('src', thumb(filename, Math.round(0.4 * pagewidth)));
+            }
         });
-        $('div.thumb').each(function (i, thumb) {
-            $(thumb).addClass('left');
-        });
+        //$('div.thumb').each(function (i, thumb) {
+        //    $(thumb).addClass('left');
+        //});
     }
 
     function gridify() {

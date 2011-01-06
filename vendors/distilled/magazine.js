@@ -39,6 +39,19 @@ function pageId(title) {
     }
 }
 
+var uploadpattern =
+  /^(http:\/\/upload\.wikimedia\.org)(\/wikipedia\/\w+)(\/thumb)(\/\w+)(\/\w+\/)([^#?\s]+)$/;
+
+function filename(src) {
+    var result = uploadpattern.exec(decodeURIComponent(src));
+    if (!result) {
+        return "";
+    } else {
+        var filepath = result[result.length - 1].split("/");
+        return filepath[0].replace('_', ' ');
+    }
+}
+
 function renderToc(toc) {
     var html = '';
     _(toc).chain().keys().each(function (column) {
@@ -77,9 +90,17 @@ Magazine.prototype.fixArticle = function (title) {
     this.window.$('#' + id + ' .thumb').removeClass('tright').removeClass('tleft');
 
     this.window.$('#' + id + ' a').each(function (i, a) {
-        var href = self.window.$(a).attr('href');
+        a = self.window.$(a);
+        var href = a.attr('href');
         href = 'http://zh.wikipedia.org' + href;
-        self.window.$(a).attr('href', href);
+        a.attr('href', href);
+        a.attr('target', 'blank');
+    });
+
+    this.window.$('#' + id + ' img').each(function (i, img) {
+        img = self.window.$(img);
+        img.attr('data', img.attr('src'));
+        img.attr('src', '');
     });
 };
 
