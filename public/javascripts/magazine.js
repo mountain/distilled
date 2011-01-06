@@ -35,12 +35,13 @@ var daily = (function wikidaily(config) {
                 width = width || Math.round(0.2 * pagewidth);
                 if (width > Math.round(0.2 * pagewidth)) {
                     width = Math.round(0.2 * pagewidth);
-                    $(img).attr('width', '');
+                    $(img).attr('width', width);
                     $(img).attr('height', '');
                 }
                 $(img).attr('src', thumb(filename, width));
             }
         });
+        $('div.thumbinner').css('width', '*px');
         $('div.thumb').each(function (i, thumb) {
             if (i === 2 * Math.floor(i / 2)) {
                 $(thumb).addClass('left');
