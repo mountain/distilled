@@ -58,23 +58,29 @@ function save(date, ext, content) {
     fs.writeFileSync(file, content);
 }
 
-function filterPrev(mainpage, articles, now) {
-    var prev = new Date(now.getTime() - 24 * 3600 * 1000),
+function findSettings(date, n) {
+    n = n || 1;
+    var prev = new Date(date.getTime() - n * 24 * 3600 * 1000),
         year = prev.getUTCFullYear(),
         month = prev.getUTCMonth() + 1,
         day = prev.getUTCDate();
 
     var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.json',
     prevSettings = '{"index":[]}';
-    try {
-        prevSettings = fs.readFileSync(file).toString('utf8');
-    } catch (e) {
+    if (n < 7) {
+        try {
+            prevSettings = fs.readFileSync(file).toString('utf8');
+            logger.info('loading previous settings at ' + file);
+        } catch (e) {
+            prevSettings = findSettings(date, n + 1);
+        }
     }
+    return prevSettings;
+}
 
-    var json = JSON.parse(prevSettings);
-    logger.info('loading previous ' + file);
-
-    var index = _(json.index).chain().values().flatten().unique().value();
+function filterPrev(mainpage, articles, now) {
+    var json = JSON.parse(findSettings(now)),
+        index = _(json.index).chain().values().flatten().unique().value();
 
     logger.info('comparing... ');
     return _.select(articles, function (article) {
