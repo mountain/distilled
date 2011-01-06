@@ -29,14 +29,16 @@ var daily = (function wikidaily(config) {
     function fixImage() {
         var pagewidth = $('div#leftview').width();
         $('div.pages img').each(function (i, img) {
-            var filename = $(img).attr('data');
-            var width = $(img).attr('width');
+            var filename = $(img).attr('data'),
+                width = $(img).attr('width'),
+                newwidth = Math.round(0.2 * pagewidth);
             if (filename) {
-                width = width || Math.round(0.2 * pagewidth);
-                if (width > Math.round(0.2 * pagewidth)) {
-                    width = Math.round(0.2 * pagewidth);
+                width = width || newwidth;
+                if (width > newwidth) {
+                    var factor = newwidth / width;
+                    $(img).attr('height', Math.floor(factor * $(img).attr('height')));
+                    width = newwidth;
                     $(img).attr('width', width);
-                    $(img).attr('height', '*');
                 }
                 $(img).attr('src', thumb(filename, width));
             }
