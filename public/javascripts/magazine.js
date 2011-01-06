@@ -36,7 +36,7 @@ var daily = (function wikidaily(config) {
                 if (width > Math.round(0.2 * pagewidth)) {
                     width = Math.round(0.2 * pagewidth);
                     $(img).attr('width', width);
-                    $(img).attr('height', '');
+                    $(img).attr('height', '*');
                 }
                 $(img).attr('src', thumb(filename, width));
             }
