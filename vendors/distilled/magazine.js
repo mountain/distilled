@@ -99,7 +99,7 @@ Magazine.prototype.fixArticle = function (title) {
 
     this.window.$('#' + id + ' img').each(function (i, img) {
         img = self.window.$(img);
-        img.attr('data', img.attr('src'));
+        img.attr('data', filename(img.attr('src')));
         img.attr('src', '');
     });
 };
