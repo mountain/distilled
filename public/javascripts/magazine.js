@@ -32,7 +32,10 @@ var daily = (function wikidaily(config) {
             var filename = $(img).attr('data');
             var width = $(img).attr('width');
             if (filename) {
-                width = width || Math.round(0.4 * pagewidth);
+                width = width || Math.round(0.2 * pagewidth);
+                if (width > Math.round(0.2 * pagewidth)) {
+                    width = Math.round(0.2 * pagewidth);
+                }
                 $(img).attr('src', thumb(filename, width));
             }
         });
