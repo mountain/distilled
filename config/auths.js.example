@@ -1,0 +1,4 @@
+exports.settings = {
+    'realm-editor': ['alice', 'bob'],
+    'realm-admin': ['bob']
+};

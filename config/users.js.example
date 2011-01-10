@@ -1,2 +1,4 @@
-exports.settings = [
-];
+exports.settings = {
+    alice: 'pass',
+    bob: 'pass'
+};

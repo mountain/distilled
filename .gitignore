@@ -7,4 +7,6 @@
 *.json
 *.html
 config/server.js
+config/users.js
+config/auths.js
 
