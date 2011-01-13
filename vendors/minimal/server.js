@@ -8,9 +8,19 @@ var sys    = require('sys'),
 function loadApp(env, app, key) {
     var applet = require('../../app/' + key).app(env);
     if (_.isFunction(applet)) {
-        app.get(env.routers[key], applet);
         logger.info('load app.get at ' + key);
+        app.get(env.routers[key], applet);
+    } else if (applet.index) {
+        logger.info('load resource at ' + key);
+        app.get(env.routers[key], applet.index);
+        app.post(env.routers[key], applet.create);
+        app.get(env.routers[key] + '/empty', applet.empty);
+        app.get(env.routers[key] + '/:id/edit', applet.edit);
+        app.get(env.routers[key] + '/:id', applet.show);
+        app.put(env.routers[key] + '/:id', applet.update);
+        app.delete(env.routers[key] + '/:id', applet.destroy);
     } else {
+        logger.info('load app at ' + key);
         if (applet.get) {
             app.get(env.routers[key], applet.get);
         }
@@ -23,7 +33,6 @@ function loadApp(env, app, key) {
         if (applet.delete) {
             app.delete(env.routers[key], applet.delete);
         }
-        logger.info('load app at ' + key);
     }
 }
 
