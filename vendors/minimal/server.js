@@ -1,7 +1,6 @@
 var _ = require('../../lib/underscore')._;
 var logger = require('../../lib/log').logger;
 
-
 var sys    = require('sys'),
     step   = require('../../lib/step'),
     connect = require('../connect/lib/connect');
@@ -10,8 +9,8 @@ function loadApp(env, app, key) {
     var applet = require('../../app/' + key).app(env);
     if (_.isFunction(applet)) {
         app.get(env.routers[key], applet);
-    }
-    if (_.isObject(applet)) {
+        logger.info('load app.get at ' + key);
+    } else {
         if (applet.get) {
             app.get(env.routers[key], applet.get);
         }
@@ -24,18 +23,19 @@ function loadApp(env, app, key) {
         if (applet.delete) {
             app.delete(env.routers[key], applet.delete);
         }
+        logger.info('load app at ' + key);
     }
 }
 
 function getRealms(env) {
     var realms = {'_': []};
-    _(env.realms).keys().each(function (appkey) {
+    _(env.realms).chain().keys().each(function (appkey) {
         if (!realms[env.realms[appkey]]) {
             realms[env.realms[appkey]] = [];
         }
         realms[env.realms[appkey]].push(appkey);
     });
-    _(env.routes).keys().each(function (appkey) {
+    _(env.routers).chain().keys().each(function (appkey) {
         if (!env.realms[appkey]) {
             realms['_'].push(appkey);
         }
@@ -73,7 +73,7 @@ exports.start = function (path) {
 
           var realms = getRealms(env);
           function plainRoutes(app) {
-              _(realms['_']).chain().keys().each(function (key) {
+              _(realms['_']).each(function (key) {
                   loadApp(env, app, key);
               });
           }
@@ -85,12 +85,26 @@ exports.start = function (path) {
               connect.staticProvider(env.path + 'public')
           );
 
+
+          var load = function (realm) {
+              return function (route, handler) {
+                  server.use(route,
+                      connect.basicAuth(auth(env, realm), realm), handler);
+              };
+          };
+          var app = function (realm) {
+              return {
+                  get: load(realm),
+                  put: load(realm),
+                  post: load(realm),
+                  delete: load(realm)
+              };
+          };
+
           _(realms).chain().keys().each(function (realm) {
               if(realm !== '_') {
                   _.each(realms[realm], function (appkey) {
-                      var applet = require('../../app/' + appkey).app(env);
-                      server.use(env.routers[appkey],
-                          connect.basicAuth(auth(env, realm), realm), applet);
+                      loadApp(env, app(realm), appkey);
                   });
              }
           });
