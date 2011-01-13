@@ -1,10 +1,12 @@
+var templates =
+        require('../../../vendors/minimal/template').forCtrl(__filename);
+
 exports.app = function (env) {
-    var header = env.templates.admin.users.header;
-    var footer = env.templates.admin.users.footer;
-    var summary = env.templates.admin.users.summary;
-    var empty = env.templates.admin.users.empty;
-    var show = env.templates.admin.users.show;
-    var edit = env.templates.admin.users.edit;
+    var index = templates.load('./index'),
+        empty = templates.load('./empty'),
+        show = templates.load('./show'),
+        edit = templates.load('./edit');
+
     return {
         index: function (req, res, next) {
             try {
@@ -38,5 +40,3 @@ exports.app = function (env) {
         }
     };
 };
-
-
