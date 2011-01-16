@@ -1,11 +1,10 @@
+var sys = require('sys');
+
 var templates =
         require('../../../vendors/minimal/template').forCtrl(__filename);
 
 exports.app = function (env) {
-    var index = templates.load('./index'),
-        empty = templates.load('./empty'),
-        show = templates.load('./show'),
-        edit = templates.load('./edit');
+    templates = templates(env);
 
     return {
         index: function (req, res, next) {
@@ -13,9 +12,9 @@ exports.app = function (env) {
                 res.writeHead(200, {
                     'Content-Type': 'text/html'
                 });
-                res.end(index());
+                res.end(templates.index());
             } catch (e) {
-                require('sys').puts(e.stack);
+                sys.puts(e.stack);
             }
         },
         empty: function (req, res, next) {
@@ -23,9 +22,9 @@ exports.app = function (env) {
                 res.writeHead(200, {
                     'Content-Type': 'text/html'
                 });
-                res.end(empty());
+                res.end(templates.empty());
             } catch (e) {
-                require('sys').puts(e.stack);
+                sys.puts(e.stack);
             }
         },
         create: function (req, res, next) {

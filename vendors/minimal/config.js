@@ -1,7 +1,7 @@
 var _ = require('../../lib/underscore')._;
 var logger = require('../../lib/log').logger;
 
-exports.load = function(callback, env) {
+exports.load = function(env, callback) {
     var fs = require('fs')
         path = env.path + 'config';
     logger.info('loading config at ' + path);

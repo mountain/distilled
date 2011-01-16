@@ -1,12 +1,13 @@
 var _ = require('../../lib/underscore')._;
 var logger = require('../../lib/log').logger;
 
-var sys    = require('sys'),
-    step   = require('../../lib/step'),
+var step   = require('../../lib/step'),
     connect = require('../connect/lib/connect');
 
+var controller = require('./controller');
+
 function loadApp(env, app, key) {
-    var applet = require('../../app/' + key).app(env);
+    var applet = require('../../app/controllers/' + key).app(env);
     if (_.isFunction(applet)) {
         logger.info('load app.get at ' + key);
         app.get(env.routers[key], applet);
@@ -62,18 +63,17 @@ function auth(env, realm) {
 }
 
 exports.start = function (path) {
-    var env = { path: path, lang: 'zh',
-      conn: function (key) {
-        return this.conns[key];
-      }
-    };
+    var env = { path: path };
 
     step(
       function () {
-          require('./config').load(this, env);
+          require('./config').load(env, this);
       },
       function () {
-          require('./template').load(this, env);
+          require('./template').load(env, this);
+      },
+      function () {
+          controller.load(env, this);
       },
       function (err) {
           if (err) {
@@ -93,7 +93,6 @@ exports.start = function (path) {
               connect.router(plainRoutes),
               connect.staticProvider(env.path + 'public')
           );
-
 
           var load = function (realm) {
               return function (route, handler) {
@@ -115,7 +114,7 @@ exports.start = function (path) {
                   _.each(realms[realm], function (appkey) {
                       loadApp(env, app(realm), appkey);
                   });
-             }
+              }
           });
 
           server.listen(env.server.port, env.server.host);

@@ -1,7 +1,11 @@
 exports.settings = {
     main: '/',
     issues: '/:year/:month/:day',
-    editor: '/editor/:year/:month/:day',
-    admin: '/admin',
-    style: '/styles/magazine.css'
+    style: '/styles/magazine.css',
+    admin: {
+        users: './users'
+    },
+    editor: {
+        issues: './:year/:month/:day'
+    }
 };

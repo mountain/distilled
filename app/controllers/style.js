@@ -1,4 +1,4 @@
-var _ = require('../lib/underscore')._;
+var _ = require('../../lib/underscore')._;
 
 
 exports.app = function(env) {
