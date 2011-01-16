@@ -66,3 +66,21 @@ function visitEntry (pkey, context, callback) {
 exports.visit = function (context, callback) {
     visitEntry(undefined, context, callback);
 };
+
+
+/**
+ *  Access object hierachy structure
+ */
+
+function accessEntry (context, keys) {
+    _.each(keys, function (key) {
+        if (context) {
+            context = context[key];
+        }
+    });
+    return context;
+}
+
+exports.access = function (context, key) {
+    return accessEntry(context, key.split('.'));
+};

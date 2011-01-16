@@ -4,10 +4,12 @@ var logger = require('../../lib/log').logger;
 var step   = require('../../lib/step'),
     connect = require('../connect/lib/connect');
 
-var controller = require('./controller');
+var environment = require('./environment'),
+    controller  = require('./controller');
 
 function loadApp(env, app, key) {
-    var applet = require('../../app/controllers/' + key).app(env);
+    logger.info('key = ' + key);
+    var applet = environment.access(env.controllers, key)(env);
     if (_.isFunction(applet)) {
         logger.info('load app.get at ' + key);
         app.get(env.routers[key], applet);
@@ -39,15 +41,15 @@ function loadApp(env, app, key) {
 
 function getRealms(env) {
     var realms = {'_': []};
-    _(env.realms).chain().keys().each(function (appkey) {
-        if (!realms[env.realms[appkey]]) {
-            realms[env.realms[appkey]] = [];
+    environment.visit(env.realms, function(key, value) {
+        if(!realms[value]) {
+            realms[value] = [];
         }
-        realms[env.realms[appkey]].push(appkey);
+        realms[value].push(key);
     });
-    _(env.routers).chain().keys().each(function (appkey) {
-        if (!env.realms[appkey]) {
-            realms['_'].push(appkey);
+    environment.visit(env.routers, function(key, value) {
+        if (!environment.access(env.realms, key)) {
+            realms['_'].push(key);
         }
     });
     return realms;
