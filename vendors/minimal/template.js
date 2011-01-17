@@ -8,6 +8,7 @@ var walk = require('./environment').walk;
 function loadTmpl(path, context, name) {
     fs.readFile(path, function (err, data) {
         if (!err) try {
+            name = name.substring(0, name.length - 4);
             context[name] = _.template(
               data.toString('utf8', 0, data.length)
             );

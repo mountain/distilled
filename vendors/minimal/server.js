@@ -1,6 +1,8 @@
 var _ = require('../../lib/underscore')._;
 var logger = require('../../lib/log').logger;
 
+var sys = require('sys');
+
 var step   = require('../../lib/step'),
     connect = require('../connect/lib/connect');
 
@@ -8,50 +10,59 @@ var environment = require('./environment'),
     controller  = require('./controller');
 
 function loadApp(env, app, key) {
-    logger.info('key = ' + key);
-    var applet = environment.access(env.controllers, key)(env);
+    var applet = environment.access(env.controllers, key)(env),
+        route = environment.access(env.routers, key);
     if (_.isFunction(applet)) {
         logger.info('load app.get at ' + key);
-        app.get(env.routers[key], applet);
+        app.get(route, applet);
     } else if (applet.index) {
         logger.info('load resource at ' + key);
-        app.get(env.routers[key], applet.index);
-        app.post(env.routers[key], applet.create);
-        app.get(env.routers[key] + '/empty', applet.empty);
-        app.get(env.routers[key] + '/:id/edit', applet.edit);
-        app.get(env.routers[key] + '/:id', applet.show);
-        app.put(env.routers[key] + '/:id', applet.update);
-        app.delete(env.routers[key] + '/:id', applet.destroy);
+        app.get(route, applet.index);
+        app.post(route, applet.create);
+        app.get(route + '/empty', applet.empty);
+        app.get(route + '/:id/edit', applet.edit);
+        app.get(route + '/:id', applet.show);
+        app.put(route + '/:id', applet.update);
+        app.delete(route + '/:id', applet.destroy);
     } else {
         logger.info('load app at ' + key);
         if (applet.get) {
-            app.get(env.routers[key], applet.get);
+            app.get(route, applet.get);
         }
         if (applet.post) {
-            app.post(env.routers[key], applet.post);
+            app.post(route, applet.post);
         }
         if (applet.put) {
-            app.put(env.routers[key], applet.put);
+            app.put(route, applet.put);
         }
         if (applet.delete) {
-            app.delete(env.routers[key], applet.delete);
+            app.delete(route, applet.delete);
         }
     }
 }
 
 function getRealms(env) {
-    var realms = {'_': []};
-    environment.visit(env.realms, function(key, value) {
-        if(!realms[value]) {
-            realms[value] = [];
-        }
-        realms[value].push(key);
+    var realms = {'_': []}, underRealms = [];
+    environment.visit(env.routers, function(routekey, route) {
+        environment.visit(env.realms, function(realmkey, realm) {
+            if (routekey.indexOf(realmkey) !== -1) {
+                if(!realms[realm]) {
+                    realms[realm] = [];
+                }
+                if (realms[realm].indexOf(routekey) === -1) {
+                    realms[realm].push(routekey);
+                    underRealms.push(routekey);
+                }
+            }
+        });
     });
-    environment.visit(env.routers, function(key, value) {
-        if (!environment.access(env.realms, key)) {
-            realms['_'].push(key);
+
+    environment.visit(env.routers, function(routekey, route) {
+        if (underRealms.indexOf(routekey) === -1) {
+            realms['_'].push(routekey);
         }
     });
+    sys.puts(sys.inspect(realms));
     return realms;
 }
 
@@ -114,6 +125,7 @@ exports.start = function (path) {
           _(realms).chain().keys().each(function (realm) {
               if(realm !== '_') {
                   _.each(realms[realm], function (appkey) {
+                          logger.info('load app[' + appkey + '] under ' + realm);
                       loadApp(env, app(realm), appkey);
                   });
               }

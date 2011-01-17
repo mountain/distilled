@@ -1,10 +1,7 @@
 var sys = require('sys');
 
-var templates =
-        require('../../../vendors/minimal/template').forCtrl(__filename);
-
 exports.app = function (env) {
-    templates = templates(env);
+    var templates = env.templates.admin.users;
 
     return {
         index: function (req, res, next) {

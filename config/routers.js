@@ -3,9 +3,9 @@ exports.settings = {
     issues: '/:year/:month/:day',
     style: '/styles/magazine.css',
     admin: {
-        users: './users'
+        users: '/admin/users'
     },
     editor: {
-        issues: './:year/:month/:day'
+        issues: '/editor/:year/:month/:day'
     }
 };
