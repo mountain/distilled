@@ -56,13 +56,11 @@ function getRealms(env) {
             }
         });
     });
-
     environment.visit(env.routers, function(routekey, route) {
         if (underRealms.indexOf(routekey) === -1) {
             realms['_'].push(routekey);
         }
     });
-    sys.puts(sys.inspect(realms));
     return realms;
 }
 

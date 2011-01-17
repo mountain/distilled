@@ -55,7 +55,7 @@ function visitEntry (pkey, context, callback) {
     _(context).chain().keys().each(function (key) {
         var entry = context[key], curkey = pkey?(pkey + '.' + key):key;
         if(_.isFunction(entry) || _.isString(entry) || _.isBoolean(entry) ||
-           _.isNumber(entry) || _.isRegExp(entry)) {//entry is a leaf node
+           _.isArray(entry) || _.isNumber(entry) || _.isRegExp(entry)) {//entry is a leaf node
             callback(curkey, entry);
         } else {//entry is not a leaf node
             visitEntry (curkey, entry, callback)

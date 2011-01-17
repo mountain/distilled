@@ -1,1 +1,22 @@
-hello world!
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/" />
+  <script src="/javascripts/jquery-min.js"></script>
+  <script src="/javascripts/underscore-min.js"></script>
+  <title>维基日刊用户管理</title>
+</head>
+<body>
+<ul>
+<% for(var i = 0; i < users.length; i++) { var user = users[i];%>
+  <li><%= user %>:
+    <ul>
+       <li>password: <%= pwd[user] %></li>
+       <li>realms: <%= realms[user] %></li>
+    </ul>
+  </li>
+<% } %>
+</ul>
+</body>
+</html>

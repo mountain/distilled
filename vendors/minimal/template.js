@@ -25,12 +25,4 @@ exports.load = function(env, callback) {
     walk(env.path + 'app/templates', ctx, loadTmpl, callback);
 };
 
-exports.forCtrl = function (ctrlpath) {
-    return function(env) {
-        ctrlpath = ctrlpath.substring(env.path.length);
-        parts = ctrlpath.split('/');
-        logger.info(parts);
-    };
-};
-
 
