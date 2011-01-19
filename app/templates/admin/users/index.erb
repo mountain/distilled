@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/" />
   <script src="/javascripts/jquery-min.js"></script>
+  <script src="/javascripts/jquery.jeditable.js"></script>
   <script src="/javascripts/underscore-min.js"></script>
   <title>维基日刊用户管理</title>
 </head>
@@ -12,11 +13,23 @@
 <% for(var i = 0; i < users.length; i++) { var user = users[i];%>
   <li><%= user %>:
     <ul>
-       <li>password: <%= pwd[user] %></li>
-       <li>realms: <%= realms[user] %></li>
+       <li>password: <span class="edit" id="edit-pwd-<%= user %>"><%= pwd[user] %></span></li>
+       <li>realms: <span class="edit" id="edit-realm-<%= user %>"><%= realms[user] %></span></li>
     </ul>
   </li>
 <% } %>
 </ul>
+<script>
+$(function () {
+    $('.edit').each(function (ind, field) {
+        field = $(field);
+        var segs = field.attr('id').split('-'),
+            user = segs[segs.length - 1];
+        field.editable('/admin/users/' + user, {
+            method: 'PUT'
+        });
+    });
+});
+</script>
 </body>
 </html>

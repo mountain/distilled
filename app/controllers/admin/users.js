@@ -16,7 +16,6 @@ exports.app = function (env) {
             realms[user].push(realm.substring('distilled-realm-'.length));
         })
     });
-    sys.puts(sys.inspect(realms));
 
     return {
         index: function (req, res, next) {
@@ -50,6 +49,18 @@ exports.app = function (env) {
         edit: function (req, res, next) {
         },
         update: function (req, res, next) {
+            sys.puts('hello world!');
+            var id = req.params.id,
+            field = _.keys(req.body)[0];
+            sys.puts(sys.inspect(req.params));
+            sys.puts(sys.inspect(req.body));
+            if (field === 'pwd') {
+                env.users[id] = req.body[field];
+                res.end(env.users[id]);
+            } else {
+                realms[id] = req.body[field].split(',');
+                res.end(realms[id]);
+            }
         },
         destroy: function (req, res, next) {
         }

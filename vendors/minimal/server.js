@@ -17,13 +17,13 @@ function loadApp(env, app, key) {
         app.get(route, applet);
     } else if (applet.index) {
         logger.info('load resource at ' + key);
-        app.get(route, applet.index);
+        app.get(route + '/empty$', applet.empty);
+        app.get(route + '/:id/edit$', applet.edit);
+        app.get(route + '/:id$', applet.show);
+        app.put(route + '/:id$', applet.update);
+        app.delete(route + '/:id$', applet.destroy);
         app.post(route, applet.create);
-        app.get(route + '/empty', applet.empty);
-        app.get(route + '/:id/edit', applet.edit);
-        app.get(route + '/:id', applet.show);
-        app.put(route + '/:id', applet.update);
-        app.delete(route + '/:id', applet.destroy);
+        app.get(route, applet.index);
     } else {
         logger.info('load app at ' + key);
         if (applet.get) {
@@ -100,23 +100,28 @@ exports.start = function (path) {
 
           var server = connect.createServer(
               connect.logger(),
+              connect.bodyDecoder(),
+              connect.methodOverride(),
               connect.conditionalGet(),
               connect.router(plainRoutes),
               connect.staticProvider(env.path + 'public')
           );
 
-          var load = function (realm) {
+          var load = function (method, realm) {
               return function (route, handler) {
+                  var newHandler = function (app) {
+                      app[method]('/', handler);
+                  };
                   server.use(route,
-                      connect.basicAuth(auth(env, realm), realm), handler);
+                      connect.basicAuth(auth(env, realm), realm), connect.router(newHandler));
               };
           };
           var app = function (realm) {
               return {
-                  get: load(realm),
-                  put: load(realm),
-                  post: load(realm),
-                  delete: load(realm)
+                  get: load('get', realm),
+                  put: load('put', realm),
+                  post: load('post', realm),
+                  delete: load('delete', realm)
               };
           };
 
