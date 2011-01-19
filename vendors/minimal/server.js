@@ -17,11 +17,11 @@ function loadApp(env, app, key) {
         app.get(route, applet);
     } else if (applet.index) {
         logger.info('load resource at ' + key);
-        app.get(route + '/empty$', applet.empty);
-        app.get(route + '/:id/edit$', applet.edit);
-        app.get(route + '/:id$', applet.show);
-        app.put(route + '/:id$', applet.update);
-        app.delete(route + '/:id$', applet.destroy);
+        app.get(route + '/empty', applet.empty);
+        app.get(route + '/:id/edit', applet.edit);
+        app.get(route + '/:id', applet.show);
+        app.put(route + '/:id', applet.update);
+        app.delete(route + '/:id', applet.destroy);
         app.post(route, applet.create);
         app.get(route, applet.index);
     } else {
@@ -110,7 +110,7 @@ exports.start = function (path) {
           var load = function (method, realm) {
               return function (route, handler) {
                   var newHandler = function (app) {
-                      app[method]('/', handler);
+                      app[method]('', handler);
                   };
                   server.use(route,
                       connect.basicAuth(auth(env, realm), realm), connect.router(newHandler));

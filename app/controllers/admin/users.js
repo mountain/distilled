@@ -43,10 +43,34 @@ exports.app = function (env) {
             }
         },
         create: function (req, res, next) {
+            try {
+                res.writeHead(200, {
+                    'Content-Type': 'text/html'
+                });
+                res.end(templates.empty());
+            } catch (e) {
+                sys.puts(e.stack);
+            }
         },
         show: function (req, res, next) {
+            try {
+                res.writeHead(200, {
+                    'Content-Type': 'text/html'
+                });
+                res.end(templates.empty());
+            } catch (e) {
+                sys.puts(e.stack);
+            }
         },
         edit: function (req, res, next) {
+            try {
+                res.writeHead(200, {
+                    'Content-Type': 'text/html'
+                });
+                res.end(templates.empty());
+            } catch (e) {
+                sys.puts(e.stack);
+            }
         },
         update: function (req, res, next) {
             sys.puts('hello world!');
