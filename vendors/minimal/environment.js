@@ -84,3 +84,12 @@ function accessEntry (context, keys) {
 exports.access = function (context, key) {
     return accessEntry(context, key.split('.'));
 };
+
+
+/**
+ *  Save config
+ */
+
+exports.saveConfig = function (path, obj) {
+    fs.write(path, "exports.settings = " + JSON.stringify(obj) + ";");
+};

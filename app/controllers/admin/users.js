@@ -82,6 +82,7 @@ exports.app = function (env) {
                 realms[id] = value.split(',');
                 res.end(value);
             }
+
         },
         destroy: function (req, res, next) {
         }
