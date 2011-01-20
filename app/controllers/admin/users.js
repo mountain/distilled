@@ -44,10 +44,6 @@ exports.app = function (env) {
         },
         create: function (req, res, next) {
             try {
-                res.writeHead(200, {
-                    'Content-Type': 'text/html'
-                });
-                res.end(templates.empty());
             } catch (e) {
                 sys.puts(e.stack);
             }
@@ -57,7 +53,7 @@ exports.app = function (env) {
                 res.writeHead(200, {
                     'Content-Type': 'text/html'
                 });
-                res.end(templates.empty());
+                res.end(templates.show());
             } catch (e) {
                 sys.puts(e.stack);
             }
@@ -67,23 +63,24 @@ exports.app = function (env) {
                 res.writeHead(200, {
                     'Content-Type': 'text/html'
                 });
-                res.end(templates.empty());
+                res.end(templates.edit());
             } catch (e) {
                 sys.puts(e.stack);
             }
         },
         update: function (req, res, next) {
-            sys.puts('hello world!');
             var id = req.params.id,
-            field = _.keys(req.body)[0];
-            sys.puts(sys.inspect(req.params));
-            sys.puts(sys.inspect(req.body));
+                value = req.body.value,
+                field = req.body.id.split('-')[1];
+            res.writeHead(200, {
+                'Content-Type': 'text/html'
+            });
             if (field === 'pwd') {
-                env.users[id] = req.body[field];
-                res.end(env.users[id]);
+                env.users[id] = value;
+                res.end(value);
             } else {
-                realms[id] = req.body[field].split(',');
-                res.end(realms[id]);
+                realms[id] = value.split(',');
+                res.end(value);
             }
         },
         destroy: function (req, res, next) {

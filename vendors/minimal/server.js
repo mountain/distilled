@@ -18,10 +18,10 @@ function loadApp(env, app, key) {
     } else if (applet.index) {
         logger.info('load resource at ' + key);
         app.get(route + '/empty', applet.empty);
-        app.get(route + '/:id/edit', applet.edit);
-        app.get(route + '/:id', applet.show);
-        app.put(route + '/:id', applet.update);
-        app.delete(route + '/:id', applet.destroy);
+        app.show(route, applet.show);
+        app.update(route, applet.update);
+        app.destroy(route, applet.destroy);
+        app.edit(route, applet.edit);
         app.post(route, applet.create);
         app.get(route, applet.index);
     } else {
@@ -116,12 +116,31 @@ exports.start = function (path) {
                       connect.basicAuth(auth(env, realm), realm), connect.router(newHandler));
               };
           };
+          var load2 = function (op, realm) {
+              var method = {
+                show: 'get', update: 'put', edit: 'get', destroy: 'delete'
+              };
+              var path = {
+                show: '/:id', update: '/:id', edit: '/:id/edit', destroy: '/:id'
+              };
+              return function (route, handler) {
+                  var newHandler = function (app) {
+                      app[method[op]](path[op], handler);
+                  };
+                  server.use(route,
+                      connect.basicAuth(auth(env, realm), realm), connect.router(newHandler));
+              };
+          };
           var app = function (realm) {
               return {
                   get: load('get', realm),
                   put: load('put', realm),
                   post: load('post', realm),
-                  delete: load('delete', realm)
+                  delete: load('delete', realm),
+                  show: load2('show', realm),
+                  update: load2('update', realm),
+                  edit: load2('edit', realm),
+                  destroy: load2('destroy', realm)
               };
           };
 
