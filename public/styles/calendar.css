@@ -44,6 +44,25 @@
     text-align: left;
 }
 
+.cover-thumb-full {
+    position: relative;
+}
+
+.cover-thumb-full .cover-thumb-u {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 80%;
+    color: white;
+    font-size: xx-small;
+    text-align: left;
+}
+
+.cover-thumb-full .cover-thumb-w img {
+    height: 100%;
+    width: 100%;
+}
+
 .cover-thumb-west .cover-thumb-v {
     position: absolute;
     top: 3px;

@@ -2,7 +2,7 @@ function calendar(date) {
     date = date || new Date();
 
     function thumb(src, width) {
-        return 'http://commons.wikimedia.org/w/thumb.php?f=' + src.replace(' ', '_') + '&w=' + width;
+        return 'http://commons.wikimedia.org/w/thumb.php?f=' + src.replace(' ', '_') + '&w=' + Math.round(width);
     }
 
     var width = $('#doublepage').width() / 7 * 0.4;
@@ -41,7 +41,7 @@ function calendar(date) {
         $('.cover-thumb').each(function (ind, cover) {
             cover = $(cover);
             cover.click(function (e) {
-                var url = '/' + cover.attr('title');
+                var url = '/issues/' + cover.attr('title');
                 window.location.assign(url);
             });
         });

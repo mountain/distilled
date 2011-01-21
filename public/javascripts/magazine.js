@@ -183,15 +183,17 @@ var daily = (function wikidaily(config) {
               if(articles) {
                   _(articles).each(function (article) {
                       var id = pageId(article);
-                      article = $('#' + id);
-                      if(article.length>0) {
-                          var pageNum = Math.round((article.offset().top - top)/pageHeight) - 1,
-                              li = $('li#toc-' + id);
-                              li.html(
-                                li.html() + '\t......\t' +
-                                '<a href="javascript:daily.go(' +
-                                  pageNum +
-                                ');">' + pageNum + '</a>');
+                      if(id) {
+                          article = $('#' + id);
+                          if(article.length>0) {
+                              var pageNum = Math.round((article.offset().top - top)/pageHeight) - 1,
+                                  li = $('li#toc-' + id);
+                                  li.html(
+                                    li.html() + '\t......\t' +
+                                    '<a href="javascript:daily.go(' +
+                                      pageNum +
+                                    ');">' + pageNum + '</a>');
+                          }
                       }
                   });
               }

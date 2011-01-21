@@ -146,7 +146,7 @@ Dumper.prototype.dump = function (opt) {
                                 photo: photo,
                                 bg: opt.bg,
                                 index: magazine.index,
-                                articles: articles
+                                articles: simplified
                             };
                             _.extend(settings, magazine.toc);
                             save(date, 'json', JSON.stringify(settings));
