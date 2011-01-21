@@ -1,5 +1,5 @@
 exports.app = function (env) {
-    var editor = env.templates.editor;
+    var editor = env.templates.editor.issues;
     return {
         get: function (req, res, next) {
             var year = req.params.year;

@@ -6,6 +6,6 @@ exports.settings = {
         users: '/admin/users'
     },
     editor: {
-        issues: '/editor/:year/:month/:day'
+        issues: '/editor/issues/:year/:month/:day'
     }
 };
