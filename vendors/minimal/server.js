@@ -27,14 +27,12 @@ function loadApp(env, app, key) {
     } else {
         logger.info('load app at ' + key);
         if (applet.get) {
-            logger.info('get ' + key);
             app.get(route, applet.get);
         }
         if (applet.post) {
             app.post(route, applet.post);
         }
         if (applet.put) {
-            logger.info('put ' + key);
             app.put(route, applet.put);
         }
         if (applet.delete) {
@@ -81,7 +79,7 @@ function remnants(route) {
 function auth(env, realm) {
     var auths = env.auths, usersInRealm = auths[realm], users = env.users;
     return function (user, pass) {
-        return usersInRealm && user && pass &&
+        return result = usersInRealm && user && pass &&
           _(usersInRealm).indexOf(user) !== -1 &&
           users[user] === pass;
     };
@@ -140,9 +138,9 @@ exports.start = function (path) {
               };
               return function (route, handler) {
                   var newHandler = function (app) {
-                      app[method[op]](path[op], handler);
+                      app[method[op]](remnants(route) + path[op], handler);
                   };
-                  server.use(route,
+                  server.use(base(route),
                       connect.basicAuth(auth(env, realm), realm), connect.router(newHandler));
               };
           };

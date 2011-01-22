@@ -1,4 +1,4 @@
 exports.settings = {
-    'realm-editor': ['alice', 'bob'],
-    'realm-admin': ['bob']
+    'distilled-realm-editor': ['alice', 'bob'],
+    'distilled-realm-admin': ['bob']
 };
