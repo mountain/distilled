@@ -245,7 +245,7 @@ var daily = (function wikidaily(config) {
         }
     }
 
-    function loadIssue(date) {
+    function loadIssue(date, callback) {
         curDate = date;
         $.ajax({
           url: '/issues/' + date + '.html',
@@ -264,6 +264,7 @@ var daily = (function wikidaily(config) {
               imgs.load(function(e) {ind++; if(len === ind) gridify();});
               gridify();
               pagify();
+              callback();
           }
         });
     }

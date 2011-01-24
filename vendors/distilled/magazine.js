@@ -84,6 +84,7 @@ Magazine.prototype.fixArticle = function (title) {
     this.window.$('#' + id + ' .metadata').remove();
     this.window.$('#' + id + ' .navbox').remove();
     this.window.$('#' + id + ' .infobox').remove();
+    this.window.$('#' + id + ' .fmbox').remove();
     this.window.$('#' + id + ' .topicon').remove();
     this.window.$('#' + id + ' table:first-child[class="wikitable"]').remove();
 
