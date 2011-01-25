@@ -264,7 +264,9 @@ var daily = (function wikidaily(config) {
               imgs.load(function(e) {ind++; if(len === ind) gridify();});
               gridify();
               pagify();
-              callback();
+              if (callback) {
+                  callback();
+              }
           }
         });
     }

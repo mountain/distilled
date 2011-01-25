@@ -1,9 +1,25 @@
 function editor() {
 
+    var cur = null;
+
     function highlight() {
-        $(this).css('border', '1px solid black');
+        var self = $(this);
+        if(cur === self) {
+            if (cur.css('border')) {
+                cur.css('border', null);
+                cur = null;
+            } else {
+                cur.css('border', '1px solid black');
+            }
+        } else {
+            if (cur && cur.css('border')) {
+                cur.css('border', null);
+            }
+            cur = self;
+            cur.css('border', '1px solid black');
+        }
     }
 
-    $('.pages > p').toggle(highlight);
-    $('.pages > div').toggle(highlight);
+    $('.pages > p').click(highlight);
+    $('.pages > div').click(highlight);
 }

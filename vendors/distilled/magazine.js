@@ -87,6 +87,25 @@ Magazine.prototype.fixArticle = function (title) {
     this.window.$('#' + id + ' .fmbox').remove();
     this.window.$('#' + id + ' .topicon').remove();
     this.window.$('#' + id + ' table:first-child[class="wikitable"]').remove();
+    this.window.$('#' + id + ' .reference').remove();
+
+    var refs = this.window.$('#' + id + ' .references'),
+        prev = this.window.$(refs.prev()),
+        tag  = prev.attr("tagName"),
+        parent = refs.parent(), refsHead;
+    if (prev && tag && tag.toLowerCase() === 'h2') {
+        refsHead = prev;
+    } else if (parent) {
+        prev = this.window.$(parent).prev();
+        tag = this.window.$(prev).attr("tagName");
+        if (tag && (tag.toLowerCase() === 'h2' || tag.toLowerCase() === 'h3')) {
+            refsHead = prev;
+        }
+    }
+    if (refsHead) {
+        refsHead.nextUntil('h2').remove();
+        refsHead.remove();
+    }
 
     this.window.$('#' + id + ' .thumb').removeClass('tright').removeClass('tleft');
 
