@@ -95,8 +95,8 @@ div#vposition {
 div#leftbar {
     position:absolute;
     top:0px;
-    left:-<%= 6 * normal %>px;
-    width: <%= 6 * normal %>px;
+    left:-<%= 4 * normal %>px;
+    width: <%= 4 * normal %>px;
     text-align: left;
     background-color: #222222;
     color: white;
@@ -106,7 +106,27 @@ div#rightbar {
     position:absolute;
     top:0px;
     left: <%= width %>px;
-    width: <%= 6 * normal %>px;
+    width: <%= 4 * normal %>px;
+    text-align: right;
+    background-color: #222222;
+    color: white;
+}
+
+div#lefttoolbar {
+    position:absolute;
+    top: <%= height - 12 * gheight %>px;
+    left:-<%= 4 * normal %>px;
+    width: <%= 4 * normal %>px;
+    text-align: left;
+    background-color: #222222;
+    color: white;
+}
+
+div#righttoolbar {
+    position:absolute;
+    top: <%= height - 12 * gheight %>px;
+    left: <%= width %>px;
+    width: <%= 4 * normal %>px;
     text-align: right;
     background-color: #222222;
     color: white;
@@ -660,11 +680,17 @@ div.magnify a, div.magnify img {
     background: none !important;
 }
 
-div.right {
+/* aligns */
+
+.right {
     float: right;
 }
 
-div.left {
+.left {
     float: left;
 }
 
+.center {
+    display: block;
+    text-align: center;
+}
