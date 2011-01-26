@@ -1,0 +1,10 @@
+Distilled is the support system for wikiedge.org which achieve the everyday
+changes on the Mainpage of Chinese Wikipedia and then remix related content into
+a magazine.
+
+Distilled is composed by:
+
+* several maintenance scripts to dump wikipedia pages into a magazine
+* server to serve the magazine
+* online editor to edit the magazine
+* user administration
