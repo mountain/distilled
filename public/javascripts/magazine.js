@@ -18,12 +18,14 @@ var defaultConfig = {
 
 var daily = (function wikidaily(config) {
 
-    var mode= 'double' || 'signle';
-
     var index = {}, articles = [], curDate;
 
     function thumb(src, width) {
-        return 'http://commons.wikimedia.org/w/thumb.php?f=' + src.replace(' ', '_') + '&w=' + width;
+        if (!src) {
+            return '';
+        } else {
+            return 'http://commons.wikimedia.org/w/thumb.php?f=' + src.replace(' ', '_') + '&w=' + width;
+        }
     }
 
     function fixImage() {
@@ -31,7 +33,7 @@ var daily = (function wikidaily(config) {
         $('div.pages img').each(function (i, img) {
             var filename = $(img).attr('data'),
                 width = $(img).attr('width'),
-                newwidth = Math.round(0.2 * pagewidth);
+                newwidth = Math.round(0.3 * pagewidth);
             if (filename) {
                 width = width || newwidth;
                 if (width > newwidth) {
@@ -43,7 +45,7 @@ var daily = (function wikidaily(config) {
                 $(img).attr('src', thumb(filename, width));
             }
         });
-        $('div.thumbinner').css('width', Math.round(0.3 * pagewidth) + 'px');
+        $('div.thumbinner').css('width', Math.round(0.3 * pagewidth + 10) + 'px');
         $('div.thumb').each(function (i, thumb) {
             if (i === 2 * Math.floor(i / 2)) {
                 $(thumb).addClass('left');

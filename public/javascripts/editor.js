@@ -1,6 +1,42 @@
 function editor() {
 
+    var rtag = /\w+/, rpos = /\d+/;
     var cur = null;
+
+    function path(elem) {
+        if(!elem) {
+            return '';
+        } else {
+            var seq = $(elem).parentsUntil('.content').andSelf();
+            return seq.map(function() {
+                var self = $(this);
+                var tagName = this.nodeName.toLowerCase();
+                if (self.siblings(tagName).length > 0) {
+                    var len = self.prevAll(tagName).length;
+                    tagName += '[' + (len + 1) + ']';
+                }
+                return tagName;
+            }).get().join('/');
+        }
+    }
+
+    function at(root, path) {
+        return _.reduce(path.split('/'), function (memo, seg) {
+            if (!root) {
+                return undefined;
+            } else {
+                var tag = rtag.exec(seg),
+                    pos = rpos.exec(seg);
+                tag = tag?tag[0]:undefined;
+                pos = pos?pos[0]:undefined;
+                var children = tag?root.find(tag):undefined;
+                console.log(tag + '[' + pos + ']');
+                return pos?
+                          (children?children.eq(pos - 1):undefined):
+                          (children?children:undefined);
+            }
+        }, root);
+    }
 
     function highlight() {
         if (cur && cur.hasClass('highlighted')) {
@@ -8,6 +44,9 @@ function editor() {
         }
         cur = $(this);
         cur.addClass('highlighted');
+        console.log(path(cur));
+        console.log(path(at($('#leftcontent'), path(cur))));
+        console.log(path(at($('#rightcontent'), path(cur))));
     }
 
     $('.pages > p').click(highlight);
