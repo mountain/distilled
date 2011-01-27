@@ -17,6 +17,7 @@ Please follow below steps:
 * git clone git://github.com/mountain/distilled.git
 * cd distilled
 * git submodule update --init
+* copy several *.js.example files under config directory to *.js
 * node scripts/dump.js -c center -p dyk -b black
 * node scripts/cal.js
 * node scripts/start-server.js
