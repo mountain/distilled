@@ -203,10 +203,14 @@ var daily = (function wikidaily(config) {
         });
     }
 
-    function toPage(cmp, pageNum) {
-        var height = pageNum*$('#rightview').height();
-        var top = $('#rightview').offset().top;
-        cmp.offset({top: top-height});
+    function toPage(pageNum) {
+        var rightView = $("#rightview"),
+            top = rightView.offset().top,
+            height = rightView.height();
+        _.each(["leftcontent", "rightcontent"], function (domId, index) {
+            var newTop = top - (pageNum + index) * height;
+            $("#" + domId).offset({top: newTop});
+        });
     }
 
     var curLeftPage = 0;
@@ -214,8 +218,7 @@ var daily = (function wikidaily(config) {
     function previousPage() {
         if(curLeftPage>=2) {
             curLeftPage = curLeftPage - 2;
-            toPage($('#leftcontent'), curLeftPage);
-            toPage($('#rightcontent'), curLeftPage+1);
+            toPage(curLeftPage);
         }
     }
     function nextPage() {
@@ -224,8 +227,7 @@ var daily = (function wikidaily(config) {
         }
         if(curLeftPage<pageNumber && (curLeftPage+1)<pageNumber) {
             curLeftPage = curLeftPage + 2;
-            toPage($('#leftcontent'), curLeftPage);
-            toPage($('#rightcontent'), curLeftPage+1);
+            toPage(curLeftPage);
         }
     }
     function tocPage() {
@@ -254,14 +256,12 @@ var daily = (function wikidaily(config) {
           success: function(data) {
               $('#leftcontent').html(data);
               $('#rightcontent').html(data);
-              toPage($('#leftcontent'), 0);
-              toPage($('#rightcontent'),1);
+              toPage(0);
               cover();
               fixImage();
               $('#go_prev').click(previousPage);
               $('#go_next').click(nextPage);
-              $('#go_toc_left').click(tocPage);
-              $('#go_toc_right').click(tocPage);
+              $('#go_toc_left, #go_toc_right').click(tocPage);
               var imgs = $('img'), len = imgs.length, ind = 0;
               imgs.load(function(e) {ind++; if(len === ind) gridify();});
               gridify();
@@ -277,8 +277,7 @@ var daily = (function wikidaily(config) {
         load: loadIssue,
         go: function (page) {
             curLeftPage = 2 * Math.floor((page + 1) / 2);
-            toPage($('#leftcontent'), curLeftPage);
-            toPage($('#rightcontent'), curLeftPage + 1);
+            toPage(curLeftPage);
         }
     };
 
