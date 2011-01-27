@@ -226,7 +226,7 @@ var daily = (function wikidaily(config) {
     }
     function nextPage() {
         initTotalPageNum();
-        if(curLeftPage<pageNumber && (curLeftPage+1)<pageNumber) {
+        if((curLeftPage + 1) < pageNumber) {
             curLeftPage = curLeftPage + 2;
             toPage(curLeftPage);
         }
