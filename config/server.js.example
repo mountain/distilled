@@ -1,7 +1,7 @@
 exports.settings = {
     host: "localhost",
     port: 8080,
-    admin: ADMIN-EMAIL,
+    admin: "ADMIN-EMAIL",
     baseUrl: function() {
         if(this.port===80)
             return 'http://' + this.host;
