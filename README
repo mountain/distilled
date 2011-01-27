@@ -16,6 +16,7 @@ Please follow below steps:
 * cd YOURPATH
 * git clone git://github.com/mountain/distilled.git
 * cd distilled
+* git submodule update --init
 * node scripts/dump.js -c center -p dyk -b black
 * node scripts/cal.js
 * node scripts/start-server.js
@@ -26,7 +27,7 @@ cover style of the magazine. See belwo section for details.
 
 ==Cover style of the magazine==
 
-Run the command "node scripts/dump.js --help", it will give you some hint.
+Run the command "node scripts/dump.js --help", it will give you some hints.
 
   -c, --cover [TEXT]   full|center|north|west
   -p, --photo [TEXT]   feature|featurepic|good|itn|otd|dyk|XXXX.ext
