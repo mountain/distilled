@@ -6,6 +6,8 @@ var walk = require('./environment').walk;
 function loadCtrl(env) {
     var len = env.path.length;
     return function (path, context, name) {
+        // do nothing when not a js file
+        if (!/\.js$/.test(path)) return;
         var ctrlPath = '../../' + path.substring(len);
         ctrlPath = ctrlPath.substring(0, ctrlPath.length - 3);
         name = name.substring(0, name.length - 3);
