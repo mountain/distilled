@@ -213,32 +213,28 @@ var daily = (function wikidaily(config) {
         });
     }
 
-    var curLeftPage = 0;
-    var pageNumber = 0;
+    var curLeftPage = 0,
+        pageNumber = null;
+
+    function initTotalPageNum() {
+        pageNumber = pageNumber || $('#leftcontent').height()/$('#rightview').height();
+    }
     function previousPage() {
-        if(curLeftPage>=2) {
-            curLeftPage = curLeftPage - 2;
-            toPage(curLeftPage);
-        }
+        if(curLeftPage < 2) { return; }
+        curLeftPage = curLeftPage - 2;
+        toPage(curLeftPage);
     }
     function nextPage() {
-        if(pageNumber===0) {
-            pageNumber = $('#leftcontent').height()/$('#rightview').height();
-        }
+        initTotalPageNum();
         if(curLeftPage<pageNumber && (curLeftPage+1)<pageNumber) {
             curLeftPage = curLeftPage + 2;
             toPage(curLeftPage);
         }
     }
     function tocPage() {
-        if(pageNumber===0) {
-            pageNumber = $('#leftcontent').height()/$('#rightview').height();
-        }
-        if(curLeftPage<pageNumber && (curLeftPage+1)<pageNumber) {
-            curLeftPage = 0;
-            toPage($('#leftcontent'), curLeftPage);
-            toPage($('#rightcontent'), curLeftPage+1);
-        }
+        initTotalPageNum();
+        curLeftPage = 0;
+        toPage(curLeftPage);
     }
 
     function pageId(title) {
