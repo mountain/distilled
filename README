@@ -8,3 +8,44 @@ Distilled is composed by:
 * server to serve the magazine
 * online editor to edit the magazine
 * user administration
+
+==How to start==
+
+Please follow below steps:
+
+* cd YOURPATH
+* git clone git://github.com/mountain/distilled.git
+* cd distilled
+* node scripts/dump.js -c center -p dyk -b black
+* node scripts/cal.js
+* node scripts/start-server.js
+* visit http://localhost:8080/
+
+the parameters of dump.js should be changed according to your choice of the
+cover style of the magazine. See belwo section for details.
+
+==Cover style of the magazine==
+
+Run the command "node scripts/dump.js --help", it will give you some hint.
+
+  -c, --cover [TEXT]   full|center|north|west
+  -p, --photo [TEXT]   feature|featurepic|good|itn|otd|dyk|XXXX.ext
+  -b, --bg [TEXT]      aqua|black|blue|fuchsia|gray|green|lime|maroon|....
+
+The above three command options are the most important.
+
+The "-c" option gives the cover style which is one of full, center, north, west.
+
+The "-p" option gives the photo of the magazine, you can set it to a file name
+of a photo or section name on the Wikipedia Mainpage.
+
+* feature 特色条目
+* featurepic 特色图片
+* good 优良条目
+* itn 新闻动态
+* otd 历史上的今天
+* dyk 你知道吗
+* XXXX.ext 文件名
+
+The "-b" option gives the background color of the magazine.
+
