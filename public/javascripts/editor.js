@@ -85,35 +85,38 @@ function editor() {
     });
     $('.tool_left').click(function () {
         if (cur) {
+            var both = bothcur();
             if (cur.hasClass('center')) {
-                bothcur().removeClass('center');
+                both.removeClass('center');
             }
             if (cur.hasClass('right')) {
-                bothcur().removeClass('right');
+                both.removeClass('right');
             }
-            bothcur().addClass('left');
+            both.addClass('left');
         }
     });
     $('.tool_center').click(function () {
         if (cur) {
+            var both = bothcur();
             if (cur.hasClass('left')) {
-                bothcur().removeClass('left');
+                both.removeClass('left');
             }
             if (cur.hasClass('right')) {
-                bothcur().removeClass('right');
+                both.removeClass('right');
             }
-            bothcur().addClass('center');
+            both.addClass('center');
         }
     });
     $('.tool_right').click(function () {
         if (cur) {
+            var both = bothcur();
             if (cur.hasClass('center')) {
-                bothcur().removeClass('center');
+                both.removeClass('center');
             }
             if (cur.hasClass('left')) {
-                bothcur().removeClass('left');
+                both.removeClass('left');
             }
-            bothcur().addClass('right');
+            both.addClass('right');
         }
     });
     $('.tool_prev').click(function () {
