@@ -38,17 +38,25 @@ function editor() {
         }, root);
     }
 
-    function both() {
+    function bothcur() {
         return $([at($('#leftcontent'), path(cur)).get(0),
                   at($('#rightcontent'), path(cur)).get(0)]);
     }
 
+    function leftcur() {
+        return at($('#leftcontent'), path(cur));
+    }
+
+    function rightcur() {
+        return at($('#rightcontent'), path(cur));
+    }
+
     function highlight() {
         if (cur && cur.hasClass('highlighted')) {
-            both().removeClass('highlighted');
+            bothcur().removeClass('highlighted');
         }
         cur = $(this);
-        both().addClass('highlighted');
+        bothcur().addClass('highlighted');
     }
 
     $('.pages > p').click(highlight);
@@ -66,56 +74,58 @@ function editor() {
     });
     $('.tool_cr').click(function () {
         if (cur) {
-            both().append($('<br/>'));
+            bothcur().append($('<br/>'));
         }
     });
     $('.tool_del').click(function () {
         if (cur) {
-            both().remove();
+            bothcur().remove();
             cur = null;
         }
     });
     $('.tool_left').click(function () {
         if (cur) {
             if (cur.hasClass('center')) {
-                both().removeClass('center');
+                bothcur().removeClass('center');
             }
             if (cur.hasClass('right')) {
-                both().removeClass('right');
+                bothcur().removeClass('right');
             }
-            both().addClass('left');
+            bothcur().addClass('left');
         }
     });
     $('.tool_center').click(function () {
         if (cur) {
             if (cur.hasClass('left')) {
-                both().removeClass('left');
+                bothcur().removeClass('left');
             }
             if (cur.hasClass('right')) {
-                both().removeClass('right');
+                bothcur().removeClass('right');
             }
-            both().addClass('center');
+            bothcur().addClass('center');
         }
     });
     $('.tool_right').click(function () {
         if (cur) {
             if (cur.hasClass('center')) {
-                both().removeClass('center');
+                bothcur().removeClass('center');
             }
             if (cur.hasClass('left')) {
-                both().removeClass('left');
+                bothcur().removeClass('left');
             }
-            both().addClass('right');
+            bothcur().addClass('right');
         }
     });
     $('.tool_prev').click(function () {
         if (cur) {
-            both().prev().before(cur.detach());
+            leftcur().prev().before(leftcur().detach());
+            rightcur().prev().before(rightcur().detach());
         }
     });
     $('.tool_next').click(function () {
         if (cur) {
-            both().next().after(cur.detach());
+            leftcur().next().after(leftcur().detach());
+            rightcur().next().after(rightcur().detach());
         }
     });
 
