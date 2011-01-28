@@ -13,40 +13,42 @@ function editor() {
                 var tagName = this.nodeName.toLowerCase();
                 if (self.siblings(tagName).length > 0) {
                     var len = self.prevAll(tagName).length;
-                    tagName += '[' + (len + 1) + ']';
+                    tagName += '[' + len + ']';
                 }
                 return tagName;
             }).get().join('/');
         }
     }
 
-    function at(root, path) {
-        return _.reduce(path.split('/'), function (memo, seg) {
-            if (!root) {
+    function at(root, p) {
+        return _.reduce(p.split('/'), function (memo, seg) {
+            if (!memo) {
                 return undefined;
             } else {
                 var tag = rtag.exec(seg),
                     pos = rpos.exec(seg);
                 tag = tag?tag[0]:undefined;
-                pos = pos?pos[0]:undefined;
-                var children = tag?root.find(tag):undefined;
-                console.log(tag + '[' + pos + ']');
-                return pos?
-                          (children?children.eq(pos - 1):undefined):
-                          (children?children:undefined);
+                pos = pos?parseInt(pos[0]):undefined;
+                var children = tag?memo.children(tag):undefined;
+                var child = pos?
+                          (children?children.eq(pos):undefined):
+                          (children?children.eq(0):undefined);
+                return child;
             }
         }, root);
     }
 
+    function both() {
+        return $([at($('#leftcontent'), path(cur)).get(0),
+                  at($('#rightcontent'), path(cur)).get(0)]);
+    }
+
     function highlight() {
         if (cur && cur.hasClass('highlighted')) {
-            cur.removeClass('highlighted');
+            both().removeClass('highlighted');
         }
         cur = $(this);
-        cur.addClass('highlighted');
-        console.log(path(cur));
-        console.log(path(at($('#leftcontent'), path(cur))));
-        console.log(path(at($('#rightcontent'), path(cur))));
+        both().addClass('highlighted');
     }
 
     $('.pages > p').click(highlight);
@@ -54,6 +56,7 @@ function editor() {
     $('.pages > table').click(highlight);
     $('.pages > ul').click(highlight);
     $('.pages > ol').click(highlight);
+    $('.pages > dl').click(highlight);
 
     $('.tool').hover(function () {
         $(this).addClass("toolhover");
@@ -63,56 +66,56 @@ function editor() {
     });
     $('.tool_cr').click(function () {
         if (cur) {
-            cur.append($('<br/>'));
+            both().append($('<br/>'));
         }
     });
     $('.tool_del').click(function () {
         if (cur) {
-            cur.remove();
+            both().remove();
             cur = null;
         }
     });
     $('.tool_left').click(function () {
         if (cur) {
             if (cur.hasClass('center')) {
-                cur.removeClass('center');
+                both().removeClass('center');
             }
             if (cur.hasClass('right')) {
-                cur.removeClass('right');
+                both().removeClass('right');
             }
-            cur.addClass('left');
+            both().addClass('left');
         }
     });
     $('.tool_center').click(function () {
         if (cur) {
             if (cur.hasClass('left')) {
-                cur.removeClass('left');
+                both().removeClass('left');
             }
             if (cur.hasClass('right')) {
-                cur.removeClass('right');
+                both().removeClass('right');
             }
-            cur.addClass('center');
+            both().addClass('center');
         }
     });
     $('.tool_right').click(function () {
         if (cur) {
             if (cur.hasClass('center')) {
-                cur.removeClass('center');
+                both().removeClass('center');
             }
             if (cur.hasClass('left')) {
-                cur.removeClass('left');
+                both().removeClass('left');
             }
-            cur.addClass('right');
+            both().addClass('right');
         }
     });
     $('.tool_prev').click(function () {
         if (cur) {
-            cur.prev().before(cur.detach());
+            both().prev().before(cur.detach());
         }
     });
     $('.tool_next').click(function () {
         if (cur) {
-            cur.next().after(cur.detach());
+            both().next().after(cur.detach());
         }
     });
 
