@@ -33,16 +33,16 @@ var daily = (function wikidaily(config) {
         $('div.pages img').each(function (i, img) {
             img = $(img);
             var filename = img.attr('data'),
-                width = img.attr('gwid') / config.grid.columns * pagewidth,
+                width = img.attr('width'),
                 newwidth = Math.round(0.3 * pagewidth);
             if (filename) {
                 width = width || newwidth;
-                img.removeAttr('height');
-                img.removeAttr('style');
                 img.attr('src', thumb(filename, width));
-                var ps = img.parentsUntil('div.thumbinner'),
+                var ps = img.parentsUntil('.thumbinner'),
                     last = $(ps[ps.length - 1]);
                 if(last.hasClass('thumbinner')) {
+                    img.removeAttr('height');
+                    img.removeAttr('style');
                     img.attr('width', width);
                     last.css('width', (width + 10) + 'px');
                 }
