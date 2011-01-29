@@ -112,15 +112,25 @@ Magazine.prototype.fixArticle = function (title) {
     this.window.$('#' + id + ' a').each(function (i, a) {
         a = self.window.$(a);
         var href = a.attr('href');
-        href = 'http://zh.wikipedia.org' + href;
-        a.attr('href', href);
-        a.attr('target', 'blank');
+        if(href.split(':')[0] !== 'http') {
+            href = 'http://zh.wikipedia.org' + href;
+            a.attr('href', href);
+            a.attr('target', 'blank');
+        }
     });
 
     this.window.$('#' + id + ' img').each(function (i, img) {
         img = self.window.$(img);
         img.attr('data', filename(img.attr('src')));
         img.attr('src', '');
+    });
+
+    this.window.$('#' + id + ' .thumb').each(function (i, thumb) {
+        if (i === 2 * Math.floor(i / 2)) {
+            self.window.$(thumb).addClass('left');
+        } else {
+            self.window.$(thumb).addClass('right');
+        }
     });
 };
 
