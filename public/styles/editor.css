@@ -5,3 +5,7 @@
 .toolhover {
     background-color: black;
 }
+
+#contents {
+    display: none;
+}

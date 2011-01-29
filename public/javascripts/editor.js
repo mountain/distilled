@@ -2,6 +2,8 @@ function editor() {
 
     var rtag = /\w+/, rpos = /\d+/;
     var cur = null;
+    var grid = {rows: 30, columns: 30};
+    var gwidth = Math.round($('div#leftview').width() / grid.columns);
 
     function path(elem) {
         if(!elem) {
@@ -59,12 +61,26 @@ function editor() {
         bothcur().addClass('highlighted');
     }
 
+    function thumb(src, width) {
+        if (!src) {
+            return '';
+        } else {
+            return 'http://commons.wikimedia.org/w/thumb.php?f=' + src.replace(' ', '_') + '&w=' + width;
+        }
+    }
+
+    $('.pages > h2').click(highlight);
+    $('.pages > h3').click(highlight);
+    $('.pages > h4').click(highlight);
+    $('.pages > h5').click(highlight);
+    $('.pages > h6').click(highlight);
     $('.pages > p').click(highlight);
     $('.pages > div').click(highlight);
     $('.pages > table').click(highlight);
     $('.pages > ul').click(highlight);
     $('.pages > ol').click(highlight);
     $('.pages > dl').click(highlight);
+    $('.pages div.thumb').click(highlight);
 
     $('.tool').hover(function () {
         $(this).addClass("toolhover");
@@ -130,6 +146,51 @@ function editor() {
             leftcur().next().after(leftcur().detach());
             rightcur().next().after(rightcur().detach());
         }
+    });
+    $('.tool_shrink').click(function () {
+        if (cur) {
+            var both = bothcur();
+            if (cur.hasClass('thumb')) {
+                var imgs  = both.find('img'),
+                    img   = $(imgs[0]),
+                    width = Math.round(img.width() - gwidth),
+                    name  = img.attr('data');
+                imgs.width(width);
+                both.find('.thumbinner').css('width', (width + 10) + 'px');
+            }
+        }
+    });
+    $('.tool_expand').click(function () {
+        if (cur) {
+            var both = bothcur();
+            if (cur.hasClass('thumb')) {
+                var imgs  = both.find('img'),
+                    img   = $(imgs[0]),
+                    width = Math.round(img.width() + gwidth),
+                    name  = img.attr('data');
+                imgs.width(width);
+                imgs.attr('src', thumb(name, width));
+                both.find('.thumbinner').css('width', (width + 10) + 'px');
+            }
+        }
+    });
+
+    $('.tool_save').click(function () {
+        var temp = $('#contents').html($('#leftcontent').html());
+        temp.find('img').attr('src', '');
+        temp.find('#tocpage li').each(function (ind, li) {
+           li = $(li);
+           li.html(li.html().split('\t')[0]);
+        });
+        temp.find('.highlighted').removeClass('highlighted');
+        $.ajax({
+           type: "PUT",
+           url: "",
+           data: {html: temp.html()},
+           success: function(msg){
+             alert("已经保存！");
+           }
+        });
     });
 
 }
