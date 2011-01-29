@@ -154,8 +154,11 @@ function editor() {
                 var imgs  = both.find('img'),
                     img   = $(imgs[0]),
                     width = Math.round(img.width() - gwidth),
+                    gwid  = Math.round(width/gwidth),
                     name  = img.attr('data');
                 imgs.width(width);
+                imgs.removeAttr('height');
+                imgs.attr(gwid, gwid);
                 both.find('.thumbinner').css('width', (width + 10) + 'px');
             }
         }
@@ -167,8 +170,11 @@ function editor() {
                 var imgs  = both.find('img'),
                     img   = $(imgs[0]),
                     width = Math.round(img.width() + gwidth),
+                    gwid  = Math.round(width/gwidth),
                     name  = img.attr('data');
                 imgs.width(width);
+                imgs.attr(gwid, gwid);
+                imgs.removeAttr('height');
                 imgs.attr('src', thumb(name, width));
                 both.find('.thumbinner').css('width', (width + 10) + 'px');
             }
@@ -176,8 +182,11 @@ function editor() {
     });
 
     $('.tool_save').click(function () {
-        var temp = $('#contents').html($('#leftcontent').html());
-        temp.find('img').attr('src', '');
+        var temp = $('#contents').html($('#leftcontent').html()),
+            imgs = temp.find('img');
+        imgs.attr('src', '');
+        imgs.removeAttr('width');
+        imgs.removeAttr('height');
         temp.find('#tocpage li').each(function (ind, li) {
            li = $(li);
            li.html(li.html().split('\t')[0]);

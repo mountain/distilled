@@ -31,26 +31,25 @@ var daily = (function wikidaily(config) {
     function fixImage() {
         var pagewidth = $('div#leftview').width();
         $('div.pages img').each(function (i, img) {
-            var filename = $(img).attr('data'),
-                width = $(img).attr('width'),
+            img = $(img);
+            var filename = img.attr('data'),
+                width = img.attr('gwid') / config.grid.columns * pagewidth,
                 newwidth = Math.round(0.3 * pagewidth);
             if (filename) {
                 width = width || newwidth;
-                if (width > newwidth) {
-                    var factor = newwidth / width;
-                    $(img).attr('height', Math.floor(factor * $(img).attr('height')));
-                    width = newwidth;
-                    $(img).attr('width', width);
+                img.removeAttr('height');
+                img.removeAttr('style');
+                img.attr('src', thumb(filename, width));
+                var ps = img.parentsUntil('div.thumbinner'),
+                    last = $(ps[ps.length - 1]);
+                if(last.hasClass('thumbinner')) {
+                    img.attr('width', width);
+                    last.css('width', (width + 10) + 'px');
                 }
-                $(img).attr('src', thumb(filename, width));
-            }
-        });
-        $('div.thumbinner').css('width', Math.round(0.3 * pagewidth + 10) + 'px');
-        $('div.thumb').each(function (i, thumb) {
-            if (i === 2 * Math.floor(i / 2)) {
-                $(thumb).addClass('left');
             } else {
-                $(thumb).addClass('right');
+                if(!img.attr('src')) {
+                    img.remove();
+                }
             }
         });
     }
