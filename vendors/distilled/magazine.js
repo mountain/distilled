@@ -135,6 +135,19 @@ Magazine.prototype.fixArticle = function (title) {
         var img = thumb.find('img');
         img.attr('gwid', 9);
     });
+
+    this.window.$('#' + id + ' table.gallery').each(function (i, gallery) {
+        var rows = self.window.$(gallery).find('tr'), gwid, len;
+        rows.each(function (j, row) {
+            var imgs = self.window.$(row).find('img');
+            if (!gwid) {
+                len = imgs.length;
+                gwid = Math.floor(30 / len);
+            }
+            imgs.attr('gwid', gwid);
+            self.window.$(row).find('.gallerybox').removeAttr('style');
+        });
+    });
 };
 
 Magazine.prototype.addArticle = function (title, content) {
