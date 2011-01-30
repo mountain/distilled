@@ -28,14 +28,30 @@ var daily = (function wikidaily(config) {
         }
     }
 
+    function fixGallery() {
+        var pagewidth = $('div#leftview').width();
+        $('table.gallery').each(function (i, gallery) {
+            var rows = $(gallery).find('tr');
+            rows.each(function (j, row) {
+                var imgs = $(row).find('img');
+                var gwid = Math.floor((config.grid.columns - 6) / 5);
+                imgs.attr('gwid', gwid);
+            });
+        });
+    }
+
     function fixImage() {
         var pagewidth = $('div#leftview').width();
         $('div.pages img').each(function (i, img) {
             img = $(img);
             var filename = img.attr('data'),
+                gwid = img.attr('gwid'),
                 width = img.attr('width'),
                 newwidth = Math.round(0.3 * pagewidth);
             if (filename) {
+                if (gwid) {
+                    width = gwid * pagewidth / config.grid.columns;
+                }
                 width = width || newwidth;
                 img.attr('src', thumb(filename, width));
                 var ps = img.parentsUntil('.thumbinner'),
@@ -165,8 +181,6 @@ var daily = (function wikidaily(config) {
             var h = $(d).height();
             $(d).height(Math.ceil(h/height) * height);
         });
-
-        toc();
     }
 
     function cover() {
@@ -253,6 +267,7 @@ var daily = (function wikidaily(config) {
               $('#rightcontent').html(data);
               toPage(0);
               cover();
+              fixGallery();
               fixImage();
               $('#go_prev').click(previousPage);
               $('#go_next').click(nextPage);
@@ -261,6 +276,7 @@ var daily = (function wikidaily(config) {
               imgs.load(function(e) {ind++; if(len === ind) gridify();});
               gridify();
               pagify();
+              toc();
               if (callback) {
                   callback();
               }

@@ -158,7 +158,7 @@ function editor() {
                     name  = img.attr('data');
                 imgs.width(width);
                 imgs.removeAttr('height');
-                imgs.attr(gwid, gwid);
+                imgs.attr('gwid', gwid);
                 both.find('.thumbinner').css('width', (width + 10) + 'px');
             }
         }
@@ -173,7 +173,7 @@ function editor() {
                     gwid  = Math.round(width/gwidth),
                     name  = img.attr('data');
                 imgs.width(width);
-                imgs.attr(gwid, gwid);
+                imgs.attr('gwid', gwid);
                 imgs.removeAttr('height');
                 imgs.attr('src', thumb(name, width));
                 both.find('.thumbinner').css('width', (width + 10) + 'px');
@@ -183,7 +183,7 @@ function editor() {
 
     $('.tool_save').click(function () {
         var temp = $('#contents').html($('#leftcontent').html()),
-            imgs = temp.find('img');
+            imgs = temp.find('.thumb').find('img');
         imgs.attr('src', '');
         imgs.removeAttr('width');
         imgs.removeAttr('height');

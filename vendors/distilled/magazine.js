@@ -126,11 +126,14 @@ Magazine.prototype.fixArticle = function (title) {
     });
 
     this.window.$('#' + id + ' .thumb').each(function (i, thumb) {
+        thumb = self.window.$(thumb);
         if (i === 2 * Math.floor(i / 2)) {
-            self.window.$(thumb).addClass('left');
+            thumb.addClass('left');
         } else {
-            self.window.$(thumb).addClass('right');
+            thumb.addClass('right');
         }
+        var img = thumb.find('img');
+        img.attr('gwid', 9);
     });
 };
 
