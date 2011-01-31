@@ -166,6 +166,7 @@ exports.start = function (path) {
               }
           });
 
+          logger.info("starting on http://" + env.server.host + ":" + env.server.port);
           server.listen(env.server.port, env.server.host);
       }
     );
