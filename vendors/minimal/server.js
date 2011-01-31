@@ -12,6 +12,7 @@ var environment = require('./environment'),
 function loadApp(env, app, key) {
     var applet = environment.access(env.controllers, key)(env),
         route = environment.access(env.routers, key);
+    //TODO move to router builder
     if (_.isFunction(applet)) {
         logger.info('load simple get at ' + key);
         app.get(route, applet);
@@ -111,7 +112,7 @@ exports.start = function (path) {
           }
 
           var server = connect.createServer(
-              connect.logger(),
+              connect.logger({format:env.log.format}),
               connect.bodyDecoder(),
               connect.methodOverride(),
               connect.conditionalGet(),
