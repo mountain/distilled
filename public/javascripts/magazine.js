@@ -45,7 +45,7 @@ var daily = (function wikidaily(config) {
                     width = newwidth;
                 }
                 img.attr('src', thumb(filename, width));
-                var ps = img.parentsUntil('.thumbinner'),
+                var ps = img.parentsUntil('.thumb'),
                     last = $(ps[ps.length - 1]);
                 if(last.hasClass('thumbinner')) {
                     img.removeAttr('height');
