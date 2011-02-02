@@ -17,7 +17,8 @@ function calendar(date) {
         '<div class="cover-thumb-w">' +
         '<img src="<%= thumb(photo, ' + width + ') %>">' +
         '</div>' +
-        '</div>'
+        '</div>' +
+        '<div class="date"><%= month %>月<%= day %>日</div>'
     );
 
     var yr = date.getUTCFullYear(),
@@ -32,7 +33,9 @@ function calendar(date) {
                 photo: cell.attr('photo'),
                 title: cell.attr('title'),
                 bg: cell.attr('bg'),
-                thumb: thumb
+                thumb: thumb,
+                month: cell.attr('title').split('/')[1],
+                day: cell.attr('title').split('/')[2]
             };
 
             cell.html(html(ctx));

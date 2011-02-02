@@ -261,6 +261,9 @@ var daily = (function wikidaily(config) {
               toPage(0);
               cover();
               fixImage();
+              $('#go_cal').click(function () {
+                  window.location.assign('/');
+              });
               $('#go_prev').click(previousPage);
               $('#go_next').click(nextPage);
               $('#go_toc_left, #go_toc_right').click(tocPage);
