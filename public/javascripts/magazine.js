@@ -41,6 +41,9 @@ var daily = (function wikidaily(config) {
                     width = gwid * pagewidth / config.grid.columns;
                 }
                 width = width || newwidth;
+                if (width > newwidth) {
+                    width = newwidth;
+                }
                 img.attr('src', thumb(filename, width));
                 var ps = img.parentsUntil('.thumbinner'),
                     last = $(ps[ps.length - 1]);
