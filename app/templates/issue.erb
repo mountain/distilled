@@ -10,7 +10,7 @@
   <script src="/javascripts/underscore-min.js"></script>
   <script src="/javascripts/style-loader.js"></script>
   <script src="/javascripts/magazine.js"></script>
-  <title>维基日刊</title>
+  <title>维基日刊（<%= month %>月<%= day %>日）</title>
   <script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', '<%= ga %>']);
@@ -24,6 +24,8 @@
   </script>
 </head>
 <body>
+
+<h2 style="text-align:center;color:white;margin-top:5px;">维基日刊（<%= month %>月<%= day %>日）</h2>
 
 <div id="hposition">
 <div id="vposition">
