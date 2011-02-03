@@ -245,7 +245,7 @@ var daily = (function wikidaily(config) {
 
     function pageId(title) {
         if (title) {
-            return 'article-' + title.replace(/[ :\(\)·]/g, '_');
+            return 'article-' + title.replace(/[ :\(\)\+·]/g, '_');
         } else {
             return '';
         }
@@ -261,7 +261,7 @@ var daily = (function wikidaily(config) {
               toPage(0);
               cover();
               fixImage();
-              $('#go_cal').click(function () {
+              $('.go_cal').click(function () {
                   window.location.assign('/');
               });
               $('#go_prev').click(previousPage);

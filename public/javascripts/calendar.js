@@ -11,7 +11,9 @@ function calendar(date) {
     var html = _.template(
         '<div id="cover-<%= title %>" title="<%= title %>" ' +
           'style="background:<%= bg %>;width:40%;height:80%;" ' +
-          'class="cover-thumb cover-thumb-<%= cover %>">' +
+          'class="cover-thumb cover-thumb-<%= cover %> ' +
+          '<% if (cover) { %>clickable<% } %>"' +
+        '>' +
         '<div class="cover-thumb-u">维基日刊</div>' +
         '<div class="cover-thumb-v">维<br/>基<br/>日<br/>刊</div>' +
         '<div class="cover-thumb-w">' +
@@ -43,10 +45,12 @@ function calendar(date) {
 
         $('.cover-thumb').each(function (ind, cover) {
             cover = $(cover);
-            cover.click(function (e) {
-                var url = '/issues/' + cover.attr('title');
-                window.location.assign(url);
-            });
+            if (!cover.hasClass('cover-thumb-')) {
+                cover.click(function (e) {
+                    var url = '/issues/' + cover.attr('title');
+                    window.location.assign(url);
+                });
+            }
         });
     }
 
