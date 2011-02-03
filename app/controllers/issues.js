@@ -1,4 +1,4 @@
-exports.app = function (env) {
+module.exports = function (env) {
     var issue = env.templates.issue;
     var ga = env.analytics.id;
     return function (req, res, next) {
@@ -16,5 +16,3 @@ exports.app = function (env) {
         }
     };
 };
-
-

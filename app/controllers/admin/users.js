@@ -5,7 +5,7 @@ var sys = require('sys');
 
 var environment = require('../../../vendors/minimal/environment');
 
-exports.app = function (env) {
+module.exports = function (env) {
     var templates = env.templates.admin.users, realms = {};
 
     environment.visit(env.auths, function (realm, users) {

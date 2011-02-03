@@ -2,10 +2,10 @@ var path = require('path'),
     fs   = require('fs'),
     sys  = require('sys');
 
-exports.app = function (env) {
+module.exports = function (env) {
     var editor = env.templates.editor.issues;
     return {
-        get: function (req, res, next) {
+        show: function (req, res, next) {
             var year = req.params.year;
             var month = req.params.month;
             var day = req.params.day;
@@ -19,7 +19,7 @@ exports.app = function (env) {
                 require('sys').puts(e.stack);
             }
         },
-        put: function (req, res, next) {
+        update: function (req, res, next) {
             var year = req.params.year;
             var month = req.params.month;
             var day = req.params.day;

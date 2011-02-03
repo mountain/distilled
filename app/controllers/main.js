@@ -1,6 +1,4 @@
-var sys = require('sys');
-
-exports.app = function (env) {
+module.exports = function (env) {
     var main = env.templates.main;
     var ga = env.analytics.id;
     return function (req, res, next) {
@@ -10,4 +8,3 @@ exports.app = function (env) {
         res.end(main({ga: ga}));
     };
 };
-
