@@ -10,11 +10,12 @@
 </head>
 <body>
 <ul>
-<% for(var i = 0; i < users.length; i++) { var user = users[i];%>
-  <li><%= user %>:
+<% for(var user in users) { var profile = users[user]; %>
+  <li>
+    <%= user %>:
     <ul>
-       <li>password: <span class="edit" id="edit-pwd-<%= user %>"><%= pwd[user] %></span></li>
-       <li>realms: <span class="edit" id="edit-realm-<%= user %>"><%= realms[user] %></span></li>
+       <li>password: <span class="edit" id="edit-pwd-<%= user %>"><%= profile.password %></span></li>
+       <li>realms: <span class="edit" id="edit-realm-<%= user %>"><%= profile.realms.join(", ") %></span></li>
     </ul>
   </li>
 <% } %>

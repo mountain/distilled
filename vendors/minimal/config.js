@@ -21,4 +21,3 @@ exports.load = function(env, callback) {
         }
     });
 }
-

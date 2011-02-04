@@ -2,24 +2,24 @@ var path = require('path'),
     fs   = require('fs'),
     sys  = require('sys');
 
-exports.app = function (env) {
-    var editor = env.templates.editor.issues;
+module.exports = function (env) {
     return {
-        get: function (req, res, next) {
-            var year = req.params.year;
-            var month = req.params.month;
-            var day = req.params.day;
+        show: function (req, res, next) {
+            var year = req.params.year,
+                month = req.params.month,
+                day = req.params.day,
+                render = env.templates.editor.issues;
             try {
                 res.writeHead(200, {
                     'Content-Type': 'text/html'
                 });
-                res.end(editor({year: year, month: month, day: day}));
+                res.end(render({year: year, month: month, day: day}));
             } catch (e) {
                 require('sys').puts(e);
                 require('sys').puts(e.stack);
             }
         },
-        put: function (req, res, next) {
+        update: function (req, res, next) {
             var year = req.params.year;
             var month = req.params.month;
             var day = req.params.day;

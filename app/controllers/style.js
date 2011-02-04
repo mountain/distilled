@@ -1,7 +1,6 @@
 var _ = require('../../lib/underscore')._;
 
-
-exports.app = function(env) {
+module.exports = function(env) {
   return function(req, res, next) {
       var style  = env.templates.style,
           query  = require('url').parse(req.url, true).query,
