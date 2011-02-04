@@ -1,8 +1,7 @@
 var _ = require('../../lib/underscore')._,
     logger = require('../../lib/log').logger,
     step = require('../../lib/step'),
-    //connect = require('../connect/lib/connect'),
-    connect = require('connect'),
+    connect = require('../connect/lib/connect'),
     Builder = require("./route_builder");
 
 exports.start = function (root) {
