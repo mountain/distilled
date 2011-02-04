@@ -1,4 +1,13 @@
 exports.settings = {
-    'distilled-realm-editor': ['alice', 'bob'],
-    'distilled-realm-admin': ['bob']
+    realms: [ 'admin', 'editor' ],
+    users: {
+        'alice': {
+            password: "nodejs",
+            realms: ['editor']
+        },
+        'bob': {
+            password: "nodejs",
+            realms: ['admin', 'editor']
+        }
+    }
 };

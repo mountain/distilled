@@ -54,10 +54,19 @@ Builder.prototype.to = function (name) {
     }
     debug(context)
     buffer += "app." + context.method
-                   + "('" + fullpath + "', "
-                   + "loadHandler('" + name + "'));\n";
+            + "('" + fullpath + "', "
+            + (context.realm ? "withRealm('" + context.realm + "', " : "")
+            + "loadHandler('" + name + "')"
+            + (context.realm ? ")" : "")
+            + ");\n";
     context = {};
     return buffer;
+};
+
+Builder.prototype.realm = function (r, handler) {
+    debug("~ #realm");
+    context.realm = r;
+    return handler(this);
 };
 
 Builder.prototype.namespace = function (name) {
@@ -101,8 +110,11 @@ Builder.prototype.resources = function (name, options) {
             continue;
 
         buffer += "app." + route.method
-                       + "('" + fullpath + "', "
-                       + varName + "." + route.action + ");\n";
+               + "('" + fullpath + "', "
+               + (context.realm ? "withRealm('" + context.realm + "', " : "")
+               + varName + "." + route.action + ")"
+               + (context.realm ? ")" : "")
+               + ";\n";
     }
     context = {};
     return buffer;

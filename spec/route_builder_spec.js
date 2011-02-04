@@ -17,7 +17,17 @@ var fixtures = {
             params: "/:year/:month/:day",
             onlys: ["show", "update"]
         });
-    }
+    },
+    realm: function (r) {
+        r.realm("admin", function (admin) {
+            admin.get("/test").to("test");
+        });
+    },
+    resourcesWithRealm: function (r) {
+        r.realm("admin", function (admin) {
+            admin.namespace("admin").resources("users");
+        });
+    },
 };
 
 vows.describe('Route builder').addBatch({
@@ -47,6 +57,21 @@ vows.describe('Route builder').addBatch({
                          "var editorIssuesHandler = loadHandler('editor/issues');\n"
                          + "app.get('/editor/issues/:year/:month/:day', editorIssuesHandler.show);\n"
                          + "app.put('/editor/issues/:year/:month/:day', editorIssuesHandler.update);\n");
+        },
+        "with realm": function (topic) {
+            assert.equal(topic.build(fixtures.realm),
+                         "app.get('/test', withRealm('admin', loadHandler('test')));\n");
+        },
+        "with realm resources": function (topic) {
+            assert.equal(topic.build(fixtures.resourcesWithRealm),
+                         "var adminUsersHandler = loadHandler('admin/users');\n"
+                         + "app.get('/admin/users', withRealm('admin', adminUsersHandler.index));\n"
+                         + "app.get('/admin/users/new', withRealm('admin', adminUsersHandler.new));\n"
+                         + "app.post('/admin/users', withRealm('admin', adminUsersHandler.create));\n"
+                         + "app.get('/admin/users/:id', withRealm('admin', adminUsersHandler.show));\n"
+                         + "app.get('/admin/users/:id/edit', withRealm('admin', adminUsersHandler.edit));\n"
+                         + "app.put('/admin/users/:id', withRealm('admin', adminUsersHandler.update));\n"
+                         + "app.delete('/admin/users/:id', withRealm('admin', adminUsersHandler.destroy));\n");
         }
     }
 }).export(module);

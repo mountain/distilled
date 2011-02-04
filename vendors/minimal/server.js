@@ -20,10 +20,26 @@ exports.start = function (root) {
           }
 
           var loadHandler = function (name) {
-              logger.info("loading controller " + name);
-              var path = ["../../", 'app', 'controllers', name].join('/');
-              return require(path)(env);
-          };
+                  logger.info("loading controller " + name);
+                  var path = ["../../", 'app', 'controllers', name].join('/');
+                  return require(path)(env);
+              },
+              authenticate = function (realm) {
+                  return function (user, pass) {
+                      u = env.auths.users[user];
+                      return u && u.password === pass
+                               && u.realms.some(function (el) {
+                                   return el === realm;
+                               });
+                  };
+              },
+              withRealm = function (realm, handler) {
+                  return function (req, res) {
+                      connect.basicAuth(authenticate(realm))(
+                          req, res, function () { handler(req,res) }
+                      );
+                  };
+              };
 
           var builder = new Builder(),
               routes = function (app) {

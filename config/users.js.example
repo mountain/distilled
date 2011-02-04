@@ -1,4 +1,0 @@
-exports.settings = {
-    alice: 'pass',
-    bob: 'pass'
-};

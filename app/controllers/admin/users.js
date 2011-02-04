@@ -1,21 +1,11 @@
 var _ = require('../../../lib/underscore')._;
 var logger = require('../../../lib/log').logger;
-
 var sys = require('sys');
-
 var environment = require('../../../vendors/minimal/environment');
 
 module.exports = function (env) {
-    var templates = env.templates.admin.users, realms = {};
-
-    environment.visit(env.auths, function (realm, users) {
-        _.each(users, function (user) {
-            if(!realms[user]) {
-                realms[user] = [];
-            }
-            realms[user].push(realm.substring('distilled-realm-'.length));
-        })
-    });
+    var templates = env.templates.admin.users,
+        setting = env.auths;
 
     return {
         index: function (req, res, next) {
@@ -24,9 +14,7 @@ module.exports = function (env) {
                     'Content-Type': 'text/html'
                 });
                 res.end(templates.index({
-                  users: _.keys(env.users),
-                  pwd: env.users,
-                  realms: realms
+                  users: setting.users
                 }));
             } catch (e) {
                 sys.puts(e.stack);
