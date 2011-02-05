@@ -1,7 +1,9 @@
 exports.settings = function (r) {
     r.get("/").to("main");
-    r.get("/issues/:year/:month/:day").to("issues");
     r.get("/styles/magazine.css").to("style");
+
+    r.namespace("issues").get("/calendar/:year/:month").to("issues/calendar");
+    r.namespace("issues").get("/:year/:month/:day").to("issues/issue");
 
     r.realm("admin", function (admin) {
         admin.namespace("admin").resources("users", {excepts: ["new"]});

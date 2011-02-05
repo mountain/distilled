@@ -253,6 +253,7 @@ var daily = (function wikidaily(config) {
 
     function loadIssue(date, callback) {
         curDate = date;
+        mon = date.split('/').slice(0, 2).join('/');
         $.ajax({
           url: '/issues/' + date + '.html',
           success: function(data) {
@@ -262,7 +263,7 @@ var daily = (function wikidaily(config) {
               cover();
               fixImage();
               $('.go_cal').click(function () {
-                  window.location.assign('/');
+                  window.location.assign('/issues/calendar/' + mon);
               });
               $('#go_prev').click(previousPage);
               $('#go_next').click(nextPage);

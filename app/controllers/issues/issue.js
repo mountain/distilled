@@ -1,5 +1,5 @@
 module.exports = function (env) {
-    var issue = env.templates.issue;
+    var issue = env.templates.issues.issue;
     var ga = env.analytics.id;
     return function (req, res, next) {
         var year = req.params.year;
