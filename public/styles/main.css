@@ -1,0 +1,155 @@
+.section {
+    width: 960px;
+    color: white;
+}
+
+.section h1 {
+    font-size: smallr;
+    margin-bottom: 1em;
+    color: #f06;
+}
+
+.section h1 sup {
+    font-size: small;
+}
+
+.intro {
+    width: 30%;
+    font-size: small;
+    color: #999;
+}
+
+.detail {
+    width: 71%;
+}
+
+.date {
+    margin-top: 3px;
+    font-size: small;
+    color: white;
+    text-align: center;
+}
+
+.previous {
+    float: left;
+}
+
+.next {
+    float: right;
+}
+
+#daily-detail {
+    float: left;
+}
+
+.mag {
+    display: block;
+    position: relative;
+}
+
+.cover-small-full {
+    border: white solid 1px;
+    margin: 0 auto;
+}
+
+.cover-small-center {
+    border: white solid 1px;
+    margin: 0 auto;
+}
+
+.cover-small-north {
+    border: white solid 1px;
+    margin: 0 auto;
+}
+
+.cover-small-west {
+    position: relative;
+    border: white solid 1px;
+    margin: 0 auto;
+}
+
+.cover-small-full {
+    position: relative;
+}
+
+.cover-small-center .cover-small-u {
+    color: white;
+    font-size: small;
+    text-align: left;
+    height: 15%;
+    padding: 2px;
+}
+
+.cover-small-center .cover-small-w {
+    width: 100%;
+    height: 100%;
+    margin-top: -20%;
+}
+
+.cover-small-center .cover-small-w table {
+    width: 100%;
+    height: 100%;
+}
+
+.cover-small-center .cover-small-w table tr td div{
+    margin: auto;
+    line-height: 100%;
+}
+
+.cover-small-full .cover-small-w img {
+    height: 100%;
+    width: 100%;
+}
+
+.cover-small-west .cover-small-v {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 10%;
+    color: white;
+    font-size: small;
+    text-align: left;
+}
+
+.cover-small-west .cover-small-w {
+    position: absolute;
+    top:  0px;
+    left: 0px;
+    height: 100%;
+    width: 80%;
+    color: white;
+    font-size: small;
+    text-align: left;
+}
+
+.cover-small-west .cover-small-w img {
+    height: 100%;
+    width: 100%;
+}
+
+.cover-small- img {
+    display: none;
+}
+.cover-small- .cover-small-v {
+    display: none;
+}
+
+.cover-small- .cover-small-u {
+    display: none;
+}
+
+.cover-small-full .cover-small-v {
+    display: none;
+}
+
+.cover-small-center .cover-small-v {
+    display: none;
+}
+
+.cover-small-north .cover-small-v {
+    display: none;
+}
+
+.cover-small-west .cover-small-u {
+    display: none;
+}

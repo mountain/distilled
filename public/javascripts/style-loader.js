@@ -6,10 +6,10 @@
     link.rel   = 'stylesheet';
     link.media = 'screen';
     head.insertBefore(link, title);
-    link.href  = '/styles/magazine.css?width=' + screen.availWidth + '&height=' + screen.availHeight;
     link.onerror = function () {
         this.href = '/styles/magazine.css?width=1024&height=768';
     };
+    link.href  = '/styles/magazine.css?width=' + screen.availWidth + '&height=' + screen.availHeight;
 })();
 
 

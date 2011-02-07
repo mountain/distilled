@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="content-language" content="zh-cn">
+  <link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/" />
+  <script src="/javascripts/jquery-min.js"></script>
+  <script src="/javascripts/jquery.mousewheel.js"></script>
+  <script src="/javascripts/jcarousellite.min.js"></script>
+  <script src="/javascripts/underscore-min.js"></script>
+  <script src="/javascripts/style-loader.js"></script>
+  <script src="/javascripts/carousel.js"></script>
+  <title>维基新知</title>
+  <link rel="stylesheet" href="/styles/main.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="hposition">
+<div id="vposition">
 
+<div id="header">
+  <div id="logo"><a href="./" title="维基新知"><img src="/images/logo-title.png" width="240" height="60" alt="维基新知"/></a></div>
+  <div id="title"></div>
+</div>
+
+<div id="daily" class="section">
+  <div id="daily-intro" class="intro left"><h1>维基日刊<sup>Alpha</sup></h1>每日从维基百科最新的编辑成果中遴选出文章结集成一本杂志</div>
+  <div class="previous"><img src="/images/p.gif" width="7px"></div>
+  <div id="daily-detail" class="detail right"></div>
+  <div class="next"><img src="/images/n.gif" width="7px"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+    $(function() {
+         carousel();
+    });
+</script>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', '<%= ga %>']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</body>
+</html>
