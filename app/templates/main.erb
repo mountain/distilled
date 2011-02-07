@@ -10,31 +10,64 @@
   <script src="/javascripts/underscore-min.js"></script>
   <script src="/javascripts/style-loader.js"></script>
   <script src="/javascripts/carousel.js"></script>
-  <title>维基新知</title>
+  <title>维基新知－首页</title>
   <link rel="stylesheet" href="/styles/main.css" type="text/css" media="screen" />
 </head>
 <body>
-<div id="hposition">
-<div id="vposition">
-
 <div id="header">
-  <div id="logo"><a href="./" title="维基新知"><img src="/images/logo-title.png" width="240" height="60" alt="维基新知"/></a></div>
-  <div id="title"></div>
+  <div id="logo">
+      <a href="./" title="维基新知"><img src="/images/logo-title.png" width="240" height="60" alt="维基新知"/></a>
+      <div id="title">普及新知，传播自由文化</div>
+  </div>
+  <div id="menu-container">
+    <ul class="menu">
+      <li class="menuitem yellow">日刊</li>
+      <li class="menuitem blue">图书</li>
+      <li class="menuitem red">广场</li>
+    </ul>
+  </div>
 </div>
 
 <div id="daily" class="section">
-  <div id="daily-intro" class="intro left"><h1>维基日刊<sup>Alpha</sup></h1>每日从维基百科最新的编辑成果中遴选出文章结集成一本杂志</div>
+  <div id="daily-intro" class="minor intro left">
+  <h1>维基日刊<sup>Alpha</sup></h1>
+  <p>每日从维基百科最新的编辑成果中遴选出文章结集成一本杂志。</p>
+  </div>
   <div class="previous"><img src="/images/p.gif" width="7px"></div>
-  <div id="daily-detail" class="detail right"></div>
+  <div id="daily-detail" class="major detail right"></div>
   <div class="next"><img src="/images/n.gif" width="7px"></div>
 </div>
 
+<div id="comingsoon" class="section">
+  <h1>计划中</h1>
+  <div class="left">
+    <div class="left">
+      <img src="http://commons.wikimedia.org/w/thumb.php?f=Carl_Spitzweg_021.jpg&w=130" />
+    </div>
+    <div class="right intro">
+      <h1>维基图书<sup>Planed</sup></h1>
+      <p>维基百科优秀文章和维基文库作成的电子书。</p>
+    </div>
+  </div>
+  <div class="right">
+    <div class="left">
+      <img src="http://commons.wikimedia.org/w/thumb.php?f=Frankfurt_Am_Main-Morgenstern-KAVFFM-007-Der_Roemerberg_in_Frankfurt_a_M.jpg&w=200" />
+    </div>
+    <div class="right intro">
+      <h1>维基广场<sup>Planed</sup></h1>
+      <p>维基百科上的讨论、Twitter的维基相关热点。</p>
+    </div>
+  </div>
 </div>
+
+<div class="clear">
+<div id="footer">
+<img src="/images/CC-BY-SA-icon-80x15.png" />
 </div>
 
 <script>
     $(function() {
-         carousel();
+        carousel();
     });
 </script>
 <script type="text/javascript">

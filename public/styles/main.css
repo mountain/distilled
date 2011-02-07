@@ -1,12 +1,45 @@
+body {
+    width: 960px;
+    margin: 0 auto;
+}
+
+#header {
+    width: 960px;
+    height: 100px;
+    color: white;
+}
+
+#logo {
+    float: left;
+}
+
+#title {
+    float: left;
+    margin-left: 30px;
+    font-size: medium;
+}
+
+#menu-container {
+    float: right;
+    font-size: medium;
+}
+
+#footer {
+    float: right;
+    font-size: small;
+}
+
 .section {
     width: 960px;
+    height: 140px;
+    margin-top: 30px;
     color: white;
 }
 
 .section h1 {
-    font-size: smallr;
+    font-size: large;
     margin-bottom: 1em;
-    color: #f06;
+    color: white;
 }
 
 .section h1 sup {
@@ -14,13 +47,18 @@
 }
 
 .intro {
-    width: 30%;
     font-size: small;
     color: #999;
+    padding: 0 10px;
 }
 
-.detail {
-    width: 71%;
+.major {
+    width: 70%;
+}
+
+.minor {
+    width: 20%;
+    padding-right: 8%;
 }
 
 .date {
@@ -30,11 +68,48 @@
     text-align: center;
 }
 
-.previous {
+.clear {
+    clear: both;
+}
+
+.menu {
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+    font-size: small;
+    font-weight: normal;
+}
+
+.menuitem {
+    float: left;
+    margin: 0 10px 0 0;
+    padding: 3px 3px 15px 3px;
+    color: white;
+    display: list-item;
+}
+
+.red {
+    background-color: #aa0000;
+}
+
+.yellow {
+    background-color: #aa8800;
+}
+
+.blue {
+    background-color: #0000aa;
+}
+
+#comingsoon {
+    font-size: small;
+    color: #999;
+}
+
+.previous, .left {
     float: left;
 }
 
-.next {
+.next, .right {
     float: right;
 }
 
