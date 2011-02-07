@@ -1,6 +1,6 @@
 function carousel() {
     function small(src, width) {
-        return 'http://commons.wikimedia.org/w/thumb.php?f=' + src.replace(' ', '_') + '&w=' + Math.round(width);
+        return 'http://commons.wikimedia.org/w/thumb.php?f=' + src.replace(' ', '_') + '&w=' + Math.round(width - 2);
     }
 
     var width = Math.round($('#daily-detail').width() / 5 * 0.8);
