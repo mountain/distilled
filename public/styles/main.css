@@ -32,15 +32,15 @@ body {
 
 .section {
     width: 960px;
-    height: 140px;
-    margin-top: 30px;
-    color: white;
+    height: 170px;
+    margin-top: 20px;
+    color: #eeeeee;
 }
 
 .section h1 {
     font-size: large;
     margin-bottom: 1em;
-    color: white;
+    color: #eeeeee;
 }
 
 .section h1 sup {
@@ -101,9 +101,16 @@ body {
     background-color: #0000aa;
 }
 
-#comingsoon {
-    font-size: small;
-    color: #999;
+.red-color {
+    color: #aa0000;
+}
+
+.yellow-color {
+    color: #aa8800;
+}
+
+.blue-color {
+    color: #0000aa;
 }
 
 .previous, .left {
@@ -114,9 +121,54 @@ body {
     float: right;
 }
 
+.corner-all {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    border-top-left-radius: 10px 10px;
+    border-top-right-radius: 10px 10px;
+    border-bottom-right-radius: 10px 10px;
+    border-bottom-left-radius: 10px 10px;
+}
+
+.corner-half {
+    -moz-border-bottom-right-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    border-bottom-right-radius: 10px 10px;
+    -moz-border-bottom-left-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    border-bottom-left-radius: 10px 10px;
+}
+
+#menu-container {
+    padding: 0 10px 10px 10px;
+    background-color: #282828;
+}
+
+#daily {
+    background-color: #282828;
+}
+
 #daily-detail {
     float: left;
+    margin-top: 20px;
 }
+
+#planed {
+    font-size: small;
+    color: #999;
+}
+
+#books {
+    padding: 10px;
+    background-color: #282828;
+}
+
+#square {
+    padding: 10px;
+    background-color: #282828;
+}
+
 
 .mag {
     display: block;
