@@ -7,10 +7,14 @@ body {
 #header {
     width: 960px;
     height: 100px;
-    color: white;
+    color: #eeeeee;
 }
 
 #logo {
+    float: left;
+}
+
+#logo a {
     float: left;
 }
 
@@ -27,7 +31,13 @@ body {
 
 #footer {
     float: right;
-    font-size: small;
+    font-size: smaller;
+    width: 508px;
+    margin-top: 5px;
+    padding: 6px;
+    color: #999;
+    background-color: #282828;
+    text-align: right;
 }
 
 .section {
@@ -65,7 +75,7 @@ body {
 .date {
     margin-top: 3px;
     font-size: small;
-    color: white;
+    color: #eeeeee;
     text-align: center;
 }
 
@@ -85,7 +95,7 @@ body {
     float: left;
     margin: 0 10px 0 0;
     padding: 3px 3px 15px 3px;
-    color: white;
+    color: #eeeeee;
     display: list-item;
 }
 
@@ -162,10 +172,12 @@ body {
 #books {
     padding: 10px;
     background-color: #282828;
+    height: 265px;
 }
 
 #square {
     padding: 10px;
+    width: 500px;
     background-color: #282828;
 }
 
@@ -176,23 +188,23 @@ body {
 }
 
 .cover-small-full {
-    border: white solid 1px;
+    border: #eeeeee solid 1px;
     margin: 0 auto;
 }
 
 .cover-small-center {
-    border: white solid 1px;
+    border: #eeeeee solid 1px;
     margin: 0 auto;
 }
 
 .cover-small-north {
-    border: white solid 1px;
+    border: #eeeeee solid 1px;
     margin: 0 auto;
 }
 
 .cover-small-west {
     position: relative;
-    border: white solid 1px;
+    border: #eeeeee solid 1px;
     margin: 0 auto;
 }
 
@@ -201,7 +213,7 @@ body {
 }
 
 .cover-small-center .cover-small-u {
-    color: white;
+    color: #eeeeee;
     font-size: small;
     text-align: left;
     height: 15%;
@@ -235,7 +247,7 @@ body {
     top: 3px;
     right: 3px;
     width: 10%;
-    color: white;
+    color: #eeeeee;
     font-size: small;
     text-align: left;
 }
@@ -246,7 +258,7 @@ body {
     left: 0px;
     height: 100%;
     width: 80%;
-    color: white;
+    color: #eeeeee;
     font-size: small;
     text-align: left;
 }
