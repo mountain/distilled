@@ -12,4 +12,4 @@ cd `dirname ${CUR}` > /dev/null
 CUR=`pwd`;
 popd  > /dev/null
 
-exec "node" "${CUR}/scripts/start-server.js"
+exec "node" "${CUR}/../scripts/start-server.js"

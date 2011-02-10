@@ -33,8 +33,9 @@ body {
     float: right;
     font-size: smaller;
     width: 508px;
+    height: 100px;
     margin-top: 5px;
-    padding: 6px;
+    padding: 5px;
     color: #999;
     background-color: #282828;
     text-align: right;
