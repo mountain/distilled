@@ -25,8 +25,9 @@ parser.on('help', function () {
 parser.parse(process.ARGV);
 
 if (to_cal) {
-    sys.puts("date: " + opt.date);
+    require('../vendors/distilled/latest').gen();
 
+    sys.puts("date: " + opt.date);
     require('../vendors/distilled/calendar').gen(opt.date);
 }
 

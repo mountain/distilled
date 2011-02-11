@@ -33,22 +33,54 @@ function read(day) {
     return {
         cover: cover,
         bg: bg,
-        photo: photo
+        photo: photo,
+        day: day
     };
 }
 
 function find() {
-    var date = new Date();
+    var n = 0, k = 0,
+        time = new Date().getTime(),
+        cur  = new Date(time),
+        latest = [];
 
+    while (n < 7 && k < 30) {
+        var day = out(cur),
+            o = read(day);
+        logger.info('seeking at: ' + day);
+        if (o.cover !== '') {
+            n++;
+            latest.push(o);
+        }
+        k++;
+        time = time - 24 * 3600 * 1000;
+        cur  = new Date(time);
+    }
+
+    return latest;
 }
 
+var tmpl = _.template('<li class="mag" title="<%= day %>" bg="<%= bg %>" cover="<%= cover %>" photo="<%= photo %>"/>');
+
 function list(latest) {
+    var items = '';
+    for (var ind in latest) {
+        var elem = latest[ind];
+        items += tmpl(elem);
+    };
+
+    return '<ul>' + items + '</ul>';
 }
 
 exports.gen = function () {
     var file = process.cwd() + '/public/issues/latest.html';
-    sys.puts('saving latest to:' + file);
-    var content = list(find());
-    fs.writeFileSync(file, content);
+    logger.info('saving latest to:' + file);
+    try {
+        var content = list(find());
+        fs.writeFileSync(file, content);
+    } catch (e) {
+        sys.puts(e);
+        sys.puts(e.message);
+    }
 };
 
