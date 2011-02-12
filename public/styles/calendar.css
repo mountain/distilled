@@ -3,6 +3,22 @@
     color: black;
 }
 
+.next > a {
+    text-decoration: none;
+}
+
+.next > a > img {
+    border: 0;
+}
+
+.previous > a {
+    text-decoration: none;
+}
+
+.previous > a > img {
+    border: 0;
+}
+
 #calendar {
     width: 98%;
     height: 640px;

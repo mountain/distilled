@@ -108,6 +108,11 @@ body {
     color: #eeeeee;
 }
 
+.section h1 a {
+    text-decoration: none;
+    color: #eeeeee;
+}
+
 .intro {
     font-size: small;
     color: #999;
@@ -149,6 +154,12 @@ body {
     color: #eeeeee;
     display: list-item;
 }
+
+.menuitem a {
+    text-decoration: none;
+    color: #eeeeee;
+}
+
 
 .red {
     background-color: #aa0000;
