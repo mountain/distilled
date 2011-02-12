@@ -4,27 +4,37 @@
   <meta charset="UTF-8" />
   <meta http-equiv="content-language" content="zh-cn">
   <link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/" />
-  <link rel="alternate" type="application/rss+xml" title="RSS 2.0"
-   href="http://zh.wikipedia.org/w/index.php?title=Wikipedia:%E9%A6%96%E9%A1%B5/rss&action=raw&ctype=application/rss+xml">
+  <link rel="stylesheet" href="/styles/main.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/styles/calendar.css" type="text/css" media="screen" />
   <script src="/javascripts/jquery-min.js"></script>
   <script src="/javascripts/underscore-min.js"></script>
-  <script src="/javascripts/style-loader.js"></script>
   <script src="/javascripts/calendar.js"></script>
-  <title>维基日刊</title>
-  <link rel="stylesheet" href="/styles/calendar.css" type="text/css" media="screen" />
+  <title>维基日刊（<%= year %>年<%= month %>月）</title>
 </head>
 <body>
 
-<h2 style="text-align:center;color:white;margin-top:5px;">维基日刊（Alpha）</h2>
-
-<div id="hposition">
-<div id="vposition">
-
-<div id="doublepage"><div id="calendar"></div></div>
-
-
+<div id="header">
+  <div id="logo">
+      <a href="/" title="维基新知"><img src="/images/logo-title.png" width="240" height="60" alt="维基新知"/></a>
+      <!--div id="title">普及新知，传播自由文化</div-->
+  </div>
+  <div id="menu-container" class="corner-half">
+    <ul class="menu">
+      <li class="menuitem yellow">日刊</li>
+      <li class="menuitem blue">图书</li>
+      <li class="menuitem red">广场</li>
+    </ul>
+  </div>
 </div>
+
+<div>
+    <div class="previous"><a href="<%= prevmonth %>"><img src="/images/p.png" width="40px" class="clickable"></a></div>
+    <div class="next"><a href="<%= nextmonth %>"><img src="/images/n.png" width="40px" class="clickable"></a></div>
 </div>
+<h2 style="text-align:center;color:#eeeeee;">维基日刊（<%= year %>年<%= month %>月）</h2>
+<div class="clear"/>
+
+<div id="calendar" class="corner-all"></div>
 
 <script>
     $(function() {

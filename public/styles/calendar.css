@@ -1,96 +1,131 @@
 .date {
-    font-size: xx-small;
+    font-size: x-small;
     color: black;
 }
 
-#notice  {
-    color: white;
-    float: right;
-    margin-top: 1em;
-    margin-right: 5%;
-    width: 5%;
-    text-align: left;
-}
-
-#notice  a {
-    color: white;
-}
-
 #calendar {
-    width: 100%;
-    height: 95%;
-    background-color: white;
+    width: 98%;
+    height: 640px;
+    padding: 10px;
+    background-color: #282828;
 }
 
-#calendar table {
+#calendar > table {
     width: 100%;
     height: 100%;
     border-collapse: collapse;
+    background-color: #eeeeee;
 }
 
-#calendar table tr td {
+#calendar > table > thead > tr > td {
     text-align: center;
     vertical-align: middle;
     border: 1px solid lightgray;
-    padding-top: 3px;
 }
 
+#calendar > table > tbody > tr > td {
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid lightgray;
+}
 
 .cover-thumb-full {
-    border: black solid 1px;
+    border: #eeeeee solid 1px;
     margin: 0 auto;
 }
 
 .cover-thumb-center {
-    border: black solid 1px;
+    border: #eeeeee solid 1px;
     margin: 0 auto;
 }
 
 .cover-thumb-north {
-    border: black solid 1px;
+    border: #eeeeee solid 1px;
     margin: 0 auto;
 }
 
 .cover-thumb-west {
     position: relative;
-    border: black solid 1px;
+    border: #eeeeee solid 1px;
     margin: 0 auto;
-}
-
-.cover-thumb-center .cover-thumb-u {
-    color: white;
-    font-size: xx-small;
-    text-align: left;
-    height: 15%;
 }
 
 .cover-thumb-full {
     position: relative;
 }
 
-.cover-thumb-full .cover-thumb-u {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 80%;
-    color: white;
+.cover-thumb-center .cover-thumb-u {
+    color: #eeeeee;
     font-size: xx-small;
     text-align: left;
+    height: 15%;
+    padding: 2px;
 }
 
-.cover-thumb-full .cover-thumb-w img {
+.cover-thumb-center .cover-thumb-w {
+    width: 100%;
+    height: 100%;
+    margin-top: -20%;
+}
+
+.cover-thumb-center .cover-thumb-w table {
+    width: 100%;
+    height: 100%;
+    border-spacing: 0;
+}
+
+.cover-thumb-center .cover-thumb-w table tr td div {
+    margin: 1px;
+    line-height: 100%;
+}
+
+.cover-thumb-full .cover-thumb-u {
+    position: absolute;
+    color: #EEE;
+    font-size: xx-small;
+    text-align: left;
+    height: 15%;
+    padding: 2px;
+    z-index: 10;
+}
+
+.cover-thumb-full .cover-thumb-w {
+    position: absolute;
+    top:  0px;
+    left: 0px;
     height: 100%;
     width: 100%;
+    color: #eeeeee;
+    font-size: xx-small;
+    text-align: left;
+    z-index: 0;
+}
+
+.cover-thumb-full .cover-thumb-w table {
+    width: 100%;
+    height: 100%;
+    border-spacing: 0;
+}
+
+.cover-thumb-full .cover-thumb-w table tr td div {
+    max-width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.cover-thumb-full .cover-thumb-w table tr td div img {
+    width: 100%;
+    height: 100%;
 }
 
 .cover-thumb-west .cover-thumb-v {
     position: absolute;
     top: 3px;
     right: 3px;
-    width: 10%;
-    color: white;
+    width: 15%;
+    color: #eeeeee;
     font-size: xx-small;
-    text-align: left;
+    text-align: center;
 }
 
 .cover-thumb-west .cover-thumb-w {
@@ -99,16 +134,31 @@
     left: 0px;
     height: 100%;
     width: 80%;
-    color: white;
+    color: #eeeeee;
     font-size: xx-small;
     text-align: left;
 }
 
-.cover-thumb-west .cover-thumb-w img {
+.cover-thumb-west .cover-thumb-w table {
+    max-width: 100%;
     height: 100%;
-    width: 100%;
+    border-spacing: 0;
 }
 
+.cover-thumb-west .cover-thumb-w table tr td div {
+    max-width: 100%;
+    max-height: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.cover-thumb-west .cover-thumb-w table tr td div img {
+    height: 66px;
+}
+
+.cover-thumb- {
+    display: none;
+}
 .cover-thumb- img {
     display: none;
 }
