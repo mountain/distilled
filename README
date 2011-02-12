@@ -18,9 +18,9 @@ Please follow below steps:
 * cd distilled
 * git submodule update --init
 * copy several *.js.example files under config directory to *.js
-* node scripts/dump.js -c center -p dyk -b black
-* node scripts/cal.js
-* node scripts/start-server.js
+* bin/magazine -c center -p dyk -b black
+* bin/index
+* bin/start
 * visit http://localhost:8080/
 
 the parameters of dump.js should be changed according to your choice of the
