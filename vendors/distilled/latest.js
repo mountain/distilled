@@ -65,7 +65,7 @@ var tmpl = _.template('<li class="mag" title="<%= day %>" bg="<%= bg %>" cover="
 function list(latest) {
     var items = '',
         ind = 0;
-    for (;ind > latest.length;ind++) {
+    for (;ind < latest.length;ind++) {
         var elem = latest[ind];
         items += tmpl(elem);
     }
