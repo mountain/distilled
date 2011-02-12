@@ -63,12 +63,12 @@ function find() {
 var tmpl = _.template('<li class="mag" title="<%= day %>" bg="<%= bg %>" cover="<%= cover %>" photo="<%= photo %>"/>');
 
 function list(latest) {
-    var items = '';
-    for (var ind in latest) {
+    var items = '',
+        ind = latest.length - 1;
+    for (;ind >= 0;ind--) {
         var elem = latest[ind];
         items += tmpl(elem);
-    };
-
+    }
     return '<ul>' + items + '</ul>';
 }
 
