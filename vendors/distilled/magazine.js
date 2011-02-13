@@ -2,7 +2,7 @@ var path = require('path'),
     fs = require('fs'),
     sys = require('sys');
 
-var logger = require('../../lib/log').logger;
+var logger = require('../minimal/logger');
 
 var _ = require('underscore'),
     parser   = require('htmlparser'),

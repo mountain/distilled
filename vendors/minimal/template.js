@@ -1,7 +1,7 @@
 var fs = require("fs"),
     _ = require('underscore');
 
-var logger = require('../../lib/log').logger;
+var logger = require('./logger'),
     walk = require('./environment').walk;
 
 function loadTmpl(path, context, name) {

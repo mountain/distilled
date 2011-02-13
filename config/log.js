@@ -1,4 +1,4 @@
 exports.settings = {
-    logger: require('../lib/log').logger,
+    logger: require('../vendors/minimal').logger,
     format: "[:date] \":method :url :http-version\" :status"
 };

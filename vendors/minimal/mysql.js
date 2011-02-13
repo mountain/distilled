@@ -1,6 +1,6 @@
 var sqlclient = require("../libmysqlclient/mysql-libmysqlclient");
 
-var util = require('../../lib/log');
+var logger = require('./logger');
 
 function PseudoConn(host, user, pwd, db, port) {
   this.config = {

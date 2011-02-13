@@ -1,10 +1,9 @@
-var _ = require('underscore');
+var util = require('util'),
+    _ = require('underscore');
 
-var util = require('sys');
-
-var logger = global.logger = exports.logger = {};
-
-var levels = {DEBUG: 0, INFO: 1, WARN: 2, ERROR: 3}, curLevel = levels.INFO;
+var logger = global.logger = module.exports = {},
+    levels = {DEBUG: 0, INFO: 1, WARN: 2, ERROR: 3},
+    curLevel = levels.INFO;
 
 _.extend(logger, levels);
 

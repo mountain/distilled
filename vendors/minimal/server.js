@@ -1,11 +1,11 @@
-var logger = require('../../lib/log').logger,
+var logger = require('./logger'),
     Builder = require("./route_builder");
 
 var step = require('step'),
     connect = require('connect');
 
 exports.start = function (root) {
-    var env = { path: root };
+    var env = { path: root + "/" };
 
     step(
       function () {

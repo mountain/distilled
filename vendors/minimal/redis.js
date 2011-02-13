@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-    logger = require('../../lib/log').logger,
+    logger = require('./logger'),
     redis = require('../node_redis');
 
 function connect(host, port, db) {

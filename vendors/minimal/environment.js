@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-    logger = require('../../lib/log').logger;
+    logger = require('./logger');
 
 var fs = require("fs"),
     path = require("path");

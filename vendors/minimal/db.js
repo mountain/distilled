@@ -1,8 +1,7 @@
 var _ = require('underscore');
 
-var logger = require('../../lib/log').logger;
-
-var mysql = require('./mysql'),
+var logger = require('./logger'),
+    mysql = require('./mysql'),
     redis = require('./redis');
 
 exports.init = function (callback, env, filter) {

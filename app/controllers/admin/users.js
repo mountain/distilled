@@ -1,7 +1,4 @@
-var sys = require('sys'),
-    _ = require('underscore');
-
-var logger = require('../../../lib/log').logger;
+var sys = require('sys');
 
 var environment = require('../../../vendors/minimal/environment');
 

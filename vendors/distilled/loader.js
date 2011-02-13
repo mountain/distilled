@@ -5,7 +5,7 @@ var http = require('http'),
     fs   = require('fs'),
     sys  = require('sys');
 
-var logger = require('../../lib/log').logger;
+var logger = require('../minimal/logger');
 
 function Loader(lang, variant) {
     this.lang = lang;

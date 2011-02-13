@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-    logger = require('../../lib/log').logger;
+    logger = require('./logger');
 
 exports.load = function(env, callback) {
     var fs = require('fs')

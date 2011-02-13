@@ -4,7 +4,7 @@ var path = require('path'),
     fs   = require('fs'),
     sys  = require('sys');
 
-var logger = require('../../lib/log').logger;
+var logger = require('../minimal/logger');
 
 var header = ['一', '二', '三', '四', '五', '六', '日'];
 
