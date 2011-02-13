@@ -1,4 +1,4 @@
-var _ = require('../../lib/underscore');
+var _ = require('underscore');
 
 var http = require('http'),
     path = require('path'),

@@ -1,5 +1,3 @@
-var _ = require('../../lib/underscore')._;
-
 module.exports = function(env) {
   return function(req, res, next) {
       var style  = env.templates.style,

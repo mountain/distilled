@@ -1,13 +1,14 @@
-var _ = require('../../lib/underscore');
-
-var path = require('path');
-var fs = require('fs');
-var sys = require('sys');
+var path = require('path'),
+    fs = require('fs'),
+    sys = require('sys');
 
 var logger = require('../../lib/log').logger;
 
-var parser   = require('../htmlparser/lib/htmlparser'),
-    jsdom    = require('../jsdom/lib/jsdom');
+var _ = require('underscore'),
+    parser = require('htmlparser'),
+    jsdom  = require('jsdom');
+
+var jqueryPath = __dirname + "/jquery.js";
 
 function solveLink(href) {
     var link   = decodeURIComponent(href).replace('_', ' '),
@@ -65,7 +66,7 @@ function MainPage(config, html, cbReady) {
         }
     }
 
-    jsdom.jQueryify(this.window, "../../lib/jquery.js", function () {
+    jsdom.jQueryify(this.window, jqueryPath, function () {
         self.window.$(onready);
     });
 

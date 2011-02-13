@@ -1,4 +1,5 @@
-var _ = require('../../lib/underscore')._;
+var _ = require('underscore');
+
 var logger = require('../../lib/log').logger;
 
 var mysql = require('./mysql'),

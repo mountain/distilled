@@ -1,13 +1,14 @@
-var _ = require('../../lib/underscore');
-
-var path = require('path');
-var fs = require('fs');
-var sys = require('sys');
+var path = require('path'),
+    fs = require('fs'),
+    sys = require('sys');
 
 var logger = require('../../lib/log').logger;
 
-var parser   = require('../htmlparser/lib/htmlparser'),
-    jsdom    = require('../jsdom/lib/jsdom');
+var _ = require('underscore'),
+    parser   = require('htmlparser'),
+    jsdom    = require('jsdom');
+
+var jqueryPath = __dirname + "/jquery.js";
 
 var columns = {
     itn: '新闻',
@@ -70,7 +71,7 @@ function Magazine(index, html, cbReady) {
     html = '<html><head></head><body>' + html + '</body></html>';
     this.document = jsdom.jsdom(html, undefined, {parser: parser});
     this.window   = this.document.createWindow();
-    jsdom.jQueryify(this.window, "../../lib/jquery.js", cbReady);
+    jsdom.jQueryify(this.window, jqueryPath, cbReady);
 }
 
 Magazine.prototype.coverphoto = function (photo) {

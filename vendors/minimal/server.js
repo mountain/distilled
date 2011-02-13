@@ -1,8 +1,8 @@
-var _ = require('../../lib/underscore')._,
-    logger = require('../../lib/log').logger,
-    step = require('../../lib/step'),
-    connect = require('../connect/lib/connect'),
+var logger = require('../../lib/log').logger,
     Builder = require("./route_builder");
+
+var step = require('step'),
+    connect = require('connect');
 
 exports.start = function (root) {
     var env = { path: root };

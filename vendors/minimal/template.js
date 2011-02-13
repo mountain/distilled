@@ -1,9 +1,8 @@
-var _ = require('../../lib/underscore')._;
+var fs = require("fs"),
+    _ = require('underscore');
+
 var logger = require('../../lib/log').logger;
-
-var fs = require("fs");
-
-var walk = require('./environment').walk;
+    walk = require('./environment').walk;
 
 function loadTmpl(path, context, name) {
     logger.info('loading template: ' + path);
@@ -23,5 +22,3 @@ exports.load = function(env, callback) {
     var ctx = (env.templates = {});
     walk(env.path + 'app/templates', ctx, loadTmpl, callback);
 };
-
-

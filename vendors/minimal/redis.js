@@ -1,6 +1,6 @@
-var _ = require('../../lib/underscore')._;
-var logger = require('../../lib/log').logger;
-var redis = require('../node_redis');
+var _ = require('underscore'),
+    logger = require('../../lib/log').logger,
+    redis = require('../node_redis');
 
 function connect(host, port, db) {
     var client = redis.createClient(port, host);
