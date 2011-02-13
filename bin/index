@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# A wrapper for script/cal.js
+# A wrapper for script/index.js
 #
 
 CUR="${BASH_SOURCE[0]}";
@@ -13,4 +13,3 @@ CUR=`pwd`;
 popd  > /dev/null
 
 exec "node" "${CUR}/../scripts/index.js"
-

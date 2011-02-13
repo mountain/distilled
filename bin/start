@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# A wrapper for script/cal.js
+# A wrapper for script/start-server.js
 #
 
 CUR="${BASH_SOURCE[0]}";

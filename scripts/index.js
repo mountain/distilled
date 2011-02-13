@@ -1,6 +1,5 @@
-var sys = require('sys');
-
-var optparse = require('../vendors/optparser/lib/optparse');
+var sys = require('sys'),
+    optparse = require('optparse');
 
 var SWITCHES = [
     ['-d', '--date [DATE]', "target date"],
@@ -30,5 +29,3 @@ if (to_cal) {
     sys.puts("date: " + opt.date);
     require('../vendors/distilled/calendar').gen(opt.date);
 }
-
-

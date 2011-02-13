@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-require('../lib/log');
-
 var fs = require('fs'),
-server = require('../vendors/minimal/server'),
-sys = require('sys');
+    sys = require('sys');
+
+var logger = require('../lib/log').logger,
+    server = require('../vendors/minimal/server');
 
 var distilled = process.argv[1],
     len = distilled.length,
@@ -13,4 +13,3 @@ var distilled = process.argv[1],
 logger.info("start distilled at " + path);
 
 server.start(path);
-

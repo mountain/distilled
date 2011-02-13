@@ -1,6 +1,5 @@
-var sys = require('sys');
-
-var optparse = require('../vendors/optparser/lib/optparse');
+var sys = require('sys'),
+    optparse = require('optparse');
 
 var SWITCHES = [
     ['-c', '--cover [TEXT]', "full|center|north|west"],
@@ -85,5 +84,3 @@ if (to_dump) {
     var dumper = require('../vendors/distilled/dumper').create(config);
     dumper.dump(opt);
 }
-
-
