@@ -9,7 +9,11 @@
     link.onerror = function () {
         this.href = '/styles/magazine.css?width=1024&height=768';
     };
-    link.href  = '/styles/magazine.css?width=' + screen.availWidth + '&height=' + screen.availHeight;
+    if (!!navigator.userAgent.match(/iPad/i)) {
+        link.href  = '/styles/magazine.css?width=' + screen.availHeight + '&height=' + screen.availWidth;
+    } else {
+        link.href  = '/styles/magazine.css?width=' + screen.availWidth + '&height=' + screen.availHeight;
+    }
 })();
 
 
