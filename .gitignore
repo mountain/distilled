@@ -4,10 +4,8 @@
 
 *.[oa]
 *~
-*.json
-*.html
-config/server.js
-config/users.js
-config/auths.js
 config/analytics.js
+config/auths.js
+config/server.js
 node_modules/
+public/issues/
