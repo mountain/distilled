@@ -81,10 +81,10 @@ body {
 #footer {
     float: right;
     font-size: smaller;
-    width: 508px;
-    height: 100px;
+    width: 500px;
+    height: 90px;
     margin-top: 5px;
-    padding: 5px;
+    padding: 10px;
     color: #999;
     background-color: #282828;
     text-align: right;
@@ -116,7 +116,6 @@ body {
 .intro {
     font-size: small;
     color: #999;
-    padding: 0 10px;
 }
 
 .major {
@@ -226,6 +225,10 @@ body {
     margin-top: 20px;
 }
 
+#daily-intro {
+    padding: 10px;
+}
+
 #planed {
     font-size: small;
     color: #999;
@@ -237,10 +240,18 @@ body {
     height: 265px;
 }
 
+#books-intro {
+    padding: 10px;
+}
+
 #square {
     padding: 10px;
     width: 500px;
     background-color: #282828;
+}
+
+#square-intro {
+    padding: 10px;
 }
 
 
