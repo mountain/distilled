@@ -7,5 +7,6 @@
 config/analytics.js
 config/auths.js
 config/server.js
+config/users.js
 node_modules/
 public/issues/
