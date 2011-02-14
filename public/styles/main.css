@@ -223,6 +223,7 @@ body {
 #daily-detail {
     float: left;
     margin-top: 20px;
+    margin-left: 35px;
 }
 
 #daily-intro {
