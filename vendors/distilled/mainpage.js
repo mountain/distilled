@@ -24,6 +24,7 @@ function MainPage(config, html, cbReady) {
 
     this.titleMap = {};
     this.articleMap = {};
+    this.summary = {};
 
     var self = this,
         prefix = config.wiki.length + 2;
@@ -36,9 +37,17 @@ function MainPage(config, html, cbReady) {
                 a = self.window.$(a);
                 var title = a.attr('title'),
                     href = a.attr('href'),
-                    article = solveLink(href.substring(prefix));
+                    article = solveLink(href.substring(prefix)),
+                    parents;
                 self.titleMap[title] = article;
                 self.articleMap[article] = title;
+                if (col === 'itn' || col === 'dyk') {
+                    parents = a.parentsUntil('li');
+                    self.summary[title] = self.window.$(parents.pop()).html();
+                } else {
+                    parents = a.parentsUntil('div');
+                    self.summary[title] = self.window.$(parents.pop()).html();
+                }
                 return title;
             });
         });

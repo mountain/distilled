@@ -44,12 +44,12 @@ function mkdir(path) {
     }
 }
 
-function save(date, ext, content) {
+function save(date, type, ext, content) {
     date = date || new Date();
     var year = date.getUTCFullYear(),
         month = date.getUTCMonth() + 1,
         day = date.getUTCDate();
-    var file = process.cwd() + '/public/issues/' + year + '/' + month + '/' + day + '.' + ext;
+    var file = process.cwd() + '/public/' + type + '/' + year + '/' + month + '/' + day + '.' + ext;
     if (!path.exists(file)) {
         require('sys').puts('create directory to:' + path.dirname(file));
         mkdir(path.dirname(file));
@@ -110,7 +110,8 @@ Dumper.prototype.dump = function (opt) {
         var skltHtml = loadSkeleton(opt);
 
         function delayed() {
-            var magazine = require('./magazine').create(mainpage.index, skltHtml,
+            var magazine = require('./magazine').create(mainpage.index,
+                mainpage.summary, skltHtml,
                 function () {
                     try {
                         var date = new Date();
@@ -149,8 +150,9 @@ Dumper.prototype.dump = function (opt) {
                                 articles: simplified
                             };
                             _.extend(settings, magazine.toc);
-                            save(date, 'json', JSON.stringify(settings));
-                            save(date, 'html', magazine.html());
+                            save(date, 'issues', 'json', JSON.stringify(settings));
+                            save(date, 'issues', 'html', magazine.html());
+                            save(date, 'digests', 'html', magazine.digest(settings));
                         }
 
                         self.loader.batchload(articles, redirect, addArticle, end);

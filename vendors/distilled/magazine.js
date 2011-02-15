@@ -32,6 +32,42 @@ var tocTmpl = _.template(
               '<% } %>'
               );
 
+var digestTmpl = _.template(
+              '<% if (feature) { %>' +
+              '<div id="digest-feature"><%= feature %></div>' +
+              '<% } %>' +
+              '<% if (itn) { %>' +
+              '<div id="digest-itn">' +
+                  '<ul>' +
+                  '<% for (var i = 0;i < itn.length; i++) { %>' +
+                  '<li>' +
+                  '<%= itn[i] %>' +
+                  '</li>' +
+                  '<% } %>' +
+                  '</ul>' +
+              '</div>' +
+              '<% } %>' +
+              '<% if (dyk) { %>' +
+              '<div id="digest-dyk">' +
+                  '<ul>' +
+                  '<% for (var j = 0;j < dyk.length; j++) { %>' +
+                  '<li>' +
+                  '<%= dyk[j] %>' +
+                  '</li>' +
+                  '<% } %>' +
+                  '</ul>' +
+              '</div>' +
+              '<% } %>' +
+              '<% if (otd) { %>' +
+              '<div id="digest-otd"><%= feature %></div>' +
+              '<% } %>' +
+              '<% if (good) { %>' +
+              '<div id="digest-good"><%= good %></div>' +
+              '<% } %>' +
+              '<% if (featurepic) { %>' +
+              '<div id="digest-featurepic"><%= featurepic %></div>' +
+              '<% } %>');
+
 function pageId(title) {
     if (title) {
         return 'article-' + title.replace(/[ :\(\)\+·]/g, '_');
@@ -65,8 +101,9 @@ function renderToc(toc) {
     return html;
 }
 
-function Magazine(index, html, cbReady) {
+function Magazine(index, summary, html, cbReady) {
     this.index = index;
+    this.summary = summary;
     this.toc = {};
     html = '<html><head></head><body>' + html + '</body></html>';
     this.document = jsdom.jsdom(html, undefined, {parser: parser});
@@ -230,6 +267,23 @@ Magazine.prototype.makeup = function (option, articles) {
     this.mkCover(articles);
     this.mkToc(option.toc, articles);
     this.mkContents(option.toc, articles);
+};
+
+Magazine.prototype.digest = function (settings) {
+    var index = settings.index,
+    values = {
+        cover: settings.cover,
+        photo: settings.photo,
+        bg: settings.bg,
+        itn: _.map(index.itn, function (item) { return this.summary[item]; } ),
+        dyk: _.map(index.dyk, function (item) { return this.summary[item]; } ),
+        otd: this.summary[index.otd],
+        good: this.summary[index.good],
+        feature: this.summary[index.feature],
+        featurepic: this.summary[index.featurepic]
+    };
+
+    return digestTmpl(values);
 };
 
 Magazine.prototype.html = function () {
