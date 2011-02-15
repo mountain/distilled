@@ -42,11 +42,11 @@ function MainPage(config, html, cbReady) {
                 self.titleMap[title] = article;
                 self.articleMap[article] = title;
                 if (col === 'itn' || col === 'dyk') {
-                    parents = a.parentsUntil('li');
-                    self.summary[title] = self.window.$(parents.pop()).html();
+                    parents = a.parentsUntil('ul');
+                    self.summary[title] = parents.last().html();
                 } else {
-                    parents = a.parentsUntil('div');
-                    self.summary[title] = self.window.$(parents.pop()).html();
+                    parents = a.parentsUntil('div.knoblock');
+                    self.summary[title] = parents.last().parent().html();
                 }
                 return title;
             });

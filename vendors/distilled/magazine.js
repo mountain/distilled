@@ -59,7 +59,7 @@ var digestTmpl = _.template(
               '</div>' +
               '<% } %>' +
               '<% if (otd) { %>' +
-              '<div id="digest-otd"><%= feature %></div>' +
+              '<div id="digest-otd"><%= otd %></div>' +
               '<% } %>' +
               '<% if (good) { %>' +
               '<div id="digest-good"><%= good %></div>' +
@@ -270,18 +270,18 @@ Magazine.prototype.makeup = function (option, articles) {
 };
 
 Magazine.prototype.digest = function (settings) {
-    var index = settings.index,
-    values = {
-        cover: settings.cover,
-        photo: settings.photo,
-        bg: settings.bg,
-        itn: _.map(index.itn, function (item) { return this.summary[item]; } ),
-        dyk: _.map(index.dyk, function (item) { return this.summary[item]; } ),
-        otd: this.summary[index.otd],
-        good: this.summary[index.good],
-        feature: this.summary[index.feature],
-        featurepic: this.summary[index.featurepic]
-    };
+    var self = this,
+        values = {
+            cover: settings.cover,
+            photo: settings.photo,
+            bg: settings.bg,
+            itn: _.map(settings.itn, function (item) { return self.summary[item]; } ),
+            dyk: _.map(settings.dyk, function (item) { return self.summary[item]; } ),
+            otd: this.summary[settings.otd],
+            good: this.summary[settings.good],
+            feature: this.summary[settings.feature],
+            featurepic: this.summary[settings.featurepic]
+        };
 
     return digestTmpl(values);
 };
@@ -290,7 +290,7 @@ Magazine.prototype.html = function () {
     return this.window.$('#contents').html();
 };
 
-exports.create = function (index, html, cbReady) {
-    return new Magazine(index, html, cbReady);
+exports.create = function (index, summary, html, cbReady) {
+    return new Magazine(index, summary, html, cbReady);
 };
 

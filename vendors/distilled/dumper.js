@@ -139,7 +139,8 @@ Dumper.prototype.dump = function (opt) {
 
                         function end() {
                             var simplified = articles.map(function (article) {
-                                return mainpage.title(redirection[article]);
+                                var val = mainpage.title(redirection[article]);
+                                return val?val:mainpage.title(article);
                             });
                             magazine.makeup(opt, simplified);
                             var settings = {
@@ -156,14 +157,13 @@ Dumper.prototype.dump = function (opt) {
                         }
 
                         self.loader.batchload(articles, redirect, addArticle, end);
-
                     } catch (e) {
                         logger.error(e);
                     }
                 }
             );
         }
-        setTimeout(delayed, 5000);
+        setTimeout(delayed, 10000);
     });
 };
 
