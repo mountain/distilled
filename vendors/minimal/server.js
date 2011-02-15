@@ -1,5 +1,6 @@
 var logger = require('./logger'),
-    Builder = require("./route_builder");
+    Builder = require("./route_builder"),
+    weblogger = require("./middleware").weblogger;
 
 var step = require('step'),
     connect = require('connect');
@@ -46,7 +47,10 @@ exports.start = function (root) {
                   eval(builder.build(env.routes));
               },
               server = connect.createServer(
-                  connect.logger({format:env.log.format}),
+                  weblogger({
+                      format:env.log.format,
+                      logfile: env.path + "log/app.log"
+                  }),
                   connect.staticProvider(env.path + 'public'),
                   connect.bodyDecoder(),
                   connect.methodOverride(),
