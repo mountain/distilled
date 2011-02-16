@@ -79,6 +79,15 @@ body {
 }
 
 #footer {
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+    text-align: center;
+    color: #999;
+    font-size: smaller;
+}
+
+#small-footer {
     float: right;
     font-size: smaller;
     width: 500px;
@@ -88,6 +97,11 @@ body {
     color: #999;
     background-color: #282828;
     text-align: right;
+}
+
+#footer a, #small-footer a {
+    text-decoration: none;
+    color: #eeeeee;
 }
 
 .section {
@@ -111,6 +125,15 @@ body {
 .section h1 a {
     text-decoration: none;
     color: #eeeeee;
+}
+
+.section h2 {
+    font-size: small;
+}
+
+.section p {
+    margin-bottom: 1em;
+    margin-top: 1em;
 }
 
 .intro {
@@ -252,6 +275,30 @@ body {
 }
 
 #square-intro {
+    padding: 10px;
+}
+
+#about {
+    padding: 10px;
+    width: 100%;
+    height: 450px;
+    background-color: #282828;
+}
+
+#about-intro {
+    width: 60%;
+    padding: 10px;
+}
+
+#team {
+    padding: 10px;
+    width: 100%;
+    height: 450px;
+    background-color: #282828;
+}
+
+#team-intro {
+    width: 60%;
     padding: 10px;
 }
 

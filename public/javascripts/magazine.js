@@ -265,12 +265,20 @@ var daily = (function wikidaily(config) {
               $('.go_cal').click(function () {
                   window.location.assign('/issues/calendar/' + mon);
               });
-              $('#go_prev').click(previousPage);
-              $('#go_next').click(nextPage);
-              $('#go_toc_left, #go_toc_right').click(tocPage);
+              $('.go_prev').click(previousPage);
+              $('.go_next').click(nextPage);
+              $('.go_toc').click(tocPage);
               var imgs = $('img'), len = imgs.length, ind = 0;
-              imgs.load(function(e) {ind++; if(len === ind) gridify();});
-              gridify();
+              imgs.load(function(e) {
+                ind++;
+                if(len === ind) {
+                    gridify();
+                    pagify();
+                }
+              });
+              imgs.error(function () {
+                ind++;
+              });
               pagify();
               if (callback) {
                   callback();
