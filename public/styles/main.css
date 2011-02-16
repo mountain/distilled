@@ -302,6 +302,11 @@ body {
     padding: 10px;
 }
 
+#team-intro a {
+    text-decoration: none;
+    color: #999;
+
+}
 
 .mag {
     display: block;
