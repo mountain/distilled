@@ -134,6 +134,12 @@ body {
 .section p {
     margin-bottom: 1em;
     margin-top: 1em;
+    color: #999;
+}
+
+.section a {
+    text-decoration: none;
+    color: #999;
 }
 
 .intro {
