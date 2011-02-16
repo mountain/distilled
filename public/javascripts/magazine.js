@@ -273,12 +273,10 @@ var daily = (function wikidaily(config) {
                 ind++;
                 if(len === ind) {
                     gridify();
-                    pagify();
+                    //pagify();
                 }
               });
-              imgs.error(function () {
-                ind++;
-              });
+              gridify();
               pagify();
               if (callback) {
                   callback();
