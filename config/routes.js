@@ -2,6 +2,7 @@ exports.settings = function (r) {
     r.get("/").to("main");
     r.get("/about").to("about");
     r.get("/team").to("team");
+    r.get("/participation").to("participation");
     r.get("/styles/magazine.css").to("style");
 
     r.namespace("issues").get("/").to("issues/index");
