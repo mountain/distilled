@@ -135,9 +135,6 @@ Dumper.prototype.dump = function (opt) {
                             var title = mainpage.title(redirection[article]);
                             if (!title) {
                                 title = mainpage.title(article);
-                                sys.puts(redirection);
-                                sys.puts(sys.inspect(mainpage.titleMap));
-                                sys.puts(sys.inspect(mainpage.articleMap));
                             }
                             logger.info("add article: " + title);
                             magazine.addArticle(title, data.text['*']);
