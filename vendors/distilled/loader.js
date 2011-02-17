@@ -43,7 +43,7 @@ Loader.prototype.fetch = function (title, callback) {
                 body = '';
             } catch (e) {
                 logger.error("error:" + e);
-                logger.error(e.stack.toString());
+                logger.error(e.stack);
                 body = '';
             }
         });
