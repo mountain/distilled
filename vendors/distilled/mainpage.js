@@ -35,9 +35,9 @@ function MainPage(config, html, cbReady) {
             self[col] = _(self.window.$('#column-' + col + ' b > a')).map(
             function (a) {
                 a = self.window.$(a);
-                var title = a.attr('title'),
-                    href = a.attr('href'),
+                var href = a.attr('href'),
                     article = solveLink(href.substring(prefix)),
+                    title = a.attr('title') || article,
                     parents;
                 self.titleMap[title] = article;
                 self.articleMap[article] = title;

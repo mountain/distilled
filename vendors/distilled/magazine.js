@@ -189,10 +189,14 @@ Magazine.prototype.fixArticle = function (title) {
 };
 
 Magazine.prototype.addArticle = function (title, content) {
-    this.window.$('#articles').append(
-        this.window.$('<div id=' + pageId(title) + ' class="pages">' + content + '</div>')
-    );
-    this.fixArticle(title);
+    if(!title) {
+        logger.error('title is an empty string!');
+    } else {
+        this.window.$('#articles').append(
+            this.window.$('<div id=' + pageId(title) + ' class="pages">' + content + '</div>')
+        );
+        this.fixArticle(title);
+    }
 };
 
 Magazine.prototype.mkCover = function (articles) {
