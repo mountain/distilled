@@ -5,6 +5,15 @@ module.exports = function (env) {
         var year = req.params.year;
         var month = req.params.month;
         var day = req.params.day;
+		
+		if (isNaN(day) || parseInt(day) < 0 || parseInt(day) > 31){
+            res.writeHead(404, {
+                'Content-Type': 'text/html'
+            });
+            res.end('');
+            return false;
+        }
+		
         try {
             res.writeHead(200, {
                 'Content-Type': 'text/html'
