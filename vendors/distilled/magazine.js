@@ -70,7 +70,7 @@ var digestTmpl = _.template(
 
 function pageId(title) {
     if (title) {
-        return 'article-' + title.replace(/[ :\(\)\+·]/g, '_');
+        return 'article-' + title.replace(/[ :\/\(\)\+·]/g, '_');
     } else {
         return '';
     }
