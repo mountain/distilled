@@ -137,9 +137,13 @@ body {
     color: #999;
 }
 
+.section ul {
+    color: #999;
+}
+
 .section a {
     text-decoration: none;
-    color: #999;
+    color: #bbb;
 }
 
 .intro {
@@ -310,7 +314,7 @@ body {
 
 #team-intro a {
     text-decoration: none;
-    color: #999;
+    color: #bbb;
 }
 
 #participation {
@@ -327,7 +331,7 @@ body {
 
 #participation-intro a {
     text-decoration: none;
-    color: #999;
+    color: #bbb;
 }
 
 .mag {

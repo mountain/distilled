@@ -1,0 +1,47 @@
+#digest-itn {
+}
+
+#digest-dyk {
+}
+
+#digest-otd {
+}
+
+#digest-good {
+}
+
+.grid {
+    vertical-align: top;
+    padding: 1em;
+}
+
+h1 {
+    font-size: xx-large;
+    color: #fff;
+    margin:0;
+}
+
+h2 {
+    font-size: medium;
+    color: #fff;
+    margin: 1em 0;
+}
+
+p, ul > li {
+    margin-left: 10px;
+    font-size: small;
+    color: #fff;
+}
+
+a {
+    color: #eee;
+    text-decoration: none;
+}
+
+.left, .right {
+    padding: 5px;
+}
+
+.top {
+    vertical-align: top;
+}
